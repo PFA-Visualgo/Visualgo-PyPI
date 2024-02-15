@@ -58,7 +58,6 @@ jobs:
   # Builds the package
   build:
     name: Build
-    needs: [version-analysis, static-analysis]
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -79,7 +78,6 @@ jobs:
   # Runs unit tests
   unit-tests:
     name: Tests
-    needs: [version-analysis, static-analysis, build]
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -101,7 +99,6 @@ jobs:
   integration-tests:
     name: Integration Tests
     if: endsWith(github.ref, '/master')           # https://www.maxivanov.io/github-actions-deploy-to-multiple-environments-from-single-workflow/
-    needs: [version-analysis, static-analysis, build, unit-tests]
     runs-on: ubuntu-latest
     steps:
       - name: Set up Python
