@@ -99,6 +99,7 @@ jobs:
   integration-tests:
     name: Integration Tests
     if: endsWith(github.ref, '/dev')  # only run when pr from dev branch (to master)
+    runs-on: ubuntu-latest
     steps:
       - name: Set up Python
         uses: actions/setup-python@v5
