@@ -77,7 +77,7 @@ jobs:
 
   # Runs unit tests
   unit-tests:
-    name: Tests
+    name: Unit Tests
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
