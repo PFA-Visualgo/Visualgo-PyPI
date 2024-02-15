@@ -1,0 +1,118 @@
+name: CI-PR
+
+# Controls when the workflow will run
+on:
+  # Triggers the workflow on pull request events but only for the "master" branch
+  pull_request:
+    branches: ["dev", "master"]
+  # Allows you to run this workflow manually from the Actions tab, only possible if this file is in the default branch (aka master)
+  workflow_dispatch:
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+
+   # Checks if the version is coherent within the commit, is a new version and if it matches the current Paris date
+  version-analysis:
+    name: Version Analysis
+    if: endsWith(github.ref, '/master')
+    # The type of runner that the job will run on
+    runs-on: ubuntu-latest
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Check if versions are coherents in commit
+        run: ./.github/scripts/compare-versions-in-commit.sh
+
+      - name: Checks if different version than master
+        run: ./.github/scripts/compare-version-master.sh
+
+      - name: Checks if version matches current Paris date
+        run: ./.github/scripts/compare-version-date.sh
+
+  # Runs the static analysis of codebase
+  static-analysis:
+    name: Static Analysis
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.9'
+
+      # - name: Install dependencies
+      #   run: |
+      #     python -m pip install --upgrade pip
+      #     pip install flake8 pytest
+
+      # - name: Lint with flake8
+      #   run: |
+      #     flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
+      #     flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
+
+  # Builds the package
+  build:
+    name: Build
+    needs: [version-analysis, static-analysis]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.9'
+
+      - name: Install dependencies
+        run: |
+          python -m pip  install --upgrade pip
+          pip install build
+
+      - name: Build package
+        run: python -m build
+
+  # Runs unit tests
+  unit-tests:
+    name: Tests
+    needs: [version-analysis, static-analysis, build]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.9'
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          echo "pip install requirements.txt"
+
+      - name: Run tests
+        run: echo "python -m pytest"
+
+  # Runs the integration tests (only on the master branch)
+  integration-tests:
+    name: Integration Tests
+    if: endsWith(github.ref, '/master')           # https://www.maxivanov.io/github-actions-deploy-to-multiple-environments-from-single-workflow/
+    needs: [version-analysis, static-analysis, build, unit-tests]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.9'
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          echo "pip install requirements.txt"
+
+      - name: Run tests
+        run: echo "python ./tests/integration_tests.py"
