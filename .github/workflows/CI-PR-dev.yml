@@ -71,4 +71,4 @@ jobs:
           echo "pip install requirements.txt"
 
       - name: Run tests
-        run: echo "python -m pytest"
+        run: pytest tests/visualgo/types
