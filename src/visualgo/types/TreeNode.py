@@ -1,3 +1,5 @@
+""":demand: F1.8"""
+
 from typing import Optional, TypeVar
 from .Table import Table
 
