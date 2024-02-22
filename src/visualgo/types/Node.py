@@ -1,22 +1,28 @@
+""":demand: F1.8"""
+
 from typing import Optional, TypeVar
 
 T = TypeVar('T')
 
 
 class Node:
+    def __init__(self, content: T = None, next_node: Optional['Node'] = None):
+        self.__content = content
+        self.__next = next_node
+
     def has_next(self) -> bool:
         """
         Indicates whether the node is followed by another node.
         :return: A boolean
         """
-        pass
+        return self.next() is not None
 
     def next(self) -> Optional['Node']:
         """
         Returns the node following the current node. Can be None.
         :return: Node object
         """
-        pass
+        return self.__next
 
     def set_next(self, next_node: Optional['Node']) -> None:
         """
@@ -24,14 +30,14 @@ class Node:
         :param next_node: Node object
         :return: None
         """
-        pass
+        self.__next = next_node
 
     def content(self) -> Optional[T]:
         """
         Returns the content of the node. Can be None.
         :return: Object
         """
-        pass
+        return self.__content
 
     def set_content(self, content: T) -> None:
         """
@@ -39,7 +45,7 @@ class Node:
         :param content: Any object
         :return: None
         """
-        pass
+        self.__content = content
 
     @classmethod
     def sentinel(cls) -> Optional['Node']:
@@ -47,11 +53,11 @@ class Node:
         Creates a sentinel Node.
         :return: Node
         """
-        pass
+        return Node()
 
     def is_sentinel(self):
         """
         Checks if the node is a sentinel.
         :return: bool
         """
-        pass
+        return self.next() is None and self.content() is None
