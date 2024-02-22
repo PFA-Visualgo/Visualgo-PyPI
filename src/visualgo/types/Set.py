@@ -5,14 +5,14 @@ T = TypeVar('T')
 
 class Set:
     def __init__(self) -> None:
-        self.set = set()
+        self.__set = set()
 
     def is_empty(self) -> bool:
         """
         Checks if the set is empty.
         :return: bool
         """
-        return len(self.set) == 0
+        return len(self.__set) == 0
 
     def is_in(self, e: T) -> bool:
         """
@@ -20,7 +20,7 @@ class Set:
         :param e: Object
         :return: bool
         """
-        return e in self.set
+        return e in self.__set
 
     def add(self, e: T) -> None:
         """
@@ -28,7 +28,7 @@ class Set:
         :param e: Object
         :return: None
         """
-        self.set.add(e)
+        self.__set.add(e)
 
     def delete(self, e: T) -> None:
         """
@@ -36,7 +36,7 @@ class Set:
         :param e: Object
         :return: None
         """
-        self.set.remove(e)
+        self.__set.remove(e)
 
     def get(self, index: int) -> T:
         """
@@ -44,4 +44,4 @@ class Set:
         :param index: int
         :return: Object
         """
-        return self.set[index]
+        return self.__set[index]
