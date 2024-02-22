@@ -1,17 +1,18 @@
-""":demand: F1.8"""
-
 from typing import TypeVar
 
 T = TypeVar('T')
 
 
 class Set:
+    def __init__(self) -> None:
+        self.set = set()
+
     def is_empty(self) -> bool:
         """
         Checks if the set is empty.
         :return: bool
         """
-        pass
+        return len(self.set) == 0
 
     def is_in(self, e: T) -> bool:
         """
@@ -19,7 +20,7 @@ class Set:
         :param e: Object
         :return: bool
         """
-        pass
+        return e in self.set
 
     def add(self, e: T) -> None:
         """
@@ -27,7 +28,7 @@ class Set:
         :param e: Object
         :return: None
         """
-        pass
+        self.set.add(e)
 
     def delete(self, e: T) -> None:
         """
@@ -35,7 +36,7 @@ class Set:
         :param e: Object
         :return: None
         """
-        pass
+        self.set.remove(e)
 
     def get(self, index: int) -> T:
         """
@@ -43,4 +44,4 @@ class Set:
         :param index: int
         :return: Object
         """
-        pass
+        return self.set[index]
