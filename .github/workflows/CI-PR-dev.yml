@@ -70,14 +70,13 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
 
-      # - name: Set up PYTHONPATH
-      #   run: echo "export PYTHONPATH=$$PWD/src:\$$PYTHONPATH" >> $GITHUB_ENV
-
-      - name: Run tests and generate coverage report
+      - name: Set up PYTHONPATH
         run: |
           PWD=$(pwd)
           echo "PYTHONPATH=$PWD/src:\$PYTHONPATH" >> $GITHUB_ENV
-          python -m pytest --cov=src/visualgo --cov-report=html --cov-report=term-missing tests/
+
+      - name: Run tests and generate coverage report
+        run: python -m pytest --cov=src/visualgo --cov-report=html --cov-report=term-missing tests/
 
       - name: Upload coverage report
         uses: actions/upload-artifact@v2
