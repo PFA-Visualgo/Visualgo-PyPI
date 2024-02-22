@@ -21,14 +21,14 @@ venv:
 # Install dependencies from requirements.txt
 install: venv requirements.txt
 	@echo "$(BOLD)$(GREEN)>> Installing dependencies <<$(RESET)"
-	@. venv/bin/activate; pip install install -Ur requirements.txt
+	@. venv/bin/activate; pip install -Ur requirements.txt
 
 # Run the main application
-static-analysis: venv install
+static-analysis: install
 	@echo "$(BOLD)$(GREEN)>>Running static analysis <<$(RESET)"
 	@echo "should use something like flake8"
 
-build: venv install
+build: install
 	@echo "$(BOLD)$(GREEN)>>Building the application <<$(RESET)"
 	@. venv/bin/activate; python -m pip  install --upgrade pip
 	@. venv/bin/activate; pip install build
@@ -39,7 +39,7 @@ freeze:
 	@echo "$(BOLD)$(GREEN) Make sure to run the tests with the virtual environment activated.$(RESET)"
 	@pip freeze > requirements.txt
 
-tests: venv
+tests: install
 	@echo "$(BOLD)$(GREEN)>>Running tests <<$(RESET)"
 	@python -m pytest --cov=src/visualgo --cov-report=html --cov-report=term-missing tests/
 	@echo "$(BOLD)$(GREEN)>> Coverage HTML report can be found in htmlcov/index.html <<$(RESET)"
