@@ -1,7 +1,7 @@
 # Makefile
 
 # Default target
-all: venv install static-analysis build test
+all: install static-analysis build tests
 
 # Set the appropriate Python executable based on the platform
 PYTHON := $(shell command -v python3 2> /dev/null || command -v python)
@@ -16,37 +16,40 @@ RED = \033[31m
 venv:
 	@echo "$(BOLD)$(GREEN)>> Setting up virtual environment <<$(RESET)"
 	@$(PYTHON) -m venv $(VENV)
+	@echo "export PYTHONPATH=$$PWD/src:\$$PYTHONPATH" >> $(VENV)/bin/activate
 
 # Install dependencies from requirements.txt
-install: requirements.txt
+install: venv requirements.txt
 	@echo "$(BOLD)$(GREEN)>> Installing dependencies <<$(RESET)"
 	@. venv/bin/activate; pip install install -Ur requirements.txt
 
 # Run the main application
-static-analysis:
+static-analysis: venv install
 	@echo "$(BOLD)$(GREEN)>>Running static analysis <<$(RESET)"
-
 	@echo "should use something like flake8"
 
-build:
+build: venv install
 	@echo "$(BOLD)$(GREEN)>>Building the application <<$(RESET)"
-
 	@. venv/bin/activate; python -m pip  install --upgrade pip
 	@. venv/bin/activate; pip install build
 	@. venv/bin/activate; python -m build
 
+freeze:
+	@echo "$(BOLD)$(GREEN)>>Freezing the dependencies <<$(RESET)"
+	@echo "$(BOLD)$(GREEN) Make sure to run the tests with the virtual environment activated.$(RESET)"
+	@pip freeze > requirements.txt
 
-test:
+tests: venv
 	@echo "$(BOLD)$(GREEN)>>Running tests <<$(RESET)"
-
-	@. venv/bin/activate; python -m unittest discover -s tests -v
+	@python -m pytest --cov=src/visualgo --cov-report=html --cov-report=term-missing tests/
+	@echo "$(BOLD)$(GREEN)>> Coverage HTML report can be found in htmlcov/index.html <<$(RESET)"
 
 
 # Clean up the project
 clean:
 	@echo "$(BOLD)$(GREEN)>>Cleaning up <<$(RESET)"
-	@rm -rf $(VENV)
+	@rm -rf $(VENV) dist htmlcov
 	@echo "$(BOLD)$(GREEN)Project cleaned correctly.$(RESET)"
 
 # Define phony targets
-.PHONY: all venv install run clean
+.PHONY: all venv install run clean tests freeze
