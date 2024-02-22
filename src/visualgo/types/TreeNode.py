@@ -1,32 +1,39 @@
 """:demand: F1.8"""
 
 from typing import Optional, TypeVar
-from .Table import Table
+
+from .Set import Set
 
 T = TypeVar('T')
 
 
 class TreeNode:
+
+    def __init__(self, value:T, children:Set['TreeNode']) -> None:
+        self.__value = value
+        self.__children = children
+
+
     def has_child(self) -> bool:
         """
         Tells if this TreeNode has at least one child TreeNode.
         :return: bool
         """
-        pass
+        return not self.__children.is_empty()
 
-    def get_children(self) -> Table:
+    def get_children(self) -> Set:
         """
         Returns the children of this TreeNode.
         :return: List[TreeNode]
         """
-        pass
+        return self.__children
 
     def get_value(self) -> T:  # TODO: Changer nom dans le diagramme et le cahier des charges.
         """
         Returns the value of the TreeNode.
         :return: Object
         """
-        pass
+        return self.__value
 
     def add_child(self, tree_node: Optional['TreeNode']) -> None:
         """
@@ -34,7 +41,7 @@ class TreeNode:
         :param tree_node:
         :return:
         """
-        pass
+        self.__children.add(tree_node)
 
     def delete_child(self, tree_node: Optional['TreeNode']) -> None:
         """
@@ -42,7 +49,7 @@ class TreeNode:
         :param tree_node:
         :return:
         """
-        pass
+        self.__children.delete(tree_node)
 
     def set_value(self, e: T) -> None:  # TODO: Changer nom dans le diagramme et le cahier des charges.
         """
@@ -50,4 +57,4 @@ class TreeNode:
         :param e: Object
         :return: None
         """
-        pass
+        self.__value = e
