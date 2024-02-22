@@ -7,19 +7,24 @@ T = TypeVar('T')
 
 
 class TwoWayNode(Node):
+    def __init__(self, value: T = None, previous_node: Optional['TwoWayNode'] = None,
+                 next_node: Optional['TwoWayNode'] = None):
+        super().__init__(value, next_node)
+        self.__previous = previous_node
+
     def has_previous(self) -> bool:
         """
         Checks if this TwoWayNode has a preceding TwoWayNode.
         :return:
         """
-        pass
+        return self.previous() is not None
 
     def previous(self) -> Optional['TwoWayNode']:
         """
         Returns the preceding TwoWayNode.
         :return: TwoWayNode
         """
-        pass
+        return self.__previous
 
     def set_previous(self, two_way_node: Optional['TwoWayNode']) -> None:
         """
@@ -27,4 +32,4 @@ class TwoWayNode(Node):
         :param two_way_node: TwoWayNode
         :return: None
         """
-        pass
+        self.__previous = two_way_node
