@@ -7,15 +7,15 @@ from visualgo.types import Node
 class TestNode(unittest.TestCase):
     def test_creation(self):
         """
-        Teste la création de nœuds :
-        -Nœud vide
-        -Nœud avec successeur
-        -Nœud ayant un nœud pour valeur
-        -Nœeud sans successeur mais avec valeur
+        Tests the creation of nodes :
+        -Empty node
+        -Node with child
+        -Node with a node as value
+        -Node without child but with value
         """
-        node = Node()  # Noeud vide
-        node2 = Node(3, node)  # Noeud précédant node
-        node3 = Node(node, node2)  # Noeud contenant node et précédant node2
+        node = Node()  # Empty node
+        node2 = Node(3, node)  # Parent node
+        node3 = Node(node, node2)  # Node containing `node` and parent of `node2`
         node4 = Node([13])
 
         self.assertEqual(node.content(), None)
@@ -32,9 +32,9 @@ class TestNode(unittest.TestCase):
 
     def test_set(self):
         """
-        Teste l'affectation à la valeur d'un Nœud :
-        -Différents types de valeurs
-        -Ne change pas les successeurs
+        Tests the value assignment of a node :
+        -Different types of value
+        -The child is not altered
         """
         node = Node()
         self.assertEqual(node.content(), None)
@@ -49,7 +49,7 @@ class TestNode(unittest.TestCase):
 
     def test_has_next(self):
         """
-        Teste la méthode has_next
+        Tests the has_next method
         """
         node = Node()
         self.assertEqual(node.has_next(), False)
