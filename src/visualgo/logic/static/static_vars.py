@@ -1,0 +1,2 @@
+class StaticVars:
+    pass
