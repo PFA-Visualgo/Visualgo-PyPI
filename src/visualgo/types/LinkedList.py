@@ -7,10 +7,27 @@ T = TypeVar('T')
 
 
 class LinkedList:
+    # head -> ... -> ... -> ... -> sentinel()
     def __init__(self):
-        self.__head: Node = Node()
+        self.__head: Node = Node.sentinel()
         self.__length: int = 0
 
+    @property
+    def head(self) -> Node:
+        """
+        Returns the head node of the list.
+        :return: TwoWayNode
+        """
+        return self.__head
+    
+    @property
+    def length(self) -> int:
+        """
+        Returns the length of the list.
+        :return: int
+        """
+        return self.__length
+    
     def is_empty(self) -> bool:
         """
         Checks if the list is empty.
@@ -18,12 +35,6 @@ class LinkedList:
         """
         return self.__length == 0
 
-    def length(self) -> int:
-        """
-        Returns the length of the list.
-        :return: int
-        """
-        return self.__length
 
     def get(self, index: int) -> T:
         """
@@ -49,16 +60,9 @@ class LinkedList:
             current_node = current_node.next()
             i += 1
         return current_node
-
-    def get_head(self) -> Node:
-        """
-        Returns the head node of the list.
-        :return: TwoWayNode
-        """
-        return self.__head
     
     def get_head_content(self) -> Optional['T']:
-        return self.__head.content()
+        return self.head.content()
 
     def set(self, index: int, e: T) -> None:
         """
@@ -114,9 +118,6 @@ class LinkedList:
             return
         current_node = self.get_node(index - 1)
         current_node.set_next(current_node.next().next())
-    
-    def delete_head(self) -> None:
-        self.delete(0)
 
     def __str__(self):
         if self.is_empty():
