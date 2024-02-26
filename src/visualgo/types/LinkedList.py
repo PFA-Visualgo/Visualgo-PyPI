@@ -1,6 +1,6 @@
 """:demand: F1.8"""
 
-from typing import TypeVar
+from typing import Optional, TypeVar
 from .Node import Node
 
 T = TypeVar('T')
@@ -50,12 +50,15 @@ class LinkedList:
             i += 1
         return current_node
 
-    def get_head(self) -> Node:
+    def get_head_node(self) -> Node:
         """
         Returns the head node of the list.
         :return: TwoWayNode
         """
         return self.__head
+    
+    def get_head_content(self) -> Optional['T']:
+        return self.__head.content()
 
     def set(self, index: int, e: T) -> None:
         """
@@ -111,6 +114,9 @@ class LinkedList:
             return
         current_node = self.get_node(index - 1)
         current_node.set_next(current_node.next().next())
+    
+    def delete_head(self) -> None:
+        self.delete(0)
 
     def __str__(self):
         if self.is_empty():
