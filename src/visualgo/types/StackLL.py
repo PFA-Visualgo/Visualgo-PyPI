@@ -26,7 +26,7 @@ class Stack:
         if self.__ll.is_empty():
             raise IndexError("Stack is empty")
         value = self.__ll.get_head_content()
-        self.__ll.delete_head()
+        self.__ll.delete(self.__ll.head)
         return value
 
     def top(self) -> Optional['T']:
