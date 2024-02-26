@@ -50,7 +50,7 @@ class LinkedList:
             i += 1
         return current_node
 
-    def get_head_node(self) -> Node:
+    def get_head(self) -> Node:
         """
         Returns the head node of the list.
         :return: TwoWayNode
