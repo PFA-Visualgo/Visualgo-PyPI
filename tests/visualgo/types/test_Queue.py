@@ -11,7 +11,7 @@ class TestQueue(unittest.TestCase):
 
     def test_creation(self):
         """
-        Tests the instantiation of a linked list.
+        Tests the instantiation of a queue.
         """
         queue = Queue()
         # Also tests the possibility to initiliaze a queue with a list ?

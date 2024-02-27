@@ -1,11 +1,15 @@
-from typing import TypeVar
+from typing import TypeVar, Optional
+from collections.abc import Iterable
 
 T = TypeVar('T')
 
 
 class Set:
-    def __init__(self) -> None:
-        self.__set = set()
+    def __init__(self, it: Optional[Iterable] = None) -> None:
+        if it is None:
+            self.__set = set()
+            return
+        self.__set = set(it)
 
     def is_empty(self) -> bool:
         """
@@ -37,11 +41,3 @@ class Set:
         :return: None
         """
         self.__set.remove(e)
-
-    def get(self, index: int) -> T:
-        """
-        Returns the element at the `index` position.
-        :param index: int
-        :return: Object
-        """
-        return self.__set[index]
