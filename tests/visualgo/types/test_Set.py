@@ -1,7 +1,7 @@
 """:demand: F1.8"""
 
 import unittest
-from visualgo.types import Set, List, LinkedList
+from visualgo.types import Set
 
 
 class TestSet(unittest.TestCase):
@@ -14,9 +14,7 @@ class TestSet(unittest.TestCase):
         Tests the instantiation of a set.
         """
         set = Set()
-        set2 = Set([8, 7])
-        set3 = Set(List([1, 2, 3]))
-        set4 = Set(LinkedList([100, 62, 43]))
+        set2 = Set(8, 7)
 
     def test_is_empty(self):
         """
@@ -24,14 +22,14 @@ class TestSet(unittest.TestCase):
         """
         set = Set()
         self.assertTrue(set.is_empty())
-        set2 = Set([6])
+        set2 = Set(6)
         self.assertFalse(set2.is_empty())
 
     def test_is_in(self):
         """
         Tests the `is_in` method.
         """
-        set = Set([0, 1, 2, 3, 5, 6, 7])
+        set = Set(0, 1, 2, 3, 5, 6, 7)
         for i in range(4):
             self.assertTrue(set.is_in(i))
         for i in range(4, 7):

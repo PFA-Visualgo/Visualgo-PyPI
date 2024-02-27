@@ -5,11 +5,10 @@ T = TypeVar('T')
 
 
 class Set:
-    def __init__(self, it: Optional[Iterable] = None) -> None:
-        if it is None:
+    def __init__(self, *elements) -> None:
+        if len(elements) == 0:
             self.__set = set()
-            return
-        self.__set = set(it)
+        self.__set = set(elements)
 
     def is_empty(self) -> bool:
         """
