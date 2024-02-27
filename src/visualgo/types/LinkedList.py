@@ -8,7 +8,11 @@ T = TypeVar('T')
 
 class LinkedList:
     # head -> ... -> ... -> ... -> sentinel()
-    def __init__(self):
+    def __init__(self, head: Optional[Node] = None, length: Optional[int] = None):
+        if head is None and length is None:
+            self.__head: Node = head
+            self.__length: int = length
+            return
         self.__head: Node = Node.sentinel()
         self.__length: int = 0
 
@@ -27,6 +31,15 @@ class LinkedList:
         :return: int
         """
         return self.__length
+
+    @property
+    def tail(self):
+        """
+        Returns the tail of the `LinkedList`.
+        """
+        if self.length < 0:
+            raise AttributeError("No tail on empty list")
+        return LinkedList(self.head, self.length - 1)
 
     def is_empty(self) -> bool:
         """
