@@ -79,20 +79,6 @@ class TestLinkedList(unittest.TestCase):
         self.assertEqual(lis.get(4), 33)
         self.assertRaises(IndexError, lambda: lis.insert_after(5, 0))
 
-    def test_tail(self):
-        """
-        Tests the `tail` method.
-        """
-        lis = LinkedList([1, 2, 89])
-        tail1 = lis.tail
-        self.assertEqual(tail1.get(0), 2)
-        self.assertEqual(tail1.get(1), 89)
-        self.assertEqual(tail1.length, 2)
-        tail2 = tail1.tail
-        self.assertEqual(tail2.get(0), 89)
-        self.assertEqual(tail2.length, 1)
-        self.assertEqual(AttributeError, lambda: tail2.tail)
-
 
 if __name__ == '__main__':
     unittest.main()

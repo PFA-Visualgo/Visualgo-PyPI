@@ -32,15 +32,6 @@ class LinkedList:
         """
         return self.__length
 
-    @property
-    def tail(self):
-        """
-        Returns the tail of the `LinkedList`.
-        """
-        if self.length < 0:
-            raise AttributeError("No tail on empty list")
-        return LinkedList(self.head, self.length - 1)
-
     def is_empty(self) -> bool:
         """
         Checks if the list is empty.
