@@ -19,7 +19,7 @@ class LinkedList:
         :return: TwoWayNode
         """
         return self.__head
-    
+
     @property
     def length(self) -> int:
         """
@@ -27,14 +27,13 @@ class LinkedList:
         :return: int
         """
         return self.__length
-    
+
     def is_empty(self) -> bool:
         """
         Checks if the list is empty.
         :return: bool
         """
         return self.__length == 0
-
 
     def get(self, index: int) -> T:
         """
@@ -55,13 +54,17 @@ class LinkedList:
         if index < 0:
             raise IndexError('Negative index')
         i: int = 0
-        current_node: Node = self.get_head()
+        current_node: Node = self.head
         while i < index:
             current_node = current_node.next()
             i += 1
         return current_node
-    
+
     def get_head_content(self) -> Optional['T']:
+        """
+        Returns the head of the list.
+        :return: Object
+        """
         return self.head.content()
 
     def set(self, index: int, e: T) -> None:
@@ -81,7 +84,7 @@ class LinkedList:
         :return: None
         """
         new_node = Node(e)
-        new_node.set_next(self.get_head())
+        new_node.set_next(self.head)
         self.__head = new_node
         self.__length += 1
 
