@@ -6,7 +6,7 @@ from visualgo.types import LinkedList
 
 class TestLinkedList(unittest.TestCase):
     """
-    This class tests the List class.
+    This class tests the LinkedList class.
     """
 
     def test_creation(self):

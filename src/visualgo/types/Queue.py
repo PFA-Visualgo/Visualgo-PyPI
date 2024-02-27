@@ -13,14 +13,14 @@ class Queue:
         Initializes the queue.
         """
         self.__dll = DoublyLinkedList()
-    
+
     @property
     def head(self) -> T:
         """
         Returns the head of the queue.
         :return: Object
         """
-        return self.__dll.get(self.__dll.length() - 1)
+        return self.__dll.get(self.__dll.length - 1)
 
     def is_empty(self) -> bool:
         """
@@ -28,7 +28,6 @@ class Queue:
         :return: bool
         """
         return self.__dll.is_empty()
-        
 
     def enqueue(self, e: T) -> None:
         """
