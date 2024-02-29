@@ -8,11 +8,7 @@ T = TypeVar('T')
 
 class LinkedList:
     # head -> ... -> ... -> ... -> sentinel()
-    def __init__(self, head: Optional[Node] = None, length: Optional[int] = None):
-        if head is None and length is None:
-            self.__head: Node = head
-            self.__length: int = length
-            return
+    def __init__(self):
         self.__head: Node = Node.sentinel()
         self.__length: int = 0
 
@@ -22,7 +18,7 @@ class LinkedList:
         Returns the head node of the list.
         :return: TwoWayNode
         """
-        return self.__head
+        return self.__head.content()
 
     @property
     def length(self) -> int:
@@ -45,9 +41,9 @@ class LinkedList:
         :param index: int
         :return: Object
         """
-        return self.get_node(index).content()
+        return self.__get_node(index).content()
 
-    def get_node(self, index: int) -> Node:
+    def __get_node(self, index: int) -> Node:
         """
         Returns the node at the `index` position.
         :param index: int
@@ -58,18 +54,11 @@ class LinkedList:
         if index < 0:
             raise IndexError('Negative index')
         i: int = 0
-        current_node: Node = self.head
+        current_node: Node = self.__head
         while i < index:
             current_node = current_node.next()
             i += 1
         return current_node
-
-    def get_head_content(self) -> Optional['T']:
-        """
-        Returns the head of the list.
-        :return: Object
-        """
-        return self.head.content()
 
     def set(self, index: int, e: T) -> None:
         """
@@ -88,7 +77,7 @@ class LinkedList:
         :return: None
         """
         new_node = Node(e)
-        new_node.set_next(self.head)
+        new_node.set_next(self.__head)
         self.__head = new_node
         self.__length += 1
 
@@ -99,12 +88,10 @@ class LinkedList:
         :param e: Object
         :return: None
         """
-        if index > self.__length:
+        if 0 < index or index > self.__length:
             raise IndexError('Index out of range')
-        if index < 0:
-            raise IndexError('Negative index')
         new_node = Node(e)
-        current_node = self.get_node(index)
+        current_node = self.__get_node(index)
         new_node.set_next(current_node.next())
         current_node.set_next(new_node)
         self.__length += 1
@@ -123,7 +110,7 @@ class LinkedList:
         if index == 0:
             self.__head = self.__head.next()
             return
-        current_node = self.get_node(index - 1)
+        current_node = self.__get_node(index - 1)
         current_node.set_next(current_node.next().next())
 
     def __str__(self):
