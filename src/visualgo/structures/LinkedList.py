@@ -18,7 +18,7 @@ class LinkedList:
         Returns the head node of the list.
         :return: TwoWayNode
         """
-        return self.__head.content()
+        return self.__head.content
 
     @property
     def length(self) -> int:
@@ -41,7 +41,7 @@ class LinkedList:
         :param index: int
         :return: Object
         """
-        return self.__get_node(index).content()
+        return self.__get_node(index).content
 
     def __get_node(self, index: int) -> Node:
         """
@@ -56,7 +56,7 @@ class LinkedList:
         i: int = 0
         current_node: Node = self.__head
         while i < index:
-            current_node = current_node.next()
+            current_node = current_node.next
             i += 1
         return current_node
 
@@ -92,7 +92,7 @@ class LinkedList:
             raise IndexError('Index out of range')
         new_node = Node(e)
         current_node = self.__get_node(index)
-        new_node.set_next(current_node.next())
+        new_node.set_next(current_node.next)
         current_node.set_next(new_node)
         self.__length += 1
 
@@ -108,19 +108,19 @@ class LinkedList:
             raise IndexError('Negative index')
         self.__length -= 1
         if index == 0:
-            self.__head = self.__head.next()
+            self.__head = self.__head.next
             return
         current_node = self.__get_node(index - 1)
-        current_node.set_next(current_node.next().next())
+        current_node.set_next(current_node.next.next)
 
     def __str__(self):
         if self.is_empty():
             return "[]"
         current_node = self.__head
-        string: str = "[{}".format(current_node.content())
+        string: str = "[{}".format(current_node.content)
 
         while current_node.has_next():
-            current_node = current_node.get_next()
+            current_node = current_node.next
             if current_node.has_next():
-                string += "->{}".format(current_node.get_value())
+                string += "->{}".format(current_node.content)
         return string + "]"

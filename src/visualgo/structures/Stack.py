@@ -25,8 +25,8 @@ class Stack:
         """
         if self.is_empty():
             raise IndexError('Stack is empty')
-        val: T = self._top.content()
-        self._top = self._top.next()
+        val: T = self._top.content
+        self._top = self._top.next
         return val
 
     def top(self) -> Optional['T']:
@@ -41,14 +41,14 @@ class Stack:
         Indicates whether the stack is empty.
         :return: A boolean
         """
-        return self._top.next() is None
+        return self._top.next is None
 
     def __str__(self) -> str:
-        if self._top.next() is None:
+        if self._top.next is None:
             return "[ "
         current_node = self._top
         string: str = ""
-        while current_node.get_next() is not None:
-            string = str(current_node.get_value()) + " " + string
-            current_node = current_node.get_next()
+        while current_node.next is not None:
+            string = str(current_node.content) + " " + string
+            current_node = current_node.next
         return "[ " + string

@@ -35,7 +35,7 @@ class TestStack(unittest.TestCase):
         """
         stack = AugmentedStack()
         stack.push(1)
-        self.assertEqual(stack.top().content(), 1)
+        self.assertEqual(stack.top().content, 1)
         self.assertFalse(stack.top_node().is_sentinel())
 
     def test_pop(self):

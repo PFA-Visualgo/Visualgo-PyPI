@@ -25,8 +25,29 @@ class DoublyLinkedList(LinkedList):
         """
         new_node = TwoWayNode(e)
         self.get_head().set_previous(new_node)
-        new_node.set_next(self.get_head())
+        new_node.set_next(self.head)
         self.__head = new_node
+        self.__length += 1
+    
+    def insert_after(self, index: int, e: T) -> None:
+        """
+        Inserts the element after the given `index`.
+        :param index: int
+        :param e: Object
+        :return: None
+        """
+        if index == self.__length - 1:
+            self.insert_last(e)
+            return
+        if index < 0 or index >= self.__length:
+            raise IndexError('Index out of range')
+        else:
+            new_node = TwoWayNode(e)
+            index_node = self.get_node(index)
+            new_node.set_next(index_node.next())
+            new_node.set_previous(index_node)
+            index_node.set_next(new_node)
+            new_node.next().set_previous(new_node)
         self.__length += 1
     
     def insert_last(self, e: T) -> None:
@@ -63,7 +84,7 @@ class DoublyLinkedList(LinkedList):
             new_node.set_previous(index_node.previous())
             index_node.set_previous(new_node)
 
-        self.__length += 1      
+        self.__length += 1
         
     def delete(self, index: int) -> None:
         """
