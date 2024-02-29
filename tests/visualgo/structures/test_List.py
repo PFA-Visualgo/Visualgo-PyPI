@@ -1,7 +1,7 @@
 """:demand: F1.8"""
 
 import unittest
-from visualgo.types import List
+from visualgo.structures import List
 
 
 class TestList(unittest.TestCase):

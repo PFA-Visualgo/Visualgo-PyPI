@@ -1,7 +1,7 @@
 """:demand: F1.8"""
 
 import unittest
-from visualgo.types import Set
+from visualgo.structures import Set
 
 
 class TestSet(unittest.TestCase):

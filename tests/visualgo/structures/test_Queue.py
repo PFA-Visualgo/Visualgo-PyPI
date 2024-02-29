@@ -1,7 +1,7 @@
 """:demand: F1.8"""
 
 import unittest
-from visualgo.types import Queue
+from visualgo.structures import Queue
 
 
 class TestQueue(unittest.TestCase):

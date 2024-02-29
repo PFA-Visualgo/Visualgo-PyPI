@@ -1,7 +1,7 @@
 """:demand: F1.8"""
 
 import unittest
-from visualgo.types import LinkedList
+from visualgo.structures import LinkedList
 
 
 class TestLinkedList(unittest.TestCase):

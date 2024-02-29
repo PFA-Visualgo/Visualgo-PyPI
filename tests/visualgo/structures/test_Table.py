@@ -1,7 +1,7 @@
 """:demand: F1.8"""
 
 import unittest
-from visualgo.types import Table
+from visualgo.structures import Table
 
 
 class TestTable(unittest.TestCase):
