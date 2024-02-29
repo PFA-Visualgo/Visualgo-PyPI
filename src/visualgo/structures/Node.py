@@ -10,19 +10,30 @@ class Node:
         self.__content = content
         self.__next = next_node
 
-    def has_next(self) -> bool:
-        """
-        Indicates whether the node is followed by another node.
-        :return: A boolean
-        """
-        return self.next() is not None
-
+    @property
     def next(self) -> Optional['Node']:
         """
         Returns the node following the current node. Can be None.
         :return: Node object
         """
         return self.__next
+    
+    @property
+    def content(self) -> Optional[T]:
+        """
+        Returns the content of the node. Can be None.
+        :return: Object
+        """
+        return self.__content
+
+    def has_next(self) -> bool:
+        """
+        Indicates whether the node is followed by another node.
+        :return: A boolean
+        """
+        return self.next is not None
+
+
 
     def set_next(self, next_node: Optional['Node']) -> None:
         """
@@ -31,13 +42,6 @@ class Node:
         :return: None
         """
         self.__next = next_node
-
-    def content(self) -> Optional[T]:
-        """
-        Returns the content of the node. Can be None.
-        :return: Object
-        """
-        return self.__content
 
     def set_content(self, content: T) -> None:
         """
@@ -60,4 +64,4 @@ class Node:
         Checks if the node is a sentinel.
         :return: bool
         """
-        return self.next() is None and self.content() is None
+        return self.next is None and self.content is None
