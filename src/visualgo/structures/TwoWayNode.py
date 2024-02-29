@@ -12,19 +12,20 @@ class TwoWayNode(Node):
         super().__init__(value, next_node)
         self.__previous = previous_node
 
-    def has_previous(self) -> bool:
-        """
-        Checks if this TwoWayNode has a preceding TwoWayNode.
-        :return:
-        """
-        return self.previous() is not None
-
+    @property
     def previous(self) -> Optional['TwoWayNode']:
         """
         Returns the preceding TwoWayNode.
         :return: TwoWayNode
         """
         return self.__previous
+    
+    def has_previous(self) -> bool:
+        """
+        Checks if this TwoWayNode has a preceding TwoWayNode.
+        :return:
+        """
+        return self.previous is not None
 
     def set_previous(self, two_way_node: Optional['TwoWayNode']) -> None:
         """
