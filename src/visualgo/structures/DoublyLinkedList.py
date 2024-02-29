@@ -2,7 +2,7 @@
 
 from typing import TypeVar
 
-from . import LinkedList
+from .LinkedList import LinkedList
 from .TwoWayNode import TwoWayNode
 
 T = TypeVar('T')
@@ -15,7 +15,7 @@ class DoublyLinkedList(LinkedList):
         Initializes the doubly linked list.
         """
         super().__init__()
-        self.__head: TwoWayNode = self.__head
+        self.__head: TwoWayNode = self.head
     
     def insert_head(self, e: T) -> None:
         """
