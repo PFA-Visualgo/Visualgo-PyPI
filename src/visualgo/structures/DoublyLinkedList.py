@@ -1,7 +1,6 @@
 """:demand: F1.8"""
 
-from hmac import new
-from typing import TypeVar, override
+from typing import TypeVar
 
 from . import LinkedList
 from .TwoWayNode import TwoWayNode
@@ -18,7 +17,6 @@ class DoublyLinkedList(LinkedList):
         super().__init__()
         self.__head: TwoWayNode = self.__head
     
-    @override
     def insert_head(self, e: T) -> None:
         """
         Inserts the element at the head of the list.
@@ -31,7 +29,6 @@ class DoublyLinkedList(LinkedList):
         self.__head = new_node
         self.__length += 1
     
-    @override
     def insert_last(self, e: T) -> None:
         """
         Inserts the element at the last node of the list.
@@ -68,7 +65,6 @@ class DoublyLinkedList(LinkedList):
 
         self.__length += 1      
         
-    @override
     def delete(self, index: int) -> None:
         """
         Deletes the element at the given `index`.
