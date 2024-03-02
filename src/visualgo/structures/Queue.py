@@ -14,14 +14,6 @@ class Queue:
         """
         self.__dll = DoublyLinkedList()
 
-    @property
-    def head(self) -> T:
-        """
-        Returns the head of the queue.
-        :return: Object
-        """
-        return self.__dll.get(self.__dll.length - 1)
-
     def is_empty(self) -> bool:
         """
         Checks if the queue is empty.
@@ -45,6 +37,13 @@ class Queue:
         if self.is_empty():
             raise IndexError("Queue is empty")
         else:
-            first_in = self.head
-            self.__dll.delete(self.head)
+            first_in = self.__dll.get(self.__dll.length-1)
+            self.__dll.delete(self.__dll.length)
             return first_in
+    
+    def __str__(self) -> str:
+        """
+        Returns a string representation of the queue.
+        :return: str
+        """
+        return self.__dll.__str__()
