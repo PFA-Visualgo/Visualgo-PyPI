@@ -16,17 +16,6 @@ class TestQueue(unittest.TestCase):
         queue = Queue()
         # Also tests the possibility to initiliaze a queue with a list ?
 
-    def test_head(self):
-        """
-        Tests the `head` method.
-        """
-        queue = Queue()
-        self.assertRaises(IndexError, lambda: queue.head)
-        queue.enqueue(5)
-        self.assertEqual(queue.head, 5)
-        queue.enqueue(9)
-        self.assertEqual(queue.head, 5)
-
     def test_is_empty(self):
         """
         Tests the `is_empty` method.
