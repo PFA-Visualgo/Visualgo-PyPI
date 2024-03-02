@@ -15,7 +15,7 @@ class LinkedList:
     @property
     def head(self) -> Node:
         """
-        Returns the head node of the list.
+        Returns the head content of the list.
         :return: TwoWayNode
         """
         return self.__head.content
@@ -33,7 +33,7 @@ class LinkedList:
         Checks if the list is empty.
         :return: bool
         """
-        return self.__length == 0
+        return self.length == 0
 
     def get(self, index: int) -> T:
         """
@@ -41,20 +41,20 @@ class LinkedList:
         :param index: int
         :return: Object
         """
-        return self.__get_node(index).content
+        return self.get_node(index).content
 
-    def __get_node(self, index: int) -> Node:
+    def get_node(self, index: int) -> Node:
         """
         Returns the node at the `index` position.
         :param index: int
         :return: TwoWayNode
         """
-        if index > self.__length:
+        if index >= self.length:
             raise IndexError('Index out of range')
         if index < 0:
             raise IndexError('Negative index')
         i: int = 0
-        current_node: Node = self.__head
+        current_node = self.__head
         while i < index:
             current_node = current_node.next
             i += 1
@@ -67,8 +67,8 @@ class LinkedList:
         :param e: Object
         :return: None
         """
-        node: T = self.get(index)
-        node.value = e
+        node: T = self.get_node(index)
+        node.content = e
 
     def insert_head(self, e: T) -> None:
         """
@@ -91,7 +91,7 @@ class LinkedList:
         if 0 < index or index > self.__length:
             raise IndexError('Index out of range')
         new_node = Node(e)
-        current_node = self.__get_node(index)
+        current_node = self.get_node(index)
         new_node.set_next(current_node.next)
         current_node.set_next(new_node)
         self.__length += 1
@@ -110,7 +110,7 @@ class LinkedList:
         if index == 0:
             self.__head = self.__head.next
             return
-        current_node = self.__get_node(index - 1)
+        current_node = self.get_node(index - 1)
         current_node.set_next(current_node.next.next)
 
     def __str__(self):
