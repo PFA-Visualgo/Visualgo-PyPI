@@ -34,3 +34,11 @@ class TwoWayNode(Node):
         :return: None
         """
         self.__previous = two_way_node
+
+    @classmethod
+    def sentinel(cls) -> Optional['TwoWayNode']:
+        """
+        Creates a sentinel Node.
+        :return: Node
+        """
+        return TwoWayNode()
