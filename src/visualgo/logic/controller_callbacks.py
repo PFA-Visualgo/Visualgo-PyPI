@@ -1,6 +1,6 @@
 from abc import ABC, abstractmethod
 
-from .debugger.debug_types import DebugContext
+from .debugger.types import DebugContext
 
 class ControllerCallbacksInterface(ABC):
     """

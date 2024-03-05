@@ -4,13 +4,13 @@ from abc import ABC, abstractmethod
 from .types import Statistics, SymbolDescription, CodeError
 from .controller_callbacks import ControllerCallbacksInterface
 
-from .debugger.debug_types import DebugVariables, DebugContext
+from .debugger.types import DebugVariables, DebugContext
 from .debugger.debugger import DebuggerInterface
 from .debugger.py_debugger import PyDebugger
 
-from .static.static_types import StaticVariables
+from .static.types import StaticVariables
 
-from .ui.ui_types import TransferVariables
+from .ui.types import TransferVariables
 from .ui.ui_callbacks import UICallbacksInterface
 
 class ExecutionState(Enum):

@@ -1,4 +1,4 @@
-from .static_types import StaticVars
+from .types import StaticVars
 
 
 class StaticAnalysisRes:

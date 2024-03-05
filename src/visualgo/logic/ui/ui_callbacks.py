@@ -1,7 +1,7 @@
 from abc import ABC, abstractmethod
 from dataclasses import dataclass
 
-from .ui_types import TransferVariables
+from .types import TransferVariables
 from ..types import Statistics, CodeError
 
 class UICallbacksInterface(ABC):
