@@ -1,8 +1,8 @@
 from abc import ABC, abstractmethod
-from dataclasses import dataclass
 
 from .types import TransferVariables
 from ..types import Statistics, CodeError
+
 
 class UICallbacksInterface(ABC):
     """
@@ -47,4 +47,3 @@ class UICallbacksInterface(ABC):
 # Creates a class of UICallbacksInterface
 # class UICallbacks(UICallbacksInterface):
 #     ...
-

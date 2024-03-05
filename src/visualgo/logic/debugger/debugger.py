@@ -1,7 +1,8 @@
 from abc import ABC, abstractmethod
-from typing import Callable, TypeVar
+from typing import TypeVar
 
 T = TypeVar("T")
+
 
 class DebuggerInterface(ABC):
     """
@@ -9,11 +10,20 @@ class DebuggerInterface(ABC):
     """
 
     @abstractmethod
-    def add_breakpoint(self, line_number: int, cond: Callable[[T],bool]) -> None:
+    def set_code(self, code: str) -> None:
+        """
+        Set or reset the code to be executed.
+        :param code: str
+        :return: None
+        """
+        pass
+
+    @abstractmethod
+    def add_breakpoint(self, line_number: int, cond: str) -> None:
         """
         Add a new breakpoint at the given `line_number` with a condition `cond`.
         :param line_number: int
-        :param cond: Callable[[T],bool]
+        :param cond: str
         :return: None
         """
         pass

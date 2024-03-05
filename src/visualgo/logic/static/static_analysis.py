@@ -1,4 +1,4 @@
-from .types import StaticVars
+from .types import StaticVariables
 
 
 class StaticAnalysisRes:
@@ -10,7 +10,7 @@ class StaticAnalysis:
     def analyse_code_types(self, code: str) -> StaticAnalysisRes:
         pass
 
-    def get_code_variables(self, code: str) -> StaticVars:
+    def get_code_variables(self, code: str) -> StaticVariables:
         pass
 
     def get_code_functions_methods(self, code: str) -> list[str]:

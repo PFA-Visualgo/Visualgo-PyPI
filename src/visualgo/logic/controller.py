@@ -13,11 +13,13 @@ from .static.types import StaticVariables
 from .ui.types import TransferVariables
 from .ui.ui_callbacks import UICallbacksInterface
 
+
 class ExecutionState(Enum):
     NOT_INITIALIZED = 0
     RUNNING = 1
     STOPPED = 2
     FINISHED = 3
+
 
 class ControllerInterface(ABC):
     """
@@ -198,27 +200,27 @@ class ControllerInterface(ABC):
         """
         pass
 
+
 class Controller(ControllerCallbacksInterface, ControllerInterface):
     """
-    Controller class that manages the interaction between the UI and the Debugger. It implements the
-    ControllerCallbacksInterface to receive notifications from the Debugger and the ControllerInterface
-    to receive calls from the UI.
+    Controller class that manages the interaction between the UI and the Debugger.
+    Implements the ControllerCallbacksInterface to receive notifications from
+    the Debugger, and the ControllerInterface to receive calls from the UI.
     """
 
-    def __init__(self, debugger: DebuggerInterface, ui_callbacks : UICallbacksInterface) -> None:
+    def __init__(self, ui_callbacks: UICallbacksInterface) -> None:
         """
         Initializes the Controller with the given `ui_callbacks`.
         :param ui_callbacks: UICallbacksInterface
         :return: None
         """
         # private attributes
-        self.__ui_callbacks : UICallbacksInterface = ui_callbacks
-        self.__execution_state : ExecutionState = ExecutionState.NOT_INITIALIZED
-        self.__current_statistics : Statistics = None
-        self.__current_variables : DebugVariables = None
-        self.__step_time : int = 500
-        self.__debugger: DebuggerInterface = debugger
-        pass
+        self.__ui_callbacks: UICallbacksInterface = ui_callbacks
+        self.__execution_state: ExecutionState = ExecutionState.NOT_INITIALIZED
+        self.__current_statistics: Statistics = None
+        self.__current_variables: DebugVariables = None
+        self.__step_time: int = 500
+        self.__debugger: DebuggerInterface = PyDebugger(self)
 
     # Private methods
     def __initialize_debugger(self, code: str) -> None:
@@ -227,9 +229,8 @@ class Controller(ControllerCallbacksInterface, ControllerInterface):
         :param code: str
         :return: None
         """
-        self.__debugger.initialize(code, self)
+        self.__debugger.set_code(code)
         self.__execution_state = ExecutionState.RUNNING
-        pass
 
     def __end_of_execution(self) -> None:
         """
@@ -237,25 +238,25 @@ class Controller(ControllerCallbacksInterface, ControllerInterface):
         :return: None
         """
         self.__execution_state = ExecutionState.FINISHED
-        pass
 
-    def __get_ui_stats(self, stats: Statistics, tracked_types: list[SymbolDescription],
-                       tracked_funs : list[SymbolDescription]) -> Statistics:
+    def __get_ui_stats(self, stats: Statistics,
+                       tracked_types: list[SymbolDescription],
+                       tracked_funs: list[SymbolDescription]) -> Statistics:
         """
-        Returns the statistics of the execution given the debugger `stats` and the user parameters
-        `tracked_types` and `tracked_funs`.
+        Returns the statistics of the execution given the debugger `stats`
+        and the user parameters `tracked_types` and `tracked_funs`.
         :param stats: Statistics
         :param variables: typing.List[SymboleDescription]
         :return: Statistics
         """
         pass
 
-
-    def __ui_vars( self, vars: DebugVariables, tracked_vars: list[SymbolDescription]) -> \
-            DebugVariables:
+    def __ui_vars(
+            self, vars: DebugVariables, tracked_vars: list
+            [SymbolDescription]) -> DebugVariables:
         """
-        Returns the variables of the execution given the debugger `variables` and the user parameters
-        `tracked_vars`.
+        Returns the variables of the execution given the debugger
+        `variables` and the user parameters `tracked_vars`.
         :param variables: Variables
         :param variables: typing.List[SymboleDescription]
         :return: Variables
@@ -263,16 +264,14 @@ class Controller(ControllerCallbacksInterface, ControllerInterface):
         pass
 
     # ControllerInterface
-    def start(self) -> None:
-        self.__initialize_debugger(self.__ui_interface.get_code())
-        pass
+    def start(self, code: str) -> None:
+        self.__initialize_debugger(code)
 
     def pause_continue(self) -> None:
         if self.__execution_state == ExecutionState.RUNNING:
             self.__execution_state = ExecutionState.STOPPED
         else:
             self.__execution_state = ExecutionState.RUNNING
-        pass
 
     def set_step_time(self, time: int) -> None:
         try:
@@ -281,94 +280,80 @@ class Controller(ControllerCallbacksInterface, ControllerInterface):
             self.__step_time = time
         except ValueError as e:
             print(f"Error: {e}")
-        pass
 
     def forward_step(self) -> None:
         raise NotImplementedError("Method not yet implemented")
-        pass
 
     def forward_next(self) -> None:
         raise NotImplementedError("Method not yet implemented")
-        pass
 
     def backward_step(self) -> None:
         raise NotImplementedError("Method not yet implemented")
-        pass
 
     def backward_next(self) -> None:
         raise NotImplementedError("Method not yet implemented")
-        pass
 
     # DebuggerCallbacksInterface
-    def backward_step_done(self, context : DebugContext, line_number : int) -> None:
+    def backward_step_done(
+            self, context: DebugContext, line_number: int) -> None:
         raise NotImplementedError("Method not yet implemented")
-        pass
 
-    def forward_step_done(self, context : DebugContext, line_number : int) -> None:
+    def forward_step_done(
+            self, context: DebugContext, line_number: int) -> None:
         raise NotImplementedError("Method not yet implemented")
-        pass
 
-    def forward_step_into_done(self, context : DebugContext, line_number : int) -> None:
+    def forward_step_into_done(
+            self, context: DebugContext, line_number: int) -> None:
         raise NotImplementedError("Method not yet implemented")
-        pass
 
-    def backward_step_into_done(self, context : DebugContext, line_number : int) -> None:
+    def backward_step_into_done(
+            self, context: DebugContext, line_number: int) -> None:
         raise NotImplementedError("Method not yet implemented")
-        pass
 
-    def continue_done(self, context : DebugContext, line_number : int) -> None:
+    def continue_done(self, context: DebugContext, line_number: int) -> None:
         raise NotImplementedError("Method not yet implemented")
-        pass
+
+    def end_of_code_reached(
+            self, vars: DebugContext, line_number: int) -> None:
+        raise NotImplementedError("Method not yet implemented")
 
     # Checkpoints
     def new_checkpoint(self, line_number: int) -> None:
         raise NotImplementedError("Method not yet implemented")
-        pass
 
     def del_checkpoint(self, line_number: int) -> None:
         raise NotImplementedError("Method not yet implemented")
-        pass
 
     # Breakpoints
     def new_breakpoint(self, line_number: int) -> None:
         raise NotImplementedError("Method not yet implemented")
-        pass
 
     def del_breakpoint(self, line_number: int) -> None:
         raise NotImplementedError("Method not yet implemented")
-        pass
 
     # Tracking for drawings
     def new_tracked_variable(self, variable: SymbolDescription) -> None:
         raise NotImplementedError("Method not yet implemented")
-        pass
 
     def del_tracked_variable(self, variable: SymbolDescription) -> None:
         raise NotImplementedError("Method not yet implemented")
-        pass
 
     # Tracking for statistics
     def new_tracked_function(self, function: SymbolDescription) -> None:
         raise NotImplementedError("Method not yet implemented")
-        pass
 
     def del_tracked_function(self, function: SymbolDescription) -> None:
         raise NotImplementedError("Method not yet implemented")
-        pass
 
     def new_tracked_type(self, type_name: str) -> None:
         raise NotImplementedError("Method not yet implemented")
-        pass
 
     def del_tracked_type(self, type_name: str) -> None:
         raise NotImplementedError("Method not yet implemented")
-        pass
 
     # Statistics
     def get_csv(self) -> str:
         raise NotImplementedError("Method not yet implemented")
-        pass
 
     def get_static_variables(self) -> StaticVariables:
         raise NotImplementedError("Method not yet implemented")
-        pass
