@@ -1,11 +1,15 @@
 from typing import Callable, TypeVar
 
-from .debugger_callbacks import DebuggerCallbacksInterface
+from .debugger import DebuggerCallbacksInterface
+from .debugger import DebuggerInterface
 
 T = TypeVar("T")
 
+class PyDebugger(DebuggerInterface):
+    """
+    Python language support of the DebuggerInterface.
+    """
 
-class PyDebugger:
     def __init__(
             self, code: str, callbacks: DebuggerCallbacksInterface) -> None:
         pass

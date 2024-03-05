@@ -1,6 +1,5 @@
-class DebugVars:
+class DebugVariables:
     pass
-
 
 class DebugContext:
     pass
