@@ -38,7 +38,7 @@ class Queue:
             raise IndexError("Queue is empty")
         else:
             first_in = self.__dll.get(self.__dll.length-1)
-            self.__dll.delete(self.__dll.length)
+            self.__dll.delete(self.__dll.length-1)
             return first_in
     
     def __str__(self) -> str:

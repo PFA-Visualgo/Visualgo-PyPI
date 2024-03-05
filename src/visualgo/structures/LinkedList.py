@@ -76,8 +76,7 @@ class LinkedList:
         :param e: Object
         :return: None
         """
-        new_node = Node(e)
-        new_node.set_next(self.__head)
+        new_node = Node(e, self.__head)
         self.__head = new_node
         self.__length += 1
 
