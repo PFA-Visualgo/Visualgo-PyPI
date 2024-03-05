@@ -1,5 +1,5 @@
 """:demand: F1.8"""
-
+from collections.abc import Iterable
 from typing import TypeVar
 
 from .LinkedList import LinkedList
@@ -11,12 +11,15 @@ T = TypeVar('T')
 
 class DoublyLinkedList:
     # head <=> ... <=> ... <=> ... <=> sentinel()
-    def __init__(self):
+    def __init__(self, it: Iterable[T] = None) -> None:
         """
         Initializes the doubly linked list.
         """
         self.__head: TwoWayNode = TwoWayNode.sentinel()
         self.__length = 0
+        if it is not None:
+            for item in it[::-1]:
+                self.insert_head(item)
 
     @property
     def head(self) -> TwoWayNode:
@@ -55,7 +58,6 @@ class DoublyLinkedList:
         :param index: int
         :return: TwoWayNode
         """
-        print(self.length)
         if index >= self.length:
             raise IndexError('Index out of range')
         if index < 0:

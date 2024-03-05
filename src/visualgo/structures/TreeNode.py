@@ -9,10 +9,9 @@ T = TypeVar('T')
 
 class TreeNode:
 
-    def __init__(self, value:T, children:Set) -> None:
+    def __init__(self, value: T, children: Set) -> None:
         self.__value = value
         self.__children = children
-
 
     def has_child(self) -> bool:
         """
