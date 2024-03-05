@@ -1,27 +1,33 @@
 # Makefile
 
 # Default target
-all: install static-analysis build tests
-
-# Set the appropriate Python executable based on the platform
-PYTHON := $(shell command -v python3 2> /dev/null || command -v python)
-VENV := venv
+all: static-analysis tests
 
 RESET = \033[0m
 BOLD = \033[1m
 GREEN = \033[32m
 RED = \033[31m
 
-# Target to create the virtual environment
-venv:
-	@echo "$(BOLD)$(GREEN)>> Setting up virtual environment <<$(RESET)"
-	@$(PYTHON) -m venv $(VENV)
-	@echo "export PYTHONPATH=$$PWD/src:\$$PYTHONPATH" >> $(VENV)/bin/activate
+# Check if the virtual environment is activated
+# Check if the virtual environment is activated and not the default Conda environment
+check-venv:
+	@if [ -n "$$VIRTUAL_ENV" ]; then \
+		echo "$(BOLD)$(GREEN)>> Virtual environment is activated (venv) <<$(RESET)"; \
+	elif [ -n "$$CONDA_PREFIX" ] && [ "$$CONDA_PREFIX" != "$$(conda info --base)" ]; then \
+		echo "$(BOLD)$(GREEN)>> Conda environment is activated and not the default Conda environment <<$(RESET)"; \
+	elif [ -n "$$PYENV_VIRTUAL_ENV" ]; then \
+		echo "$(BOLD)$(GREEN)>> Virtual environment is activated (pyenv) <<$(RESET)"; \
+	elif [ -n "$$PIPENV_ACTIVE" ]; then \
+		echo "$(BOLD)$(GREEN)>> Virtual environment is activated (pipenv) <<$(RESET)"; \
+	else \
+		echo "$(BOLD)$(RED)>> Error: Virtual environment not activated. Please activate your virtual environment of choice. <<$(RESET)"; \
+		exit 1; \
+	fi
 
 # Install dependencies from requirements.txt
-install: venv requirements.txt
+install: check-venv requirements.txt
 	@echo "$(BOLD)$(GREEN)>> Installing dependencies <<$(RESET)"
-	@. venv/bin/activate; pip install -Ur requirements.txt
+	@pip install -r requirements.txt
 
 # Run the main application
 static-analysis: install
@@ -30,13 +36,12 @@ static-analysis: install
 
 build: install
 	@echo "$(BOLD)$(GREEN)>>Building the application <<$(RESET)"
-	@. venv/bin/activate; python -m pip  install --upgrade pip
-	@. venv/bin/activate; pip install build
-	@. venv/bin/activate; python -m build
+	@python -m pip  install --upgrade pip
+	@pip install build
+	@python -m build
 
 freeze:
 	@echo "$(BOLD)$(GREEN)>>Freezing the dependencies <<$(RESET)"
-	@echo "$(BOLD)$(GREEN) Make sure to run the tests with the virtual environment activated.$(RESET)"
 	@pip freeze > requirements.txt
 
 tests: install
@@ -44,12 +49,11 @@ tests: install
 	@python -m pytest --cov=src/visualgo --cov-report=html --cov-report=term-missing tests/
 	@echo "$(BOLD)$(GREEN)>> Coverage HTML report can be found in htmlcov/index.html <<$(RESET)"
 
-
 # Clean up the project
 clean:
 	@echo "$(BOLD)$(GREEN)>>Cleaning up <<$(RESET)"
-	@rm -rf $(VENV) dist htmlcov
+	@rm -rf $(VENV) dist htmlcov .pytest_cache .coverage
 	@echo "$(BOLD)$(GREEN)Project cleaned correctly.$(RESET)"
 
 # Define phony targets
-.PHONY: all venv install run clean tests freeze
+.PHONY: all check-venv install run clean tests freeze
