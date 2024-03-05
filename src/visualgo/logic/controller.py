@@ -2,9 +2,9 @@ from enum import Enum
 from abc import ABC, abstractmethod
 
 from .types import Statistics, SymbolDescription, CodeError
+from .controller_callbacks import ControllerCallbacksInterface
 
 from .debugger.debug_types import DebugVariables, DebugContext
-from .debugger.debugger import DebuggerCallbacksInterface
 from .debugger.debugger import DebuggerInterface
 from .debugger.py_debugger import PyDebugger
 
@@ -198,10 +198,10 @@ class ControllerInterface(ABC):
         """
         pass
 
-class Controller(DebuggerCallbacksInterface, ControllerInterface):
+class Controller(ControllerCallbacksInterface, ControllerInterface):
     """
     Controller class that manages the interaction between the UI and the Debugger. It implements the
-    DebuggerCallbacksInterface to receive notifications from the Debugger and the ControllerInterface
+    ControllerCallbacksInterface to receive notifications from the Debugger and the ControllerInterface
     to receive calls from the UI.
     """
 

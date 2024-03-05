@@ -1,10 +1,10 @@
 from abc import ABC, abstractmethod
 
-from .debug_types import DebugContext
+from .debugger.debug_types import DebugContext
 
-class DebuggerCallbacksInterface(ABC):
+class ControllerCallbacksInterface(ABC):
     """
-    Interface for the DebuggerCallbacks class.
+    Interface so that the debugger can call the controller when it has finished an action.
     """
 
     @abstractmethod
