@@ -25,7 +25,7 @@ class Stack:
         """
         if self.is_empty():
             raise IndexError('Stack is empty')
-        val: T = self._top.content
+        val: T = self._top.value
         self._top = self._top.next
         return val
 
@@ -49,6 +49,6 @@ class Stack:
         current_node = self._top
         string: str = ""
         while current_node.next is not None:
-            string = str(current_node.content) + " " + string
+            string = str(current_node.value) + " " + string
             current_node = current_node.next
         return "[ " + string

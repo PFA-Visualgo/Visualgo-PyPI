@@ -76,13 +76,13 @@ class TestNode(unittest.TestCase):
         """
         node = TreeNode()
         self.assertIsNone(node.value)
-        node.set_content(4)
+        node.set_value(4)
         self.assertEqual(node.value, 4)
         node2 = TreeNode(9)
         self.assertIsNone(node2.children)
         node2.set_next(node)
         self.assertEqual(node2.children[0], node)
-        node.set_content(90)
+        node.set_value(90)
         self.assertEqual(node.value, 90)
 
     def test_delete_child(self):
@@ -109,7 +109,7 @@ class TestNode(unittest.TestCase):
         node = TreeNode()
         node.set_value(1)
         self.assertEqual(node.value, 1)
-        node.set_content("123")
+        node.set_value("123")
         self.assertEqual(node.value, "123")
         node2 = TreeNode(9, [node])
         self.assertEqual(node2.value, 9)

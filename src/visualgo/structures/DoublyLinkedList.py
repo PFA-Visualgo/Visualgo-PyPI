@@ -24,10 +24,10 @@ class DoublyLinkedList:
     @property
     def head(self) -> TwoWayNode:
         """
-        Returns the head content of the doubly linked list.
+        Returns the head value of the doubly linked list.
         :return: TwoWayNode
         """
-        return self.__head.content
+        return self.__head.value
 
     @property
     def length(self) -> int:
@@ -50,7 +50,7 @@ class DoublyLinkedList:
         :param index: int
         :return: Object
         """
-        return self.get_node(index).content
+        return self.get_node(index).value
 
     def get_node(self, index: int) -> TwoWayNode:
         """
@@ -77,7 +77,7 @@ class DoublyLinkedList:
         :return: None
         """
         node: T = self.get_node(index)
-        node.content = e
+        node.value = e
 
     def insert_head(self, e: T) -> None:
         """
@@ -175,7 +175,7 @@ class DoublyLinkedList:
             current_node = self.__head
             result = '['
             while current_node.next:
-                result += str(current_node.content) + ', '
+                result += str(current_node.value) + ', '
                 current_node = current_node.next
-            result += str(current_node.content) + ']'
+            result += str(current_node.value) + ']'
             return result

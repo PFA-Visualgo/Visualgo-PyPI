@@ -25,7 +25,7 @@ class Stack:
         """
         if self.__ll.is_empty():
             raise IndexError("Stack is empty")
-        value = self.__ll.get_head_content()
+        value = self.__ll.get_head_value()
         self.__ll.delete(self.__ll.head)
         return value
 
@@ -34,7 +34,7 @@ class Stack:
         Returns the top of the stack.
         :return: The top value of the stack of any type
         """
-        return self.__ll.get_head_content()
+        return self.__ll.get_head_value()
 
     def is_empty(self) -> bool:
         """

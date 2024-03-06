@@ -15,10 +15,10 @@ class LinkedList:
     @property
     def head(self) -> Node:
         """
-        Returns the head content of the list.
+        Returns the head value of the list.
         :return: TwoWayNode
         """
-        return self.__head.content
+        return self.__head.value
 
     @property
     def length(self) -> int:
@@ -41,7 +41,7 @@ class LinkedList:
         :param index: int
         :return: Object
         """
-        return self.get_node(index).content
+        return self.get_node(index).value
 
     def get_node(self, index: int) -> Node:
         """
@@ -68,7 +68,7 @@ class LinkedList:
         :return: None
         """
         node: T = self.get_node(index)
-        node.content = e
+        node.value = e
 
     def insert_head(self, e: T) -> None:
         """
@@ -116,10 +116,10 @@ class LinkedList:
         if self.is_empty():
             return "[]"
         current_node = self.__head
-        string: str = "[{}".format(current_node.content)
+        string: str = "[{}".format(current_node.value)
 
         while current_node.has_next():
             current_node = current_node.next
             if current_node.has_next():
-                string += "->{}".format(current_node.content)
+                string += "->{}".format(current_node.value)
         return string + "]"

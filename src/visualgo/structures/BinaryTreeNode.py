@@ -28,9 +28,9 @@ class BinaryTreeNode(TreeNode):
         """
         pass
 
-    def get_content(self) -> T:
+    def get_value(self) -> T:
         """
-        Returns the content of this node. Can be None.
+        Returns the value of this node. Can be None.
         :return: Object
         """
         pass
@@ -51,9 +51,9 @@ class BinaryTreeNode(TreeNode):
         """
         pass
 
-    def set_content(self, e: T) -> None:
+    def set_value(self, e: T) -> None:
         """
-        Sets the content of this node.
+        Sets the value of this node.
         :param e: Object
         :return: T
         """
