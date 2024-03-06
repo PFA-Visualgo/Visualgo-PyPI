@@ -12,6 +12,7 @@ class PyDebugger(DebuggerInterface):
     """
 
     def __init__(self, callbacks: ControllerCallbacksInterface) -> None:
+        print("PyDebugger created")
         pass
 
     def set_code(self, code: str) -> None:

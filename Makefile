@@ -10,7 +10,6 @@ RED = \033[31m
 
 export PYTHONPATH := $(PWD)/src:$(PYTHONPATH)
 
-# Check if the virtual environment is activated
 # Check if the virtual environment is activated and not the default Conda environment
 check-venv:
 	@if [ -n "$$VIRTUAL_ENV" ]; then \
@@ -50,6 +49,12 @@ tests: install
 	@echo "$(BOLD)$(GREEN)>>Running tests <<$(RESET)"
 	@python -m pytest --cov=src/visualgo --cov-report=html --cov-report=term-missing tests/
 	@echo "$(BOLD)$(GREEN)>> Coverage HTML report can be found in htmlcov/index.html <<$(RESET)"
+
+tests_outputs: install
+	@echo "$(BOLD)$(GREEN)>>Running tests <<$(RESET)"
+	@python -m pytest -s --cov=src/visualgo --cov-report=html --cov-report=term-missing tests/
+	@echo "$(BOLD)$(GREEN)>> Coverage HTML report can be found in htmlcov/index.html <<$(RESET)"
+
 
 # Clean up the project
 clean:

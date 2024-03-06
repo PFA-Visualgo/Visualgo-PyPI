@@ -208,9 +208,11 @@ class Controller(ControllerCallbacksInterface, ControllerInterface):
     the Debugger, and the ControllerInterface to receive calls from the UI.
     """
 
-    def __init__(self, ui_callbacks: UICallbacksInterface) -> None:
+    def __init__(self, debugger_class: type, ui_callbacks: UICallbacksInterface):
         """
-        Initializes the Controller with the given `ui_callbacks`.
+        Initializes the Controller with the given a `debugger_class` that will be instantiated and
+        a `ui_callbacks` to communicate with the UI.
+        :param debugger_class: type
         :param ui_callbacks: UICallbacksInterface
         :return: None
         """
@@ -220,7 +222,7 @@ class Controller(ControllerCallbacksInterface, ControllerInterface):
         self.__current_statistics: Statistics = None
         self.__current_variables: DebugVariables = None
         self.__step_time: int = 500
-        self.__debugger: DebuggerInterface = PyDebugger(self)
+        self.__debugger: DebuggerInterface = debugger_class(self)
 
     # Private methods
     def __initialize_debugger(self, code: str) -> None:
