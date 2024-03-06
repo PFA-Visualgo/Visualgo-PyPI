@@ -8,6 +8,8 @@ BOLD = \033[1m
 GREEN = \033[32m
 RED = \033[31m
 
+export PYTHONPATH := $(PWD)/src:$(PYTHONPATH)
+
 # Check if the virtual environment is activated
 # Check if the virtual environment is activated and not the default Conda environment
 check-venv:
