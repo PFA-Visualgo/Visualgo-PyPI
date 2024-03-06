@@ -13,7 +13,7 @@ class TestTable(unittest.TestCase):
         """
         Tests the instantiation of a table.
         """
-        self.assertRaises(SyntaxError, lambda: Table())
+        self.assertRaises(TypeError, lambda: Table())
         table2 = Table(3)
         self.assertRaises(TypeError, lambda: Table(None))
 

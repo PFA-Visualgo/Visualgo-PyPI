@@ -1,5 +1,5 @@
 """:demand: F1.8"""
-
+from collections.abc import Iterable
 from typing import TypeVar
 
 from .LinkedList import LinkedList
@@ -9,15 +9,17 @@ from .TwoWayNode import TwoWayNode
 T = TypeVar('T')
 
 
-class DoublyLinkedList(LinkedList):
+class DoublyLinkedList:
     # head <=> ... <=> ... <=> ... <=> sentinel()
-    def __init__(self):
+    def __init__(self, it: Iterable[T] = None) -> None:
         """
         Initializes the doubly linked list.
         """
-        super().__init__()
         self.__head: TwoWayNode = TwoWayNode.sentinel()
         self.__length = 0
+        if it is not None:
+            for item in it[::-1]:
+                self.insert_head(item)
 
     @property
     def head(self) -> TwoWayNode:
@@ -34,6 +36,48 @@ class DoublyLinkedList(LinkedList):
         :return: int
         """
         return self.__length
+
+    def is_empty(self) -> bool:
+        """
+        Checks if the list is empty.
+        :return: bool
+        """
+        return self.length == 0
+
+    def get(self, index: int) -> T:
+        """
+        Returns the element at the `index` position.
+        :param index: int
+        :return: Object
+        """
+        return self.get_node(index).content
+
+    def get_node(self, index: int) -> TwoWayNode:
+        """
+        Returns the node at the `index` position.
+        :param index: int
+        :return: TwoWayNode
+        """
+        if index >= self.length:
+            raise IndexError('Index out of range')
+        if index < 0:
+            raise IndexError('Negative index')
+        i: int = 0
+        current_node = self.__head
+        while i < index:
+            current_node = current_node.next
+            i += 1
+        return current_node
+
+    def set(self, index: int, e: T) -> None:
+        """
+        Sets the element at the `index` position as `e`.
+        :param index: int
+        :param e: Object
+        :return: None
+        """
+        node: T = self.get_node(index)
+        node.content = e
 
     def insert_head(self, e: T) -> None:
         """
@@ -60,7 +104,7 @@ class DoublyLinkedList(LinkedList):
             raise IndexError('Index out of range')
         else:
             new_node = TwoWayNode(e)
-            index_node = super().get_node(index)
+            index_node = self.get_node(index)
             new_node.set_next(index_node.next)
             new_node.set_previous(index_node)
             index_node.set_next(new_node)
@@ -76,7 +120,7 @@ class DoublyLinkedList(LinkedList):
         new_node = TwoWayNode(e)
         if self.is_empty():
             self.insert_head(e)
-        last_node = super().get_node(self.__length - 1)
+        last_node = self.get_node(self.__length - 1)
         last_node.set_next(new_node)
         new_node.set_previous(last_node)
         self.__length += 1
@@ -98,7 +142,7 @@ class DoublyLinkedList(LinkedList):
             raise IndexError('Index out of range')
         else:
             new_node = TwoWayNode(e)
-            index_node = super().get_node(index)
+            index_node = self.get_node(index)
             new_node.set_next(index_node)
             new_node.set_previous(index_node.previous)
             index_node.set_previous(new_node)
@@ -118,12 +162,12 @@ class DoublyLinkedList(LinkedList):
             if self.__head:
                 self.__head.set_previous(None)
         else:
-            current_node = super().get_node(index)
+            current_node = self.get_node(index)
             current_node.previous.set_next(current_node.next)
             if current_node.next:
                 current_node.next.set_previous(current_node.previous)
         self.__length -= 1
-    
+
     def __str__(self):
         if self.is_empty():
             return '[]'
