@@ -76,7 +76,6 @@ class TestLinkedList(unittest.TestCase):
         lis.insert_head(1)
         self.assertFalse(lis.is_empty())
 
-
     def test_insert_after(self):
         """
         Tests the `insert_after` method.
@@ -89,6 +88,7 @@ class TestLinkedList(unittest.TestCase):
         self.assertEqual(lis.get(1), 3)
         self.assertEqual(lis.get(2), 2)
         self.assertRaises(IndexError, lambda: lis.insert_after(3, 4))
+
 
 if __name__ == '__main__':
     unittest.main()

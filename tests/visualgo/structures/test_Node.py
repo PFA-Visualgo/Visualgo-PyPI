@@ -18,8 +18,8 @@ class TestNode(unittest.TestCase):
         node3 = Node(node, node2)  # Node containing `node` and parent of `node2`
         node4 = Node([13])
 
-        self.assertEqual(node.value, None)
-        self.assertEqual(node.next, None)
+        self.assertIsNone(node.value)
+        self.assertIsNone(node.next)
 
         self.assertEqual(node2.value, 3)
         self.assertEqual(node2.next, node)
@@ -37,11 +37,11 @@ class TestNode(unittest.TestCase):
         -The child is not altered
         """
         node = Node()
-        self.assertEqual(node.value, None)
+        self.assertIsNone(node.value)
         node.set_value(4)
         self.assertEqual(node.value, 4)
         node2 = Node(9)
-        self.assertEqual(node2.next, None)
+        self.assertIsNone(node2.next)
         node2.set_next(node)
         self.assertEqual(node2.next, node)
         node.set_value(90)
@@ -52,10 +52,10 @@ class TestNode(unittest.TestCase):
         Tests the has_next method
         """
         node = Node()
-        self.assertEqual(node.has_next(), False)
+        self.assertFalse(node.has_next())
 
         node2 = Node("h", node)
-        self.assertEqual(node2.has_next(), True)
+        self.assertTrue(node2.has_next())
 
 
 if __name__ == '__main__':

@@ -18,8 +18,8 @@ class TestNode(unittest.TestCase):
         node3 = TreeNode(node, [node, node2])  # TreeNode containing `node` and parent of `node2` and `node`
         node4 = TreeNode([13])
 
-        self.assertEqual(node.value, None)
-        self.assertEqual(node.next, None)
+        self.assertIsNone(node.value)
+        self.assertIsNone(node.next)
 
         self.assertEqual(node2.value, 3)
         self.assertEqual(node2.children[0], node)

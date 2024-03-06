@@ -96,5 +96,6 @@ class TestDoublyLinkedList(unittest.TestCase):
         Tests the `insert_after` method.
         """
 
+
 if __name__ == '__main__':
     unittest.main()

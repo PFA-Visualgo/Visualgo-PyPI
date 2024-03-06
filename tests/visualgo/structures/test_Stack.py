@@ -9,6 +9,7 @@ class AugmentedStack(Stack):
     This class adds the possibility to get the actual node at the top instead of the value.
     This helps to test more accurately.
     """
+
     def __init__(self):
         super().__init__()
 
@@ -49,7 +50,7 @@ class TestStack(unittest.TestCase):
         stack.push([90])
         stack.push(None)
         self.assertFalse(stack.top_node().is_sentinel())
-        self.assertEqual(stack.pop(), None)
+        self.assertIsNone(stack.pop())
         self.assertFalse(stack.top_node().is_sentinel())
         self.assertEqual(stack.pop(), [90])
         self.assertTrue(stack.top_node().is_sentinel())

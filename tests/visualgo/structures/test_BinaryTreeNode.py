@@ -55,7 +55,6 @@ class TestNode(unittest.TestCase):
         node2.set_left_child(node)
         self.assertEqual(node2.left_child, node)
 
-
     def test_set_right_child(self):
         """
         Tests the `set_right_child` method.
