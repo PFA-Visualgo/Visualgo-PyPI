@@ -13,13 +13,21 @@ class TreeNode:
         self.__value = value
         self.__children = children
 
+    def has_child(self) -> bool:
+        """
+        Tells if this TreeNode has at least one child TreeNode.
+        :return: bool
+        """
+        return not self.__children.is_empty()
+
     @property
-    def children(self) -> Set:
+    def children(self):
         """
         Returns the children of this TreeNode.
         :return: List[TreeNode]
         """
         return self.__children
+
     @property
     def value(self) -> T:  # TODO: Changer nom dans le diagramme et le cahier des charges.
         """
@@ -27,13 +35,6 @@ class TreeNode:
         :return: Object
         """
         return self.__value
-    
-    def has_child(self) -> bool:
-        """
-        Tells if this TreeNode has at least one child TreeNode.
-        :return: bool
-        """
-        return not self.__children.is_empty()
 
     def add_child(self, tree_node: Optional['TreeNode']) -> None:
         """
