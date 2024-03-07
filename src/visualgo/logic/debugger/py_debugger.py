@@ -27,7 +27,7 @@ class PyDebugger(DebuggerInterface):
     def forward_step(self) -> None:
         pass
 
-    def forward_step_into(self) -> None:
+    def step_into(self) -> None:
         pass
 
     def do_continue(self) -> None:

@@ -30,7 +30,7 @@ class ControllerCallbacksInterface(ABC):
         pass
 
     @abstractmethod
-    def forward_step_into_done(self, context: DebugContext, line_number: int) -> None:
+    def step_into_done(self, context: DebugContext, line_number: int) -> None:
         """
         Return the debug context and the line number where the execution stopped to the Controller.
         :param context: DebugContext

@@ -29,7 +29,7 @@ class DebuggerInterface(ABC):
         pass
 
     @abstractmethod
-    def forward_step_into(self) -> None:
+    def step_into(self) -> None:
         """
         Make a forward 'step into' the execution, it will enter in the function if it is a function call.
         :return: None

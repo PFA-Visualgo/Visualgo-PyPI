@@ -306,7 +306,7 @@ class Controller(ControllerCallbacksInterface, ControllerInterface):
             self, context: DebugContext, line_number: int) -> None:
         raise NotImplementedError("Method not yet implemented")
 
-    def forward_step_into_done(
+    def step_into_done(
             self, context: DebugContext, line_number: int) -> None:
         raise NotImplementedError("Method not yet implemented")
 
