@@ -73,7 +73,7 @@ class ControllerCallbacksInterface(ABC):
     def on_error(self, error: CodeError) -> None:
         """
         Return an error message to the Controller.
-        :param error: str
+        :param error: CodeError
         :return: None
         """
         pass
