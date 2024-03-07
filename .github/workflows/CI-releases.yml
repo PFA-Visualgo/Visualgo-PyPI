@@ -1,15 +1,38 @@
-name: CI-PR-dev
+name: CI-Releases
 
 # Controls when the workflow will run
 on:
-  # Triggers the workflow on pull request events but only for the "master" branch
-  pull_request:
-    branches: ["dev"]
-  # Allows you to run this workflow manually from the Actions tab, only possible if this file is in the default branch (aka master)
+  # Triggers the workflow on push on releases branches
+  push:
+    branches:
+      - 'releases/**'
+
+  # Allows you to run this workflow manually from the Actions tab, only possible if this file is in the default branch
   workflow_dispatch:
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
+
+   # Checks if the version is coherent within the commit, is a new version and if it matches the current Paris date
+  version-analysis:
+    name: Version Analysis
+    # The type of runner that the job will run on
+    runs-on: ubuntu-latest
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Check if versions are coherents in commit
+        run: ./.github/scripts/compare-versions-in-commit.sh
+
+      - name: Checks if different version than master
+        run: ./.github/scripts/compare-version-master.sh
+
+      - name: Checks if version matches current Paris date
+        run: ./.github/scripts/compare-version-date.sh
 
   # Runs the static analysis of codebase
   static-analysis:
@@ -84,3 +107,20 @@ jobs:
           name: coverage-report
           path: htmlcov/
 
+  # Runs the integration tests (only on the master branch)
+  integration-tests:
+    name: Integration Tests
+    runs-on: ubuntu-latest
+    steps:
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.9'
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          echo "pip install requirements.txt"
+
+      - name: Run tests
+        run: echo "python ./tests/integration_tests.py"

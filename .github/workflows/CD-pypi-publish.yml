@@ -9,9 +9,12 @@
 name: CD-PyPi-Publish
 
 on:
+  # Trigger the workflow on push of tags, it is checked later if the branch name contains 'releases/'
   push:
-    branches:
-      - master
+    tags:
+    - '*'
+    branches-ignore:
+      - '*' # ignore all branches push
 
 permissions:
   contents: read
@@ -22,11 +25,15 @@ jobs:
   # https://stackoverflow.com/questions/69263843/how-to-push-to-protected-main-branches-in-a-github-action
 
   deploy:
+    name: Deploy to PyPI
     runs-on: ubuntu-latest
+    env:
+      BRANCH_NAME: ${{ github.head_ref || github.ref_name }}
+    if: contains(env.BRANCH_NAME, 'releases/')
 
     steps:
-    - uses: actions/checkout@v4
     - name: Set up Python
+    - uses: actions/checkout@v4
       uses: actions/setup-python@v5
       with:
         python-version: '3.9'
@@ -34,10 +41,10 @@ jobs:
       run: |
         python -m pip install --upgrade pip
         pip install build
-    - name: Build package
-      run: python -m build
-    - name: Publish package
-      uses: pypa/gh-action-pypi-publish@27b31702a0e7fc50959f5ad993c78deac1bdfc29
-      with:
-        user: __token__
-        password: ${{ secrets.PYPI_API_TOKEN }}
+    # - name: Build package
+    #   run: python -m build
+    # - name: Publish package
+    #   uses: pypa/gh-action-pypi-publish@27b31702a0e7fc50959f5ad993c78deac1bdfc29
+    #   with:
+    #     user: __token__
+    #     password: ${{ secrets.PYPI_API_TOKEN }}
