@@ -193,7 +193,7 @@ class ControllerInterface(ABC):
         pass
 
     @abstractmethod
-    def get_static_variables(self) -> StaticVariables:
+    def get_static_variables(self, code: str) -> StaticVariables:
         """
         Returns the variables defined in the code before the execution.
         :return: Variables
@@ -362,5 +362,5 @@ class Controller(ControllerCallbacksInterface, ControllerInterface):
     def get_csv(self) -> str:
         raise NotImplementedError("Method not yet implemented")
 
-    def get_static_variables(self) -> StaticVariables:
+    def get_static_variables(self, code: str) -> StaticVariables:
         raise NotImplementedError("Method not yet implemented")
