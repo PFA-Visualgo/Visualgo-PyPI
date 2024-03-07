@@ -10,7 +10,7 @@ from .debugger.py_debugger import PyDebugger
 
 from .static.types import StaticVariables
 
-from .ui.types import TransferVariables
+from .ui.types import TransferVariables, TransferVariable
 from .ui.ui_callbacks import UICallbacksInterface
 
 
@@ -269,7 +269,8 @@ class Controller(ControllerCallbacksInterface, ControllerInterface):
     def start(self) -> None:
         code = self.__ui_callbacks.get_code()
         self.__initialize_debugger(code)
-        self.__ui_callbacks.update_variables(self.__current_variables) # Temporary for demonstration purposes
+        # Temporary for demonstration purposes
+        self.__ui_callbacks.update_variables(self.__current_variables)
 
     def pause_continue(self) -> None:
         if self.__execution_state == ExecutionState.RUNNING:
@@ -286,43 +287,90 @@ class Controller(ControllerCallbacksInterface, ControllerInterface):
             print(f"Error: {e}")
 
     def forward_step(self) -> None:
-        raise NotImplementedError("Method not yet implemented")
+        # Temporary for demonstration purposes
+        self.__debugger.forward_step()
 
     def forward_next(self) -> None:
-        raise NotImplementedError("Method not yet implemented")
+        # Temporary for demonstration purposes
+        self.__debugger.forward_step()
 
     def backward_step(self) -> None:
-        raise NotImplementedError("Method not yet implemented")
+        # Temporary for demonstration purposes
+        self.__debugger.backward_step()
 
     def backward_next(self) -> None:
-        raise NotImplementedError("Method not yet implemented")
+        # Temporary for demonstration purposes
+        self.__debugger.backward_step()
 
     # ControllerCallbacksInterface
     def backward_step_done(
             self, context: DebugContext, line_number: int) -> None:
-        raise NotImplementedError("Method not yet implemented")
+        # Temporary for demonstration purposes
+        description = SymbolDescription("bw_step_done", 0)
+        tf_var = TransferVariable(
+            description=description,
+            type="type",
+            value=context.data
+        )
+        self.__ui_callbacks.update_variables([tf_var])
 
     def forward_step_done(
             self, context: DebugContext, line_number: int) -> None:
-        raise NotImplementedError("Method not yet implemented")
+        # Temporary for demonstration purposes
+        description = SymbolDescription("fw_step_done", 0)
+        tf_var = TransferVariable(
+            description=description,
+            type="type",
+            value=context.data
+        )
+        self.__ui_callbacks.update_variables([tf_var])
 
     def step_into_done(
             self, context: DebugContext, line_number: int) -> None:
-        raise NotImplementedError("Method not yet implemented")
+        # Temporary for demonstration purposes
+        description = SymbolDescription("step_into_done", 0)
+        tf_var = TransferVariable(
+            description=description,
+            type="type",
+            value=context.data
+        )
+        self.__ui_callbacks.update_variables([tf_var])
 
     def backward_step_into_done(
             self, context: DebugContext, line_number: int) -> None:
-        raise NotImplementedError("Method not yet implemented")
+        # Temporary for demonstration purposes
+        description = SymbolDescription("bw_step_into_done", 0)
+        tf_var = TransferVariable(
+            description=description,
+            type="type",
+            value=context.data
+        )
+        self.__ui_callbacks.update_variables([tf_var])
 
     def continue_done(self, context: DebugContext, line_number: int) -> None:
-        raise NotImplementedError("Method not yet implemented")
+        # Temporary for demonstration purposes
+        description = SymbolDescription("continue_done", 0)
+        tf_var = TransferVariable(
+            description=description,
+            type="type",
+            value=context.data
+        )
+        self.__ui_callbacks.update_variables([tf_var])
 
     def end_of_code_reached(
             self, context: DebugContext, line_number: int) -> None:
-        raise NotImplementedError("Method not yet implemented")
+        # Temporary for demonstration purposes
+        description = SymbolDescription("eoc_reached", 0)
+        tf_var = TransferVariable(
+            description=description,
+            type="type",
+            value=context.data
+        )
+        self.__ui_callbacks.update_variables([tf_var])
 
     def on_error(self, error: CodeError) -> None:
-        raise NotImplementedError("Method not yet implemented")
+        print(f"Error: {error}")
+        self.__ui_callbacks.on_error(error)
 
     # Checkpoints
     def new_checkpoint(self, line_number: int) -> None:
@@ -333,7 +381,8 @@ class Controller(ControllerCallbacksInterface, ControllerInterface):
 
     # Breakpoints
     def new_breakpoint(self, line_number: int) -> None:
-        raise NotImplementedError("Method not yet implemented")
+        # Temporary for demonstration purposes
+        self.__debugger.add_breakpoint(line_number, "condition")
 
     def del_breakpoint(self, line_number: int) -> None:
         raise NotImplementedError("Method not yet implemented")
