@@ -28,7 +28,7 @@ class ControllerInterface(ABC):
 
     # Execution control
     @abstractmethod
-    def start(self) -> None:
+    def start(self, code: str) -> None:
         """
         Starts the execution of the code.
         :return: None
@@ -297,7 +297,7 @@ class Controller(ControllerCallbacksInterface, ControllerInterface):
     def backward_next(self) -> None:
         raise NotImplementedError("Method not yet implemented")
 
-    # DebuggerCallbacksInterface
+    # ControllerCallbacksInterface
     def backward_step_done(
             self, context: DebugContext, line_number: int) -> None:
         raise NotImplementedError("Method not yet implemented")
