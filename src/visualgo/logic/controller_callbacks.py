@@ -1,6 +1,7 @@
 from abc import ABC, abstractmethod
 
 from .debugger.types import DebugContext
+from .types import CodeError
 
 
 class ControllerCallbacksInterface(ABC):
@@ -59,11 +60,20 @@ class ControllerCallbacksInterface(ABC):
         pass
 
     @abstractmethod
-    def end_of_code_reached(self, vars: DebugContext, line_number: int) -> None:
+    def end_of_code_reached(self, context: DebugContext, line_number: int) -> None:
         """
         Return the debug context and the line number where the execution stopped to the Controller.
         :param context: DebugContext
         :param line_number: int
+        :return: None
+        """
+        pass
+
+    @abstractmethod
+    def on_error(self, error: CodeError) -> None:
+        """
+        Return an error message to the Controller.
+        :param error: str
         :return: None
         """
         pass

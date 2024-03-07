@@ -318,7 +318,10 @@ class Controller(ControllerCallbacksInterface, ControllerInterface):
         raise NotImplementedError("Method not yet implemented")
 
     def end_of_code_reached(
-            self, vars: DebugContext, line_number: int) -> None:
+            self, context: DebugContext, line_number: int) -> None:
+        raise NotImplementedError("Method not yet implemented")
+
+    def on_error(self, error: CodeError) -> None:
         raise NotImplementedError("Method not yet implemented")
 
     # Checkpoints
