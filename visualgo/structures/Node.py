@@ -33,7 +33,8 @@ class Node:
         """
         return self.next is not None
 
-    def set_next(self, next_node: Optional['Node']) -> None:
+    @next.setter
+    def next(self, next_node: Optional['Node']) -> None:
         """
         Sets the node following the current node. Can be None.
         :param next_node: Node object
@@ -41,7 +42,8 @@ class Node:
         """
         self.__next = next_node
 
-    def set_value(self, value: T) -> None:
+    @value.setter
+    def value(self, value: T) -> None:
         """
         Sets the value of the node. Can be None.
         :param value: Any object

@@ -19,21 +19,22 @@ class TwoWayNode(Node):
         :return: TwoWayNode
         """
         return self.__previous
-    
-    def has_previous(self) -> bool:
-        """
-        Checks if this TwoWayNode has a preceding TwoWayNode.
-        :return:
-        """
-        return self.previous is not None
 
-    def set_previous(self, two_way_node: Optional['TwoWayNode']) -> None:
+    @previous.setter
+    def previous(self, two_way_node: Optional['TwoWayNode']) -> None:
         """
         Sets the preceding TwoWayNode.
         :param two_way_node: TwoWayNode
         :return: None
         """
         self.__previous = two_way_node
+
+    def has_previous(self) -> bool:
+        """
+        Checks if this TwoWayNode has a preceding TwoWayNode.
+        :return:
+        """
+        return self.previous is not None
 
     @classmethod
     def sentinel(cls) -> Optional['TwoWayNode']:

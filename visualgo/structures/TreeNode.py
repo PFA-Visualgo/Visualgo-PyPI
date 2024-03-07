@@ -36,6 +36,15 @@ class TreeNode:
         """
         return self.__value
 
+    @value.setter
+    def value(self, e: T) -> None:  # TODO: Changer nom dans le diagramme et le cahier des charges.
+        """
+        Sets the value of this TreeNode.
+        :param e: Object
+        :return: None
+        """
+        self.__value = e
+
     def add_child(self, tree_node: Optional['TreeNode']) -> None:
         """
         Adds a child TreeNode to the TreeNode.
@@ -51,11 +60,3 @@ class TreeNode:
         :return:
         """
         self.__children.delete(tree_node)
-
-    def set_value(self, e: T) -> None:  # TODO: Changer nom dans le diagramme et le cahier des charges.
-        """
-        Sets the value of this TreeNode.
-        :param e: Object
-        :return: None
-        """
-        self.__value = e

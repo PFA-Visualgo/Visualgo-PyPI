@@ -12,6 +12,7 @@ class List:
         else:
             self.__items = items.copy()
 
+    @property
     def length(self) -> int:
         """
         Returns the length of the list.

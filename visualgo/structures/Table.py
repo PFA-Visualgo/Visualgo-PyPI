@@ -8,7 +8,7 @@ T = TypeVar('T')
 class Table:
 
     def __init__(self, size: int) -> None:
-        self.__table = [None for i in range(size)]
+        self.__table = [None for _ in range(size)]
         self.__size = size
 
     def get(self, index: int) -> T:

@@ -86,7 +86,7 @@ class DoublyLinkedList:
         :return: None
         """
         new_node = TwoWayNode(e, next_node=self.__head)
-        self.__head.set_previous(new_node)
+        self.__head.previous = new_node
         self.__head = new_node
         self.__length += 1
 
@@ -105,10 +105,10 @@ class DoublyLinkedList:
         else:
             new_node = TwoWayNode(e)
             index_node = self.get_node(index)
-            new_node.set_next(index_node.next)
-            new_node.set_previous(index_node)
-            index_node.set_next(new_node)
-            new_node.next.set_previous(new_node)
+            new_node.next = index_node.next
+            new_node.previous = index_node
+            index_node.next = new_node
+            new_node.next.previous = new_node
         self.__length += 1
 
     def insert_last(self, e: T) -> None:
@@ -121,8 +121,8 @@ class DoublyLinkedList:
         if self.is_empty():
             self.insert_head(e)
         last_node = self.get_node(self.__length - 1)
-        last_node.set_next(new_node)
-        new_node.set_previous(last_node)
+        last_node.next = new_node
+        new_node.previous = last_node
         self.__length += 1
 
     def insert_before(self, index: int, e: T) -> None:
@@ -143,9 +143,9 @@ class DoublyLinkedList:
         else:
             new_node = TwoWayNode(e)
             index_node = self.get_node(index)
-            new_node.set_next(index_node)
-            new_node.set_previous(index_node.previous)
-            index_node.set_previous(new_node)
+            new_node.next = index_node
+            new_node.previous = index_node.previous
+            index_node.previous = new_node
 
         self.__length += 1
 
@@ -160,12 +160,12 @@ class DoublyLinkedList:
         if index == 0:
             self.__head = self.__head.next
             if self.__head:
-                self.__head.set_previous(None)
+                self.__head.previous = None
         else:
             current_node = self.get_node(index)
-            current_node.previous.set_next(current_node.next)
+            current_node.previous.next = current_node.next
             if current_node.next:
-                current_node.next.set_previous(current_node.previous)
+                current_node.next.previous = current_node.previous
         self.__length -= 1
 
     def __str__(self):

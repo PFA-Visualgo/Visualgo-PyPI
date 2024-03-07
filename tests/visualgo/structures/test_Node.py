@@ -38,13 +38,13 @@ class TestNode(unittest.TestCase):
         """
         node = Node()
         self.assertIsNone(node.value)
-        node.set_value(4)
+        node.value = 4
         self.assertEqual(node.value, 4)
         node2 = Node(9)
         self.assertIsNone(node2.next)
-        node2.set_next(node)
+        node2.next = node
         self.assertEqual(node2.next, node)
-        node.set_value(90)
+        node.value = 90
         self.assertEqual(node.value, 90)
 
     def test_has_next(self):

@@ -91,8 +91,8 @@ class LinkedList:
             raise IndexError('Index out of range')
         new_node = Node(e)
         current_node = self.get_node(index)
-        new_node.set_next(current_node.next)
-        current_node.set_next(new_node)
+        new_node.next = current_node.next
+        current_node.next = new_node
         self.__length += 1
 
     def delete(self, index: int) -> None:
@@ -110,7 +110,7 @@ class LinkedList:
             self.__head = self.__head.next
             return
         current_node = self.get_node(index - 1)
-        current_node.set_next(current_node.next.next)
+        current_node.next = current_node.next.next
 
     def __str__(self):
         if self.is_empty():
