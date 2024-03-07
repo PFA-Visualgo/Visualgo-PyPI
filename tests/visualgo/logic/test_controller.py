@@ -15,14 +15,14 @@ class UICallbacks(UICallbacksInterface):
         pass
 
     def get_code(self) -> str:
-        pass
+        return "Hello, World!"
 
 class TestController(unittest.TestCase):
     def test_creation(self):
         print("Testing Controller creation")
         controller = Controller(PyDebugger, UICallbacks())
         self.assertIsInstance(controller, Controller)
-        controller.start("print('Hello, World!')")
+        controller.start()
         print("Controller created successfully")
 
 

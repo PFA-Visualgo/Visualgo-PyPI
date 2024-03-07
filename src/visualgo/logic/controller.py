@@ -266,10 +266,10 @@ class Controller(ControllerCallbacksInterface, ControllerInterface):
         pass
 
     # ControllerInterface
-    def start(self, code: str) -> None:
+    def start(self) -> None:
+        code = self.__ui_callbacks.get_code()
         self.__initialize_debugger(code)
-        # Temporary for demonstration purposes
-        self.__ui_callbacks.update_variables(self.__current_variables)
+        self.__ui_callbacks.update_variables(self.__current_variables) # Temporary for demonstration purposes
 
     def pause_continue(self) -> None:
         if self.__execution_state == ExecutionState.RUNNING:
