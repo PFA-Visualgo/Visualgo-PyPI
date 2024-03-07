@@ -28,11 +28,9 @@ jobs:
 
       - name: Check if versions are coherents in commit
         run: ./.github/scripts/compare-versions-in-commit.sh
-        continue-on-error: true
 
-      - name: Checks if different version than master
+      - name: Checks if different version than master # TODO change to check with PyPi version
         run: ./.github/scripts/compare-version-master.sh
-        continue-on-error: true
 
       - name: Checks if version matches current Paris date
         run: ./.github/scripts/compare-version-date.sh
