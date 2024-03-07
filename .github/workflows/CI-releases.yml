@@ -19,8 +19,6 @@ jobs:
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
 
-    continue-on-error: true
-
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
@@ -30,9 +28,11 @@ jobs:
 
       - name: Check if versions are coherents in commit
         run: ./.github/scripts/compare-versions-in-commit.sh
+        continue-on-error: true
 
       - name: Checks if different version than master
         run: ./.github/scripts/compare-version-master.sh
+        continue-on-error: true
 
       - name: Checks if version matches current Paris date
         run: ./.github/scripts/compare-version-date.sh
