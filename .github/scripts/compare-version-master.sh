@@ -15,7 +15,7 @@ if [ "$MASTER_VERSION" == "$CURRENT_VERSION" ]; then
     echo "Version on master: $MASTER_VERSION"
     exit 1
 else
-    echo "SUCESS : not matched master version"
+    echo "SUCCESS : not matched master version"
     echo "Version in the current commit: $CURRENT_VERSION"
     echo "Version on master: $MASTER_VERSION"
     exit 0
