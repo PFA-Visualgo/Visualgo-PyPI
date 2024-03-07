@@ -5,6 +5,6 @@ from setuptools import setup, find_packages
 
 setup(
     name='visualgo',
-    version='2024.3.6',
+    version='2024.3.7',
     packages=find_packages(include=['visualgo'])
 )
