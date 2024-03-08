@@ -1,37 +1,25 @@
-import threading
+from abc import ABC, abstractmethod
 from typing import Callable, Any
 
-ev: threading.Event
-message_value: [str, Any]
-worker_thread: threading.Thread
-message_handler: Callable[[str, Any], None]
+
+class ToWorker(ABC):
+
+    @abstractmethod
+    def set_message_handler(self, message_handler: Callable[[str, Any], None]):
+        ...
+
+    @abstractmethod
+    def send_message(self, mes_id: str, mes_data: Any):
+        ...
 
 
-def get_message_value():
-    return message_value
+to_worker_impl: ToWorker
 
 
-def get_event() -> threading.Event:
-    return ev
+def set_implementation(impl: ToWorker):
+    global to_worker_impl
+    to_worker_impl = impl
 
 
-def get_message_handler() -> Callable[[str, Any], None]:
-    return message_handler
-
-
-def start_worker_task(task: Callable[[], None]) -> None:
-    global ev, worker_thread
-    ev = threading.Event()
-    worker_thread = threading.Thread(target=task)
-    worker_thread.start()
-
-
-def set_message_handler(func: Callable[[str, Any], None]):
-    global message_handler
-    message_handler = func
-
-
-def send_message(mes_id: str, data: Any) -> None:
-    global message_value
-    message_value = (mes_id, data)
-    ev.set()
+def get_implementation():
+    return to_worker_impl
