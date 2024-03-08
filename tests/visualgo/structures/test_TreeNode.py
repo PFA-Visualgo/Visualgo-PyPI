@@ -4,7 +4,7 @@ import unittest
 from visualgo.structures import TreeNode
 
 
-class TestNode(unittest.TestCase):
+class TestTreeNode(unittest.TestCase):
     def test_creation(self):
         """
         Tests the creation of nodes :
@@ -19,15 +19,15 @@ class TestNode(unittest.TestCase):
         node4 = TreeNode([13])
 
         self.assertIsNone(node.value)
-        self.assertIsNone(node.next)
+        self.assertTrue(node.children.is_empty())
 
         self.assertEqual(node2.value, 3)
         self.assertEqual(node2.children[0], node)
 
         self.assertEqual(node3.value, node)
-        self.assertEqual(node3.children[0], node2)
-        self.assertEqual(node3.children[1], node)
-        self.assertEqual(node3.children[0].children[0], node)
+        self.assertEqual(node3.children[0], node)
+        self.assertEqual(node3.children[1], node2)
+        self.assertEqual(node3.children[1].children[0], node)
 
         self.assertEqual(node4.value, [13])
 
@@ -45,7 +45,7 @@ class TestNode(unittest.TestCase):
         Tests the `children` method.
         """
         node = TreeNode()
-        self.assertIsNone(node.children)
+        self.assertTrue(node.children.is_empty())
         node2 = TreeNode(3, [node])
         self.assertTrue(node2.children[0], node)
         node3 = TreeNode("e", [node, node2])
@@ -57,18 +57,18 @@ class TestNode(unittest.TestCase):
         Tests the `add_child` method.
         """
         node = TreeNode()
-        self.assertIsNone(node.children)
+        self.assertTrue(node.children.is_empty())
         node2 = TreeNode(3)
         node.add_child(node2)
-        self.assertTrue(node.has_child)
+        self.assertTrue(node.has_child())
         self.assertEqual(node.children[0], node2)
-        self.assertRaises(IndexError, node.children[1])
+        self.assertRaises(IndexError, lambda: node.children[1])
         node3 = TreeNode("e", [node, node2])
         node.add_child(node3)
         self.assertEqual(node.children[0], node2)
         self.assertEqual(node.children[1], node3)
-        self.assertTrue(node.has_child)
-        self.assertRaises(IndexError, node.children[2])
+        self.assertTrue(node.has_child())
+        self.assertRaises(IndexError, lambda: node.children[2])
 
     def test_value(self):
         """
@@ -76,13 +76,13 @@ class TestNode(unittest.TestCase):
         """
         node = TreeNode()
         self.assertIsNone(node.value)
-        node.set_value(4)
+        node.value = 4
         self.assertEqual(node.value, 4)
         node2 = TreeNode(9)
         self.assertIsNone(node2.children)
-        node2.set_next(node)
+        node2.next = node
         self.assertEqual(node2.children[0], node)
-        node.set_value(90)
+        node.value = 90
         self.assertEqual(node.value, 90)
 
     def test_delete_child(self):
@@ -107,13 +107,13 @@ class TestNode(unittest.TestCase):
         Tests the set_value method.
         """
         node = TreeNode()
-        node.set_value(1)
+        node.value = 1
         self.assertEqual(node.value, 1)
-        node.set_value("123")
+        node.value = "123"
         self.assertEqual(node.value, "123")
         node2 = TreeNode(9, [node])
         self.assertEqual(node2.value, 9)
-        node2.set_value(node2)
+        node2.value = node2
         self.assertEqual(node2.value, node2)
         self.assertEqual(node2.children[0], node)
 

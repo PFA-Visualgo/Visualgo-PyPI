@@ -4,7 +4,7 @@ import unittest
 from visualgo.structures import BinaryTreeNode
 
 
-class TestNode(unittest.TestCase):
+class TestBinaryTreeNode(unittest.TestCase):
     def test_creation(self):
         """
         Tests the creation of nodes :
@@ -25,9 +25,9 @@ class TestNode(unittest.TestCase):
         self.assertEqual(node2.left_child, node)
 
         self.assertEqual(node3.value, node)
-        self.assertEqual(node3.left_child, node2)
-        self.assertEqual(node3.right_child, node)
-        self.assertEqual(node3.left_child.left_child, node)
+        self.assertEqual(node3.left_child, node)
+        self.assertEqual(node3.right_child, node2)
+        self.assertEqual(node3.right_child.left_child, node)
 
         self.assertEqual(node4.value, [13])
 
@@ -36,11 +36,11 @@ class TestNode(unittest.TestCase):
         Tests the `has_child` method.
         """
         node = BinaryTreeNode()
-        self.assertFalse(node.has_child)
+        self.assertFalse(node.has_child())
         node2 = BinaryTreeNode(3, node)
-        self.assertTrue(node2.has_child)
+        self.assertTrue(node2.has_child())
         node3 = BinaryTreeNode(67, node, node2)
-        self.assertTrue(node3.has_child)
+        self.assertTrue(node3.has_child())
 
     def test_set_left_child(self):
         """
@@ -50,9 +50,9 @@ class TestNode(unittest.TestCase):
         self.assertIsNone(node.left_child)
         node2 = BinaryTreeNode(3, node)
         self.assertEqual(node2.left_child, node)
-        node.set_left_child(node2)
+        node.left_child = node2
         self.assertEqual(node.left_child, node2)
-        node2.set_left_child(node)
+        node2.left_child = node
         self.assertEqual(node2.left_child, node)
 
     def test_set_right_child(self):
@@ -61,11 +61,11 @@ class TestNode(unittest.TestCase):
         """
         node = BinaryTreeNode()
         self.assertIsNone(node.right_child)
-        node2 = BinaryTreeNode(3, node)
+        node2 = BinaryTreeNode(30, None, node)
         self.assertEqual(node2.right_child, node)
-        node.set_right_child(node2)
+        node.right_child = node2
         self.assertEqual(node.right_child, node2)
-        node2.set_right_child(node)
+        node2.right_child = node
         self.assertEqual(node2.right_child, node)
 
     def test_set_value(self):
@@ -74,12 +74,12 @@ class TestNode(unittest.TestCase):
         """
         node = BinaryTreeNode()
         self.assertIsNone(node.value)
-        node.set_value(4)
+        node.value = 4
         self.assertEqual(node.value, 4)
         node2 = BinaryTreeNode(9)
-        node2.set_right_child(node)
+        node2.right_child = node
         self.assertEqual(node2.right_child, node)
-        node.set_value(90)
+        node.value = 90
         self.assertEqual(node.value, 90)
 
 

@@ -4,7 +4,7 @@ import unittest
 from visualgo.structures import TwoWayNode
 
 
-class TestNode(unittest.TestCase):
+class TestTwoWayNode(unittest.TestCase):
     def test_creation(self):
         """
         Tests the creation of nodes :
@@ -37,10 +37,10 @@ class TestNode(unittest.TestCase):
         node = TwoWayNode()
         node2 = TwoWayNode()
         self.assertIsNone(node.previous)
-        node.set_previous(node2)
+        node.previous = node2
         self.assertEqual(node.previous, node2)
         node3 = TwoWayNode(9)
-        node.set_previous(node3)
+        node.previous = node3
         self.assertEqual(node.previous, node3)
 
     def test_has_previous(self):
@@ -50,7 +50,7 @@ class TestNode(unittest.TestCase):
         node = TwoWayNode()
         self.assertFalse(node.has_previous())
         node2 = TwoWayNode("h", node)
-        node.set_previous(node2)
+        node.previous = node2
         self.assertEqual(node.previous, node2)
         self.assertTrue(node.has_previous())
         self.assertTrue(node2.has_previous())

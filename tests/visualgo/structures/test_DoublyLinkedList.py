@@ -38,8 +38,9 @@ class TestDoublyLinkedList(unittest.TestCase):
         """
         lis = DoublyLinkedList([1, 2, 89])
         self.assertEqual(lis.get(0), 1)
-        self.assertEqual(lis.get(2), 89)
         self.assertEqual(lis.get(1), 2)
+        self.assertEqual(lis.get(2), 89)
+
         self.assertRaises(IndexError, lambda: lis.get(4))
 
     def test_head(self):

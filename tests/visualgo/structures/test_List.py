@@ -14,20 +14,20 @@ class TestList(unittest.TestCase):
         Tests the instantiation of a list.
         """
         lis = List()
-        self.assertEqual(lis.length(), 0)
+        self.assertEqual(lis.length, 0)
         lis2 = List([1, 2, 89])
-        self.assertEqual(lis2.length(), 3)
+        self.assertEqual(lis2.length, 3)
 
     def test_length(self):
         """
         Tests the `length` method.
         """
         lis = List()
-        self.assertEqual(lis.length(), 0)
+        self.assertEqual(lis.length, 0)
         lis2 = List([1, 2, 89])
-        self.assertEqual(lis2.length(), 3)
+        self.assertEqual(lis2.length, 3)
         lis3 = List([1, 2])
-        self.assertEqual(lis3.length(), 2)
+        self.assertEqual(lis3.length, 2)
 
     def test_get(self):
         """

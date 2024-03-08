@@ -1,17 +1,17 @@
 """:demand: F1.8"""
-
+from collections.abc import Iterable
 from typing import Optional, TypeVar
 
-from .Set import Set
-
+from .DoublyLinkedList import DoublyLinkedList
+from .Node import Node
 T = TypeVar('T')
 
 
 class TreeNode:
 
-    def __init__(self, value: T = None, children: Set = None) -> None:
+    def __init__(self, value: T = None, children: Iterable = None) -> None:
         self.__value = value
-        self.__children = children
+        self.__children = DoublyLinkedList(children)
 
     def has_child(self) -> bool:
         """
@@ -51,7 +51,7 @@ class TreeNode:
         :param tree_node:
         :return:
         """
-        self.__children.add(tree_node)
+        self.__children.insert_head(tree_node)
 
     def delete_child(self, tree_node: Optional['TreeNode']) -> None:
         """
@@ -59,4 +59,12 @@ class TreeNode:
         :param tree_node:
         :return:
         """
-        self.__children.delete(tree_node)
+        current_node: Node = self.__children.head
+        index: int = 0
+        while current_node is not tree_node and current_node is not Node.sentinel:
+            current_node = current_node.next
+            index += 1
+        if current_node is tree_node:
+            self.__children.delete(index)
+            return
+        raise ValueError("No such child")

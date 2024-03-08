@@ -2,6 +2,7 @@
 from collections.abc import Iterable
 from typing import TypeVar
 
+from .Node import Node
 from .LinkedList import LinkedList
 
 from .TwoWayNode import TwoWayNode
@@ -16,10 +17,11 @@ class DoublyLinkedList:
         Initializes the doubly linked list.
         """
         self.__head: TwoWayNode = TwoWayNode.sentinel()
+        self.__tail: TwoWayNode = self.__head
         self.__length = 0
         if it is not None:
-            for item in it[::-1]:
-                self.insert_head(item)
+            for item in it:
+                self.insert_last(item)
 
     @property
     def head(self) -> TwoWayNode:
@@ -86,6 +88,8 @@ class DoublyLinkedList:
         :return: None
         """
         new_node = TwoWayNode(e, next_node=self.__head)
+        if self.is_empty():
+            self.__tail = new_node
         self.__head.previous = new_node
         self.__head = new_node
         self.__length += 1
@@ -117,12 +121,15 @@ class DoublyLinkedList:
         :param e: Object
         :return: None
         """
-        new_node = TwoWayNode(e)
         if self.is_empty():
-            self.insert_head(e)
-        last_node = self.get_node(self.__length - 1)
-        last_node.next = new_node
-        new_node.previous = last_node
+            return self.insert_head(e)
+        new_node = TwoWayNode(e)
+        # last_node = self.get_node(self.__length - 1)
+        tmp_sentinel = self.__tail.next
+        self.__tail.next = new_node
+        new_node.previous = self.__tail
+        new_node.next = tmp_sentinel
+        self.__tail = new_node
         self.__length += 1
 
     def insert_before(self, index: int, e: T) -> None:
@@ -159,13 +166,12 @@ class DoublyLinkedList:
             raise IndexError('Index out of index')
         if index == 0:
             self.__head = self.__head.next
-            if self.__head:
-                self.__head.previous = None
+            self.__head.previous = None
         else:
             current_node = self.get_node(index)
-            current_node.previous.next = current_node.next
-            if current_node.next:
-                current_node.next.previous = current_node.previous
+            previous_node = current_node.previous
+            previous_node.next = current_node.next
+            current_node.next.previous = previous_node
         self.__length -= 1
 
     def __str__(self):
@@ -179,3 +185,6 @@ class DoublyLinkedList:
                 current_node = current_node.next
             result += str(current_node.value) + ']'
             return result
+
+    def __getitem__(self, index: int) -> Node:
+        return self.get(index)

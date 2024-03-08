@@ -1,5 +1,5 @@
 """:demand: F1.8"""
-
+from collections.abc import Iterable
 from typing import Optional, TypeVar
 from .Node import Node
 
@@ -8,9 +8,13 @@ T = TypeVar('T')
 
 class LinkedList:
     # head -> ... -> ... -> ... -> sentinel()
-    def __init__(self):
+    def __init__(self, it: Iterable[T] = None) -> None:
         self.__head: Node = Node.sentinel()
         self.__length: int = 0
+        if it is not None:
+            for item in it[::-1]:
+                self.insert_head(item)
+
 
     @property
     def head(self) -> Node:
@@ -123,3 +127,6 @@ class LinkedList:
             if current_node.has_next():
                 string += "->{}".format(current_node.value)
         return string + "]"
+
+    def __getitem__(self, item: int) -> Node:
+        return self.get(item)
