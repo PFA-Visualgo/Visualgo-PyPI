@@ -12,10 +12,10 @@ class PyDebugger(DebuggerInterface):
     """
 
     def __init__(self, callbacks: ControllerCallbacksInterface) -> None:
-        raise NotImplementedError("Method not implemented yet")
+        print("PyDebugger created")
 
     def set_code(self, code: str) -> None:
-        raise NotImplementedError("Method not implemented yet")
+        print("Setting code")
 
     def add_breakpoint(self, line_number: int, cond: str) -> None:
         raise NotImplementedError("Method not implemented yet")

@@ -3,6 +3,7 @@
 import unittest
 from visualgo.logic import Controller, UICallbacksInterface, TransferVariables, Statistics, PyDebugger
 from visualgo.logic import Controller
+from visualgo.logic.debugger.py_debugger import PyDebugger
 
 class UICallbacks(UICallbacksInterface):
     def update_variables(self, vars: TransferVariables) -> None:
