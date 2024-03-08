@@ -149,6 +149,7 @@ class DoublyLinkedList:
         else:
             new_node = TwoWayNode(e)
             index_node = self.get_node(index)
+            index_node.previous.next = new_node
             new_node.next = index_node
             new_node.previous = index_node.previous
             index_node.previous = new_node

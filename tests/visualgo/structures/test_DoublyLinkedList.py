@@ -89,13 +89,26 @@ class TestDoublyLinkedList(unittest.TestCase):
 
     def test_insert_last(self):
         """
-        Tests the `insert_after` method.
+        Tests the `insert_last` method.
         """
+        lis = DoublyLinkedList()
+        lis.insert_last(1)
+        self.assertEqual(lis.get(0), 1)
+
+        lis2 = DoublyLinkedList([1, 2, 89])
+        lis2.insert_last(-5)
+        self.assertEqual(lis2.get(3), -5)
 
     def test_insert_before(self):
         """
         Tests the `insert_after` method.
         """
+        lis = DoublyLinkedList([1, 2, 89])
+        lis.insert_before(1, 3)
+        self.assertEqual(lis.get(1), 3)
+        lis.insert_before(4, 33)
+        self.assertEqual(lis.get(4), 33)
+        self.assertRaises(IndexError, lambda: lis.insert_before(-1, 0))
 
 
 if __name__ == '__main__':
