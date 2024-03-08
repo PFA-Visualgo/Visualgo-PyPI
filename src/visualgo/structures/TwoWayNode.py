@@ -43,3 +43,10 @@ class TwoWayNode(Node):
         :return: Node
         """
         return TwoWayNode()
+
+    def is_sentinel(self):
+        """
+        Checks if the node is a sentinel.
+        :return: bool
+        """
+        return self.value is None and self.next is None

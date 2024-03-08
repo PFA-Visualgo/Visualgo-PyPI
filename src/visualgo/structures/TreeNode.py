@@ -51,7 +51,7 @@ class TreeNode:
         :param tree_node:
         :return:
         """
-        self.__children.insert_head(tree_node)
+        self.__children.insert_last(tree_node)
 
     def delete_child(self, tree_node: Optional['TreeNode']) -> None:
         """
@@ -61,7 +61,7 @@ class TreeNode:
         """
         current_node: Node = self.__children.head
         index: int = 0
-        while current_node is not tree_node and current_node is not Node.sentinel:
+        while current_node is not tree_node and not current_node.is_sentinel():
             current_node = current_node.next
             index += 1
         if current_node is tree_node:
