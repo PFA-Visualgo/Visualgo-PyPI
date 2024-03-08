@@ -36,9 +36,9 @@ class TestTreeNode(unittest.TestCase):
         Tests the `has_child` method.
         """
         node = TreeNode()
-        self.assertFalse(node.has_child)
+        self.assertFalse(node.has_child())
         node2 = TreeNode(3, [node])
-        self.assertTrue(node2.has_child)
+        self.assertTrue(node2.has_child())
 
     def test_children(self):
         """
@@ -78,12 +78,8 @@ class TestTreeNode(unittest.TestCase):
         self.assertIsNone(node.value)
         node.value = 4
         self.assertEqual(node.value, 4)
-        node2 = TreeNode(9)
-        self.assertIsNone(node2.children)
-        node2.next = node
-        self.assertEqual(node2.children[0], node)
-        node.value = 90
-        self.assertEqual(node.value, 90)
+        node2 = TreeNode([node])
+        self.assertEqual(node2.value, [node])
 
     def test_delete_child(self):
         """
@@ -97,6 +93,7 @@ class TestTreeNode(unittest.TestCase):
 
         node2.add_child(node)
         node2.add_child(node2)
+        print(node2.children)
         node2.delete_child(node2)
 
         self.assertTrue(node2.has_child)

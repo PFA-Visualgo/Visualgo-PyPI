@@ -4,6 +4,7 @@ from typing import Optional, TypeVar
 
 from .DoublyLinkedList import DoublyLinkedList
 from .Node import Node
+
 T = TypeVar('T')
 
 
@@ -59,12 +60,21 @@ class TreeNode:
         :param tree_node:
         :return:
         """
-        current_node: Node = self.__children.head
+        if self.children.is_empty():
+            raise ValueError("The node has no child.")
         index: int = 0
-        while current_node is not tree_node and not current_node.is_sentinel():
-            current_node = current_node.next
+        current_node = self.__children.get_node(0)
+        while not current_node.is_sentinel():
+            print(current_node.value)
+            if current_node.value is tree_node:
+                return self.__children.delete(index)
             index += 1
-        if current_node is tree_node:
-            self.__children.delete(index)
-            return
+            current_node = current_node.next
         raise ValueError("No such child")
+
+    def is_sentinel(self) -> bool:
+        """
+        Checks if the node is a sentinel.
+        :return: bool
+        """
+        return self.children.is_empty() and self.value is None
