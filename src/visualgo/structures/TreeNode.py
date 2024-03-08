@@ -3,7 +3,6 @@ from collections.abc import Iterable
 from typing import Optional, TypeVar
 
 from .DoublyLinkedList import DoublyLinkedList
-from .Node import Node
 
 T = TypeVar('T')
 

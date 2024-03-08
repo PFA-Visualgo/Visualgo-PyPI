@@ -3,7 +3,6 @@ from collections.abc import Iterable
 from typing import TypeVar
 
 from .Node import Node
-from .LinkedList import LinkedList
 
 from .TwoWayNode import TwoWayNode
 

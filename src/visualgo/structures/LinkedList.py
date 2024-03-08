@@ -1,6 +1,6 @@
 """:demand: F1.8"""
 from collections.abc import Iterable
-from typing import Optional, TypeVar
+from typing import TypeVar
 from .Node import Node
 
 T = TypeVar('T')
@@ -14,7 +14,6 @@ class LinkedList:
         if it is not None:
             for item in it[::-1]:
                 self.insert_head(item)
-
 
     @property
     def head(self) -> Node:
