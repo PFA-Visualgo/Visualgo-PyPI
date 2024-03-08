@@ -14,7 +14,7 @@ class TestTwoWayNode(unittest.TestCase):
         -TwoWayNode without child but with value
         """
         node = TwoWayNode()  # Empty node
-        node2 = TwoWayNode(4, node)  # Parent node
+        node2 = TwoWayNode(4, next_node=node)  # Parent node
         node3 = TwoWayNode(node, node2, node)  # TwoWayNode containing `node`, parent of `node2` and child of `node`
         node4 = TwoWayNode([193])
 
@@ -25,8 +25,8 @@ class TestTwoWayNode(unittest.TestCase):
         self.assertEqual(node2.next, node)
 
         self.assertEqual(node3.value, node)
-        self.assertEqual(node3.next, node2)
-        self.assertEqual(node3.previous, node)
+        self.assertEqual(node3.previous, node2)
+        self.assertEqual(node3.next, node)
 
         self.assertEqual(node4.value, [193])
 
