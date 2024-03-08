@@ -181,7 +181,7 @@ class DoublyLinkedList:
             current_node = self.__head
             result = '['
             while current_node.next:
-                result += str(current_node.value) + ', '
+                result += str(current_node.value) + ' ↔ '
                 current_node = current_node.next
             result += str(current_node.value) + ']'
             return result
