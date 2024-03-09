@@ -19,7 +19,7 @@ class TestTreeNode(unittest.TestCase):
         node4 = TreeNode([13])
 
         self.assertIsNone(node.value)
-        self.assertTrue(node.children.is_empty())
+        self.assertTrue(node.is_sentinel())
 
         self.assertEqual(node2.value, 3)
         self.assertEqual(node2.children[0], node)
@@ -98,6 +98,7 @@ class TestTreeNode(unittest.TestCase):
 
         self.assertTrue(node2.has_child)
         self.assertEqual(node2.children[0], node)
+        self.assertRaises(ValueError, lambda: node2.delete_child(node2))
 
     def test_set_value(self):
         """

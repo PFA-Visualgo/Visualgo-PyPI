@@ -18,8 +18,7 @@ class TestTwoWayNode(unittest.TestCase):
         node3 = TwoWayNode(node, node2, node)  # TwoWayNode containing `node`, parent of `node2` and child of `node`
         node4 = TwoWayNode([193])
 
-        self.assertIsNone(node.value)
-        self.assertIsNone(node.next)
+        self.assertTrue(node.is_sentinel())
 
         self.assertEqual(node2.value, 4)
         self.assertEqual(node2.next, node)
