@@ -15,8 +15,26 @@ class TestLinkedList(unittest.TestCase):
         """
         lis = LinkedList()
         self.assertEqual(lis.length, 0)
-        self.assertTrue(hasattr(lis, 'head'))
-        self.assertTrue(hasattr(lis, 'length'))
+        self.assertIsNone(lis.head)
+        self.assertEqual(lis.length, 0)
+        lis2 = LinkedList([9, 0, 7])
+        self.assertEqual(lis2[0], 9)
+        self.assertEqual(lis2[1], 0)
+        self.assertEqual(lis2[2], 7)
+        self.assertEqual(lis2.length, 3)
+        print(lis, lis2)
+
+
+    def test_head(self):
+        """
+        Tests the `insert_head` and `get_head` methods.
+        """
+        lis = LinkedList()
+        lis.insert_head(1)
+        self.assertEqual(lis.head, 1)
+        lis.insert_head(2)
+        self.assertEqual(lis.head, 2)
+        self.assertEqual(lis.get(1), 1)
 
     def test_length(self):
         """
@@ -31,6 +49,15 @@ class TestLinkedList(unittest.TestCase):
         lis.delete(1)
         self.assertEqual(lis.length, 1)
 
+    def test_is_empty(self):
+        """
+        Tests the `is_empty` method.
+        """
+        lis = LinkedList()
+        self.assertTrue(lis.is_empty())
+        lis.insert_head(1)
+        self.assertFalse(lis.is_empty())
+
     def test_get(self):
         """
         Tests the `get` method.
@@ -43,38 +70,27 @@ class TestLinkedList(unittest.TestCase):
         self.assertEqual(lis.get(1), 1)
         self.assertRaises(IndexError, lambda: lis.get(3))
 
-    def test_head(self):
+    def test_get_node(self):
         """
-        Tests the `insert_head` and `get_head` methods.
+        Tests the `get_node` method.
         """
-        lis = LinkedList()
-        lis.insert_head(1)
-        self.assertEqual(lis.head, 1)
-        lis.insert_head(2)
-        self.assertEqual(lis.head, 2)
-        self.assertEqual(lis.get(1), 1)
+        lis = LinkedList([1, 2, 89])
+        self.assertEqual(lis._get_node(0).next, lis._get_node(1))
+        self.assertEqual(lis._get_node(1).next, lis._get_node(2))
+        self.assertRaises(IndexError, lambda: lis._get_node(3))
 
-    def test_delete(self):
+    def test_set(self):
         """
-        Tests the `delete` method.
+        Tests the `set` method.
         """
-        lis = LinkedList()
-        lis.insert_head(1)
-        lis.delete(0)
-        self.assertEqual(lis.length, 0)
-        lis.insert_head(1)
-        lis.insert_head(2)
-        lis.delete(0)
-        self.assertEqual(lis.get(0), 1)
-
-    def test_is_empty(self):
-        """
-        Tests the `is_empty` method.
-        """
-        lis = LinkedList()
-        self.assertTrue(lis.is_empty())
-        lis.insert_head(1)
-        self.assertFalse(lis.is_empty())
+        lis = LinkedList([1, 2, 89])
+        lis.set(0, "Et ouais.")
+        lis.set(1, [78])
+        lis.set(2, None)
+        self.assertEqual(lis.get(0), "Et ouais.")
+        self.assertEqual(lis.get(1), [78])
+        self.assertIsNone(lis.get(2))
+        self.assertRaises(IndexError, lambda: lis._get_node(3))
 
     def test_insert_after(self):
         """
@@ -88,6 +104,20 @@ class TestLinkedList(unittest.TestCase):
         self.assertEqual(lis.get(1), 3)
         self.assertEqual(lis.get(2), 2)
         self.assertRaises(IndexError, lambda: lis.insert_after(3, 4))
+
+    def test_delete(self):
+        """
+        Tests the `delete` method.
+        """
+        lis = LinkedList()
+        lis.insert_head(1)
+        lis.delete(0)
+        self.assertEqual(lis.length, 0)
+        lis.insert_head(1)
+        lis.insert_head(2)
+        lis.delete(0)
+        self.assertEqual(lis.get(0), 1)
+        self.assertRaises(IndexError, lambda: lis.delete(1))
 
 
 if __name__ == '__main__':

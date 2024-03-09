@@ -52,10 +52,8 @@ class LinkedList:
         :param index: int
         :return: TwoWayNode
         """
-        if index >= self.length:
+        if index < 0 or index >= self.length:
             raise IndexError('Index out of range')
-        if index < 0:
-            raise IndexError('Negative index')
         i: int = 0
         current_node = self.__head
         while i < index:
@@ -104,7 +102,7 @@ class LinkedList:
         :param index: int
         :return: None
         """
-        if index<0 or index >= self.__length:
+        if index < 0 or index >= self.__length:
             raise IndexError('Index out of range')
         self.__length -= 1
         if index == 0:

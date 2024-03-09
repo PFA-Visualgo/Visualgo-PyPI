@@ -17,6 +17,7 @@ class TestList(unittest.TestCase):
         self.assertEqual(lis.length, 0)
         lis2 = List([1, 2, 89])
         self.assertEqual(lis2.length, 3)
+        print(lis, lis2)
 
     def test_length(self):
         """
