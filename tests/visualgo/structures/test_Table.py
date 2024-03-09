@@ -17,6 +17,15 @@ class TestTable(unittest.TestCase):
         table2 = Table(3)
         self.assertRaises(TypeError, lambda: Table(None))
 
+    def test_length(self):
+        """
+        Tests the `length` method.
+        """
+        table = Table(5)
+        self.assertEqual(table.length, 5)
+        table2 = Table(0)
+        self.assertEqual(table2.length, 0)
+
     def test_get(self):
         """
         Tests the `get` method.
@@ -40,14 +49,6 @@ class TestTable(unittest.TestCase):
             self.assertEqual(table.get(i), 3 * i)
         self.assertRaises(IndexError, lambda: table.set(4, 89))
 
-    def test_length(self):
-        """
-        Tests the `length` method.
-        """
-        table = Table(5)
-        self.assertEqual(table.length(), 5)
-        table2 = Table(0)
-        self.assertEqual(table2.length(), 0)
 
 
 if __name__ == '__main__':

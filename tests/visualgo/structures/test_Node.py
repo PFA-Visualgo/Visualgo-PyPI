@@ -29,6 +29,16 @@ class TestNode(unittest.TestCase):
 
         self.assertEqual(node4.value, [13])
 
+    def test_has_next(self):
+        """
+        Tests the has_next method
+        """
+        node = Node()
+        self.assertFalse(node.has_next())
+
+        node2 = Node("h", node)
+        self.assertTrue(node2.has_next())
+
     def test_set(self):
         """
         Tests the value assignment of a node :
@@ -45,16 +55,6 @@ class TestNode(unittest.TestCase):
         self.assertEqual(node2.next, node)
         node.value = 90
         self.assertEqual(node.value, 90)
-
-    def test_has_next(self):
-        """
-        Tests the has_next method
-        """
-        node = Node()
-        self.assertFalse(node.has_next())
-
-        node2 = Node("h", node)
-        self.assertTrue(node2.has_next())
 
 
 if __name__ == '__main__':

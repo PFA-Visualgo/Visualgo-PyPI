@@ -8,17 +8,9 @@ T = TypeVar('T')
 
 
 class TreeNode:
-
     def __init__(self, value: T = None, children: Iterable = None) -> None:
         self.__value = value
         self.__children = DoublyLinkedList(children)
-
-    def has_child(self) -> bool:
-        """
-        Tells if this TreeNode has at least one child TreeNode.
-        :return: bool
-        """
-        return not self.__children.is_empty()
 
     @property
     def children(self):
@@ -45,6 +37,13 @@ class TreeNode:
         """
         self.__value = e
 
+    def has_child(self) -> bool:
+        """
+        Tells if this TreeNode has at least one child TreeNode.
+        :return: bool
+        """
+        return not self.__children.is_empty()
+
     def add_child(self, tree_node: Optional['TreeNode']) -> None:
         """
         Adds a child TreeNode to the TreeNode.
@@ -62,14 +61,6 @@ class TreeNode:
         if self.children.is_empty():
             raise ValueError("The node has no child.")
         index: int = 0
-        """current_node = self.__children.get_node(0)
-        while not current_node.is_sentinel():
-            print(current_node.value)
-            if current_node.value is tree_node:
-                return self.__children.delete(index)
-            index += 1
-            current_node = current_node.next
-        raise ValueError("No such child")"""
         for node in self.__children:
             if node is tree_node:
                 return self.__children.delete(index)

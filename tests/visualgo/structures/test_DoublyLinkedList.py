@@ -73,7 +73,7 @@ class TestDoublyLinkedList(unittest.TestCase):
         lis.set(0, "Interruption.")
         lis.set(1, [78])
         lis.set(2, None)
-        self.assertEqual(lis.get(0), "Et Interruption.")
+        self.assertEqual(lis.get(0), "Interruption.")
         self.assertEqual(lis.get(1), [78])
         self.assertIsNone(lis.get(2))
 

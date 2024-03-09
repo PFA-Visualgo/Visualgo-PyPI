@@ -15,7 +15,7 @@ class TestQueue(unittest.TestCase):
         """
         queue = Queue()
         print(queue)
-        # Also tests the possibility to initiliaze a queue with a list ?
+        # Also tests the possibility to initialize a queue with a list ?
 
     def test_is_empty(self):
         """

@@ -24,18 +24,6 @@ class TestLinkedList(unittest.TestCase):
         self.assertEqual(lis2.length, 3)
         print(lis, lis2)
 
-
-    def test_head(self):
-        """
-        Tests the `insert_head` and `get_head` methods.
-        """
-        lis = LinkedList()
-        lis.insert_head(1)
-        self.assertEqual(lis.head, 1)
-        lis.insert_head(2)
-        self.assertEqual(lis.head, 2)
-        self.assertEqual(lis.get(1), 1)
-
     def test_length(self):
         """
         Tests the `length` method.
@@ -91,6 +79,17 @@ class TestLinkedList(unittest.TestCase):
         self.assertEqual(lis.get(1), [78])
         self.assertIsNone(lis.get(2))
         self.assertRaises(IndexError, lambda: lis._get_node(3))
+
+    def test_insert_head(self):
+        """
+        Tests the `insert_head` and `get_head` methods.
+        """
+        lis = LinkedList()
+        lis.insert_head(1)
+        self.assertEqual(lis.head, 1)
+        lis.insert_head(2)
+        self.assertEqual(lis.head, 2)
+        self.assertEqual(lis.get(1), 1)
 
     def test_insert_after(self):
         """

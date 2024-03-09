@@ -6,10 +6,17 @@ T = TypeVar('T')
 
 
 class Table:
-
     def __init__(self, size: int) -> None:
         self.__table = [None for _ in range(size)]
         self.__size = size
+
+    @property
+    def length(self) -> int:
+        """
+        Returns the length of the Table.
+        :return: int
+        """
+        return self.__size
 
     def get(self, index: int) -> T:
         """
@@ -27,10 +34,3 @@ class Table:
         :return: None
         """
         self.__table[index] = e
-
-    def length(self) -> int:
-        """
-        Returns the length of the Table.
-        :return: int
-        """
-        return self.__size

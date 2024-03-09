@@ -31,18 +31,9 @@ class TestTreeNode(unittest.TestCase):
 
         self.assertEqual(node4.value, [13])
 
-    def test_has_child(self):
-        """
-        Tests the `has_child` method.
-        """
-        node = TreeNode()
-        self.assertFalse(node.has_child())
-        node2 = TreeNode(3, [node])
-        self.assertTrue(node2.has_child())
-
     def test_children(self):
         """
-        Tests the `children` method.
+        Tests the `children` attribute.
         """
         node = TreeNode()
         self.assertTrue(node.children.is_empty())
@@ -51,6 +42,30 @@ class TestTreeNode(unittest.TestCase):
         node3 = TreeNode("e", [node, node2])
         self.assertTrue(node3.children[0], node)
         self.assertTrue(node3.children[1], node2)
+
+    def test_value(self):
+        """
+        Tests the assignment of a value.
+        """
+        node = TreeNode()
+        node.value = 1
+        self.assertEqual(node.value, 1)
+        node.value = "123"
+        self.assertEqual(node.value, "123")
+        node2 = TreeNode(9, [node])
+        self.assertEqual(node2.value, 9)
+        node2.value = node2
+        self.assertEqual(node2.value, node2)
+        self.assertEqual(node2.children[0], node)
+
+    def test_has_child(self):
+        """
+        Tests the `has_child` method.
+        """
+        node = TreeNode()
+        self.assertFalse(node.has_child())
+        node2 = TreeNode(3, [node])
+        self.assertTrue(node2.has_child())
 
     def test_add_child(self):
         """
@@ -69,17 +84,6 @@ class TestTreeNode(unittest.TestCase):
         self.assertEqual(node.children[1], node3)
         self.assertTrue(node.has_child())
         self.assertRaises(IndexError, lambda: node.children[2])
-
-    def test_value(self):
-        """
-        Tests the `value` method.
-        """
-        node = TreeNode()
-        self.assertIsNone(node.value)
-        node.value = 4
-        self.assertEqual(node.value, 4)
-        node2 = TreeNode([node])
-        self.assertEqual(node2.value, [node])
 
     def test_delete_child(self):
         """
@@ -100,20 +104,6 @@ class TestTreeNode(unittest.TestCase):
         self.assertEqual(node2.children[0], node)
         self.assertRaises(ValueError, lambda: node2.delete_child(node2))
 
-    def test_set_value(self):
-        """
-        Tests the set_value method.
-        """
-        node = TreeNode()
-        node.value = 1
-        self.assertEqual(node.value, 1)
-        node.value = "123"
-        self.assertEqual(node.value, "123")
-        node2 = TreeNode(9, [node])
-        self.assertEqual(node2.value, 9)
-        node2.value = node2
-        self.assertEqual(node2.value, node2)
-        self.assertEqual(node2.children[0], node)
 
 
 if __name__ == '__main__':
