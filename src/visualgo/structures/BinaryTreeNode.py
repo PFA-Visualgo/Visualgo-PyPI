@@ -13,13 +13,6 @@ class BinaryTreeNode:
         self._left_child = left_child
         self._right_child = right_child
 
-    def has_child(self) -> bool:
-        """
-        Tells if this node has at least one child node.
-        :return: bool
-        """
-        return self._left_child is not None or self._right_child is not None
-
     @property
     def left_child(self) -> Optional['BinaryTreeNode']:
         """
@@ -70,3 +63,10 @@ class BinaryTreeNode:
         :return: T
         """
         self._value = e
+
+    def has_child(self) -> bool:
+        """
+        Tells if this node has at least one child node.
+        :return: bool
+        """
+        return self._left_child is not None or self._right_child is not None

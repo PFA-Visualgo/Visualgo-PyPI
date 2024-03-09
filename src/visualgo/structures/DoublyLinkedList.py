@@ -22,13 +22,13 @@ class DoublyLinkedList:
             for item in it:
                 self.insert_last(item)
 
-    @property
+    """"@property
     def head(self) -> TwoWayNode:
-        """
+        #\"""
         Returns the head value of the doubly linked list.
         :return: TwoWayNode
-        """
-        return self.__head.value
+        \"""
+        return self.__head.value"""
 
     @property
     def length(self) -> int:

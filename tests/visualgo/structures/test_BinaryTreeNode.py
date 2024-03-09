@@ -31,17 +31,6 @@ class TestBinaryTreeNode(unittest.TestCase):
 
         self.assertEqual(node4.value, [13])
 
-    def test_has_child(self):
-        """
-        Tests the `has_child` method.
-        """
-        node = BinaryTreeNode()
-        self.assertFalse(node.has_child())
-        node2 = BinaryTreeNode(3, node)
-        self.assertTrue(node2.has_child())
-        node3 = BinaryTreeNode(67, node, node2)
-        self.assertTrue(node3.has_child())
-
     def test_set_left_child(self):
         """
         Tests the `set_left_child` method.
@@ -81,6 +70,17 @@ class TestBinaryTreeNode(unittest.TestCase):
         self.assertEqual(node2.right_child, node)
         node.value = 90
         self.assertEqual(node.value, 90)
+
+    def test_has_child(self):
+        """
+        Tests the `has_child` method.
+        """
+        node = BinaryTreeNode()
+        self.assertFalse(node.has_child())
+        node2 = BinaryTreeNode(3, node)
+        self.assertTrue(node2.has_child())
+        node3 = BinaryTreeNode(67, node, node2)
+        self.assertTrue(node3.has_child())
 
 
 if __name__ == '__main__':

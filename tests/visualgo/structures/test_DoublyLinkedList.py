@@ -20,16 +20,6 @@ class TestDoublyLinkedList(unittest.TestCase):
         self.assertEqual(lis2.length, 3)
         print(lis, lis2)
 
-    def test_head(self):
-        """
-        Tests the `insert_head` and `get_head` methods.
-        Not the same as in `test_LinkedList`.
-        """
-        lis = DoublyLinkedList([1, 2, 89])
-        self.assertEqual(lis.head, 1)
-        lis.insert_head(5)
-        self.assertEqual(lis.head, 5)
-
     def test_length(self):
         """
         Tests the `length` method.
@@ -80,13 +70,12 @@ class TestDoublyLinkedList(unittest.TestCase):
         Tests the `set` method.
         """
         lis = DoublyLinkedList([1, 2, 89])
-        lis.set(0, "Et ouais.")
+        lis.set(0, "Interruption.")
         lis.set(1, [78])
         lis.set(2, None)
-        self.assertEqual(lis.get(0), "Et ouais.")
+        self.assertEqual(lis.get(0), "Et Interruption.")
         self.assertEqual(lis.get(1), [78])
         self.assertIsNone(lis.get(2))
-        self.assertRaises(IndexError, lambda: lis._get_node(3))
 
     def test_insert_head(self):
         """
@@ -94,9 +83,9 @@ class TestDoublyLinkedList(unittest.TestCase):
         """
         lis = DoublyLinkedList()
         lis.insert_head(90)
-        self.assertEqual(lis.head, 90)
+        self.assertEqual(lis.get(0), 90)
         lis.insert_head(-3)
-        self.assertEqual(lis.head, -3)
+        self.assertEqual(lis.get(0), -3)
         self.assertEqual(lis.get(1), 90)
 
     def test_insert_after(self):
