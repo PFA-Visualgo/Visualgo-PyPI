@@ -1,7 +1,7 @@
 """:demand: F1.8"""
 
 import unittest
-from visualgo.structures import Stack
+from visualgo.structures.StackLL import Stack
 
 
 class AugmentedStack(Stack):
@@ -14,7 +14,7 @@ class AugmentedStack(Stack):
         super().__init__()
 
     def top_node(self):
-        return self._top
+        return self.top
 
 
 class TestStack(unittest.TestCase):
@@ -28,7 +28,7 @@ class TestStack(unittest.TestCase):
         Tests the instantiation of a stack.
         """
         stack = AugmentedStack()
-        self.assertTrue(stack.top_node().is_sentinel())
+        self.assertTrue(stack.is_empty())
         stack2 = AugmentedStack()
         for i in range(5):
             stack2.push(i)
@@ -40,8 +40,8 @@ class TestStack(unittest.TestCase):
         """
         stack = AugmentedStack()
         stack.push(1)
-        self.assertEqual(stack.top().value, 1)
-        self.assertFalse(stack.top_node().is_sentinel())
+        self.assertEqual(stack.top, 1)
+        self.assertFalse(stack.is_empty())
 
     def test_pop(self):
         """
@@ -50,14 +50,14 @@ class TestStack(unittest.TestCase):
         stack = AugmentedStack()
         stack.push(34)
         self.assertEqual(stack.pop(), 34)
-        self.assertTrue(stack.top_node().is_sentinel())
+        self.assertTrue(stack.is_empty())
         stack.push([90])
         stack.push(None)
-        self.assertFalse(stack.top_node().is_sentinel())
+        self.assertFalse(stack.is_empty())
         self.assertIsNone(stack.pop())
-        self.assertFalse(stack.top_node().is_sentinel())
+        self.assertFalse(stack.is_empty())
         self.assertEqual(stack.pop(), [90])
-        self.assertTrue(stack.top_node().is_sentinel())
+        self.assertTrue(stack.is_empty())
         self.assertRaises(IndexError, lambda: stack.pop())
 
     def test_is_empty(self):

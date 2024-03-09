@@ -10,6 +10,14 @@ class Stack:
     def __init__(self):
         self._top = Node()
 
+    @property
+    def top(self) -> Optional['T']:
+        """
+        Returns the top of the stack.
+        :return: The top value of the stack of any type
+        """
+        return self._top
+
     def push(self, value: T = None) -> None:
         """
         Pushes a value on the top of the stack.
@@ -28,13 +36,6 @@ class Stack:
         val: T = self._top.value
         self._top = self._top.next
         return val
-
-    def top(self) -> Optional['T']:
-        """
-        Returns the top of the stack.
-        :return: The top value of the stack of any type
-        """
-        return self._top
 
     def is_empty(self) -> bool:
         """

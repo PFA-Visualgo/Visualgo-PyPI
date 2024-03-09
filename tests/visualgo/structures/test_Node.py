@@ -18,8 +18,7 @@ class TestNode(unittest.TestCase):
         node3 = Node(node, node2)  # Node containing `node` and parent of `node2`
         node4 = Node([13])
 
-        self.assertIsNone(node.value)
-        self.assertIsNone(node.next)
+        self.assertTrue(node.is_sentinel())
 
         self.assertEqual(node2.value, 3)
         self.assertEqual(node2.next, node)

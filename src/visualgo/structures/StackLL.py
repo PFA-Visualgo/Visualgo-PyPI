@@ -10,6 +10,14 @@ class Stack:
     def __init__(self):
         self.__ll = LinkedList()
 
+    @property
+    def top(self) -> Optional['T']:
+        """
+        Returns the top of the stack.
+        :return: The top value of the stack of any type
+        """
+        return self.__ll.head
+
     def push(self, value: T = None) -> None:
         """
         Pushes a value on the top of the stack.
@@ -28,13 +36,6 @@ class Stack:
         value = self.__ll.head
         self.__ll.delete(0)
         return value
-
-    def top(self) -> Optional['T']:
-        """
-        Returns the top of the stack.
-        :return: The top value of the stack of any type
-        """
-        return self.__ll.head
 
     def is_empty(self) -> bool:
         """
