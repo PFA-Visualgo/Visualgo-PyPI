@@ -15,6 +15,10 @@ from .ui.ui_callbacks import UICallbacksInterface
 
 
 class ExecutionState(Enum):
+    """
+    Enum for the different states of the execution for the Controller.
+    :demand: F.2.4
+    """
     NOT_INITIALIZED = 0
     RUNNING = 1
     STOPPED = 2
@@ -28,9 +32,10 @@ class ControllerInterface(ABC):
 
     # Execution control
     @abstractmethod
-    def start(self, code: str) -> None:
+    def start(self) -> None:
         """
         Starts the execution of the code.
+        :demand: F.1.6
         :return: None
         """
         pass
@@ -39,6 +44,7 @@ class ControllerInterface(ABC):
     def pause_continue(self) -> None:
         """
         Pauses or continues the execution of the code.
+        :demand: F.2.4
         :return: None
         """
         pass
@@ -131,6 +137,7 @@ class ControllerInterface(ABC):
     def new_tracked_variable(self, variable: SymbolDescription) -> None:
         """
         Add a new tracked variable by the user with the given `variable`.
+        :demand: F.2.7
         :param variable: SymboleDescription
         :return: None
         """
@@ -140,6 +147,7 @@ class ControllerInterface(ABC):
     def del_tracked_variable(self, variable: SymbolDescription) -> None:
         """
         Delete the tracked variable with the given `variable`.
+        :demand: F.2.7
         :param variable: SymboleDescription
         :return: None
         """
@@ -150,6 +158,7 @@ class ControllerInterface(ABC):
     def new_tracked_function(self, function: SymbolDescription) -> None:
         """
         Add a new tracked function by the user with the given `function`.
+        :demand: F.2.8
         :param function: SymboleDescription
         :return: None
         """
@@ -159,6 +168,7 @@ class ControllerInterface(ABC):
     def del_tracked_function(self, function: SymbolDescription) -> None:
         """
         Delete the tracked function with the given `function`.
+        :demand: F.2.8
         :param function: SymboleDescription
         :return: None
         """
@@ -168,6 +178,7 @@ class ControllerInterface(ABC):
     def new_tracked_type(self, type_name: str) -> None:
         """
         Add a new tracked type by the user with the given `type_name`.
+        :demand: F.2.8
         :param type_name: str
         :return: None
         """
@@ -177,6 +188,7 @@ class ControllerInterface(ABC):
     def del_tracked_type(self, type_name: str) -> None:
         """
         Delete the tracked type with the given `type_name`.
+        :demand: F.2.8
         :param type_name: str
         :return: None
         """
@@ -196,6 +208,7 @@ class ControllerInterface(ABC):
     def get_static_variables(self) -> StaticVariables:
         """
         Returns the variables defined in the code before the execution.
+        :demand: F.2.7
         :return: Variables
         """
         pass
@@ -212,6 +225,9 @@ class Controller(ControllerCallbacksInterface, ControllerInterface):
         """
         Initializes the Controller with the given a `debugger_class` that will be instantiated and
         a `ui_callbacks` to communicate with the UI.
+        :demand: F.1.5
+        :demand: F.2.7
+        :demand: F.2.8
         :param debugger_class: type
         :param ui_callbacks: UICallbacksInterface
         :return: None
@@ -247,6 +263,7 @@ class Controller(ControllerCallbacksInterface, ControllerInterface):
         """
         Returns the statistics of the execution given the debugger `stats`
         and the user parameters `tracked_types` and `tracked_funs`.
+        :demand: F.1.5
         :param stats: Statistics
         :param variables: typing.List[SymboleDescription]
         :return: Statistics
@@ -254,8 +271,8 @@ class Controller(ControllerCallbacksInterface, ControllerInterface):
         pass
 
     def __ui_vars(
-            self, vars: DebugVariables, tracked_vars: list
-            [SymbolDescription]) -> DebugVariables:
+            self, vars: DebugVariables,
+            tracked_vars: list[SymbolDescription]) -> DebugVariables:
         """
         Returns the variables of the execution given the debugger
         `variables` and the user parameters `tracked_vars`.

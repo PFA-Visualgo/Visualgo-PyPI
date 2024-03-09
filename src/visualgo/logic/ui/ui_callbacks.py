@@ -7,6 +7,7 @@ from ..types import Statistics, CodeError
 class UICallbacksInterface(ABC):
     """
     Interface for the UI Callbacks in order to communicate with the UI.
+    :demand: F.1.7
     """
 
     @abstractmethod
@@ -22,6 +23,7 @@ class UICallbacksInterface(ABC):
     def update_statistics(self, statistics: Statistics) -> None:
         """
         Updates the statistics in the UI with the given `statistics`.
+        :demand: F.1.5
         :param statistics: Statistics
         :return: None
         """

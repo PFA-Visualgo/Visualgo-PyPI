@@ -11,7 +11,13 @@ class StaticAnalysis:
         pass
 
     def get_code_variables(self, code: str) -> StaticVariables:
+        """
+        :demand: F.2.7
+        """
         pass
 
     def get_code_functions_methods(self, code: str) -> list[str]:
+        """
+        :demand: F.2.8
+        """
         pass
