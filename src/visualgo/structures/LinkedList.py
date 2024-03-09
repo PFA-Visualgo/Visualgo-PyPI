@@ -44,9 +44,9 @@ class LinkedList:
         :param index: int
         :return: Object
         """
-        return self.get_node(index).value
+        return self._get_node(index).value
 
-    def get_node(self, index: int) -> Node:
+    def _get_node(self, index: int) -> Node:
         """
         Returns the node at the `index` position.
         :param index: int
@@ -70,7 +70,7 @@ class LinkedList:
         :param e: Object
         :return: None
         """
-        node: T = self.get_node(index)
+        node: T = self._get_node(index)
         node.value = e
 
     def insert_head(self, e: T) -> None:
@@ -93,7 +93,7 @@ class LinkedList:
         if 0 < index or index > self.__length:
             raise IndexError('Index out of range')
         new_node = Node(e)
-        current_node = self.get_node(index)
+        current_node = self._get_node(index)
         new_node.next = current_node.next
         current_node.next = new_node
         self.__length += 1
@@ -104,15 +104,13 @@ class LinkedList:
         :param index: int
         :return: None
         """
-        if index >= self.__length:
+        if index<0 or index >= self.__length:
             raise IndexError('Index out of range')
-        if index < 0:
-            raise IndexError('Negative index')
         self.__length -= 1
         if index == 0:
             self.__head = self.__head.next
             return
-        current_node = self.get_node(index - 1)
+        current_node = self._get_node(index - 1)
         current_node.next = current_node.next.next
 
     def __str__(self):

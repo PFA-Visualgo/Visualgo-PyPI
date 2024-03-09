@@ -62,13 +62,18 @@ class TreeNode:
         if self.children.is_empty():
             raise ValueError("The node has no child.")
         index: int = 0
-        current_node = self.__children.get_node(0)
+        """current_node = self.__children.get_node(0)
         while not current_node.is_sentinel():
             print(current_node.value)
             if current_node.value is tree_node:
                 return self.__children.delete(index)
             index += 1
             current_node = current_node.next
+        raise ValueError("No such child")"""
+        for node in self.__children:
+            if node is tree_node:
+                return self.__children.delete(index)
+            index += 1
         raise ValueError("No such child")
 
     def is_sentinel(self) -> bool:

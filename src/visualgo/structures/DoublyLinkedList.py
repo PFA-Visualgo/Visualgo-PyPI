@@ -51,18 +51,16 @@ class DoublyLinkedList:
         :param index: int
         :return: Object
         """
-        return self.get_node(index).value
+        return self._get_node(index).value
 
-    def get_node(self, index: int) -> TwoWayNode:
+    def _get_node(self, index: int) -> TwoWayNode:
         """
         Returns the node at the `index` position.
         :param index: int
         :return: TwoWayNode
         """
-        if index >= self.length:
+        if index < 0 or index >= self.length:
             raise IndexError('Index out of range')
-        if index < 0:
-            raise IndexError('Negative index')
         i: int = 0
         current_node = self.__head
         while i < index:
@@ -77,7 +75,7 @@ class DoublyLinkedList:
         :param e: Object
         :return: None
         """
-        node: T = self.get_node(index)
+        node: T = self._get_node(index)
         node.value = e
 
     def insert_head(self, e: T) -> None:
@@ -101,13 +99,12 @@ class DoublyLinkedList:
         :return: None
         """
         if index == self.__length - 1:
-            self.insert_last(e)
-            return
+            return self.insert_last(e)
         if index < 0 or index >= self.__length:
             raise IndexError('Index out of range')
         else:
             new_node = TwoWayNode(e)
-            index_node = self.get_node(index)
+            index_node = self._get_node(index)
             new_node.next = index_node.next
             new_node.previous = index_node
             index_node.next = new_node
@@ -123,7 +120,7 @@ class DoublyLinkedList:
         if self.is_empty():
             return self.insert_head(e)
         new_node = TwoWayNode(e)
-        # last_node = self.get_node(self.__length - 1)
+        # last_node = self._get_node(self.__length - 1)
         tmp_sentinel = self.__tail.next
         self.__tail.next = new_node
         new_node.previous = self.__tail
@@ -139,16 +136,12 @@ class DoublyLinkedList:
         :return: None
         """
         if index == 0:
-            self.insert_head(e)
-            return
-        if index == self.__length:
-            self.insert_last(e)
-            return
-        if index < 0 or index > self.__length:
+            return self.insert_head(e)
+        if index < 0 or index >= self.__length:
             raise IndexError('Index out of range')
         else:
             new_node = TwoWayNode(e)
-            index_node = self.get_node(index)
+            index_node = self._get_node(index)
             index_node.previous.next = new_node
             new_node.next = index_node
             new_node.previous = index_node.previous
@@ -162,13 +155,13 @@ class DoublyLinkedList:
         :param index: int
         :return: None
         """
-        if index < 0 or index > self.__length:
+        if index < 0 or index >= self.__length:
             raise IndexError('Index out of index')
         if index == 0:
             self.__head = self.__head.next
             self.__head.previous = None
         else:
-            current_node = self.get_node(index)
+            current_node = self._get_node(index)
             previous_node = current_node.previous
             previous_node.next = current_node.next
             current_node.next.previous = previous_node
