@@ -14,6 +14,7 @@ class TestQueue(unittest.TestCase):
         Tests the instantiation of a queue.
         """
         queue = Queue()
+        print(queue)
         # Also tests the possibility to initiliaze a queue with a list ?
 
     def test_is_empty(self):
@@ -38,6 +39,7 @@ class TestQueue(unittest.TestCase):
         self.assertEqual(queue.dequeue(), 9)
         self.assertEqual(queue.dequeue(), 17)
         self.assertTrue(queue.is_empty())
+        self.assertRaises(IndexError, lambda: queue.dequeue())
 
 
 if __name__ == '__main__':

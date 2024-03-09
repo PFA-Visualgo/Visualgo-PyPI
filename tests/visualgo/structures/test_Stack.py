@@ -29,6 +29,10 @@ class TestStack(unittest.TestCase):
         """
         stack = AugmentedStack()
         self.assertTrue(stack.top_node().is_sentinel())
+        stack2 = AugmentedStack()
+        for i in range(5):
+            stack2.push(i)
+        print(stack, stack2)
 
     def test_push(self):
         """
@@ -54,6 +58,7 @@ class TestStack(unittest.TestCase):
         self.assertFalse(stack.top_node().is_sentinel())
         self.assertEqual(stack.pop(), [90])
         self.assertTrue(stack.top_node().is_sentinel())
+        self.assertRaises(IndexError, lambda: stack.pop())
 
     def test_is_empty(self):
         """
