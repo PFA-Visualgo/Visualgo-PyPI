@@ -1,7 +1,7 @@
 """:demand: F1.8"""
 
 import unittest
-from visualgo.types import Stack
+from visualgo.structures import Stack
 
 
 class AugmentedStack(Stack):
@@ -9,11 +9,12 @@ class AugmentedStack(Stack):
     This class adds the possibility to get the actual node at the top instead of the value.
     This helps to test more accurately.
     """
+
     def __init__(self):
         super().__init__()
 
     def top_node(self):
-        return self._top
+        return self.top
 
 
 class TestStack(unittest.TestCase):
@@ -27,7 +28,11 @@ class TestStack(unittest.TestCase):
         Tests the instantiation of a stack.
         """
         stack = AugmentedStack()
-        self.assertTrue(stack.top_node().is_sentinel())
+        self.assertTrue(stack.is_empty())
+        stack2 = AugmentedStack()
+        for i in range(5):
+            stack2.push(i)
+        print(stack, stack2)
 
     def test_push(self):
         """
@@ -35,8 +40,8 @@ class TestStack(unittest.TestCase):
         """
         stack = AugmentedStack()
         stack.push(1)
-        self.assertEqual(stack.top().content(), 1)
-        self.assertFalse(stack.top_node().is_sentinel())
+        self.assertEqual(stack.top, 1)
+        self.assertFalse(stack.is_empty())
 
     def test_pop(self):
         """
@@ -45,14 +50,15 @@ class TestStack(unittest.TestCase):
         stack = AugmentedStack()
         stack.push(34)
         self.assertEqual(stack.pop(), 34)
-        self.assertTrue(stack.top_node().is_sentinel())
+        self.assertTrue(stack.is_empty())
         stack.push([90])
         stack.push(None)
-        self.assertFalse(stack.top_node().is_sentinel())
-        self.assertEqual(stack.pop(), None)
-        self.assertFalse(stack.top_node().is_sentinel())
+        self.assertFalse(stack.is_empty())
+        self.assertIsNone(stack.pop())
+        self.assertFalse(stack.is_empty())
         self.assertEqual(stack.pop(), [90])
-        self.assertTrue(stack.top_node().is_sentinel())
+        self.assertTrue(stack.is_empty())
+        self.assertRaises(IndexError, lambda: stack.pop())
 
     def test_is_empty(self):
         """

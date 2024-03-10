@@ -11,7 +11,7 @@ if [ "$CURRENT_VERSION_TOML" != "$CURRENT_VERSION_INIT" ]; then
     echo "Version in src/visualgo/__init__.py: $CURRENT_VERSION_INIT"
     exit 1
 fi
-echo "SUCESS : version match in pyproject.toml and src/visualgo/__init__.py"
+echo "SUCCESS : version match in pyproject.toml and src/visualgo/__init__.py"
 echo "Version in pyproject.toml: $CURRENT_VERSION_TOML"
 echo "Version in src/visualgo/__init__.py: $CURRENT_VERSION_INIT"
 exit 0

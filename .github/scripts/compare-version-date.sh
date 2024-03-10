@@ -8,7 +8,7 @@ CURRENT_DATE_PARIS=$(TZ="Europe/Paris" date +"%Y.%-m.%-d")
 
 # Compare the version number with the current date in Paris timezone
 if [ "$CURRENT_VERSION" == "$CURRENT_DATE_PARIS" ]; then
-    echo "SUCESS : matched paris date"
+    echo "SUCCESS : matched paris date"
     echo "Version in the current commit: $CURRENT_VERSION"
     echo "Current date in Paris timezone: $CURRENT_DATE_PARIS"
     exit 0
