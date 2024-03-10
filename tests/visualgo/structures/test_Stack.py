@@ -1,7 +1,7 @@
 """:demand: F1.8"""
 
 import unittest
-from visualgo.structures.StackLL import Stack
+from visualgo.structures import Stack
 
 
 class AugmentedStack(Stack):
