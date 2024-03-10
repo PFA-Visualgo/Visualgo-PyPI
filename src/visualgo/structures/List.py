@@ -12,6 +12,7 @@ class List:
         else:
             self.__items = items.copy()
 
+    @property
     def length(self) -> int:
         """
         Returns the length of the list.
@@ -29,8 +30,7 @@ class List:
             raise IndexError
         return self.__items[index]
 
-    def insert_after(self, index: int,
-                     e: T) -> None:  # TODO : Changer nom de la méthode dans le diagramme des classes et cahier des charges
+    def insert(self, index: int, e: T) -> None:
         """
         Inserts the element after the given `index`.
         :param index: int
@@ -39,7 +39,7 @@ class List:
         """
         if index < 0 or index >= len(self.__items):
             raise IndexError
-        self.__items.insert(index + 1, e)
+        self.__items.insert(index, e)
 
     def delete(self, index: int) -> None:
         """
@@ -50,3 +50,6 @@ class List:
         if index < 0 or index >= len(self.__items):
             raise IndexError
         self.__items.pop(index)
+
+    def __str__(self) -> str:
+        return self.__items.__str__()
