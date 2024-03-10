@@ -50,6 +50,7 @@ build_wheel: install
 freeze:
 	@echo "$(BOLD)$(GREEN)>>Freezing the dependencies <<$(RESET)"
 	pip freeze > requirements.txt
+	sed -i '/visualgo/d' requirements.txt
 
 tests: install
 	@echo "$(BOLD)$(GREEN)>>Running tests <<$(RESET)"
