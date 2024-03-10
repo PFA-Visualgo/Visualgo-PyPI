@@ -61,7 +61,7 @@ tests_outputs: install
 	python -m pytest -s --cov=src/visualgo --cov-report=html --cov-report=term-missing tests/
 	@echo "$(BOLD)$(GREEN)>> Coverage HTML report can be found in htmlcov/index.html <<$(RESET)"
 
-docs:
+docs: install
 	sphinx-apidoc -o docs/ src/visualgo
 	sphinx-build -b html docs/ docs/_build
 
