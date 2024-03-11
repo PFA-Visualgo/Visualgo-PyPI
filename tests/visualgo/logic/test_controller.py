@@ -4,6 +4,9 @@ import unittest
 from visualgo.logic import Controller, DebuggerInterface, ControllerCallbacksInterface, UICallbacksInterface, TransferVariables, Statistics
 
 class MockUICallbacks(UICallbacksInterface):
+    def set_current_line(self, line: int) -> None:
+        pass
+
     def update_variables(self, vars: TransferVariables) -> None:
         pass
 

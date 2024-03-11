@@ -309,6 +309,7 @@ class Controller(ControllerCallbacksInterface, ControllerInterface):
     ## ControllerCallbacksInterface
     def backward_step_done(self, context: DebugContext, line_number: int) -> None:
         # self.__ui_callbacks.update_variables(self.__ui_vars(context.variables, []))
+
         raise NotImplementedError("Method not yet implemented")
 
     def forward_step_done(self, context: DebugContext, line_number: int) -> None:
