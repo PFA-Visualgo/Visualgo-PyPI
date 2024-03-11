@@ -14,6 +14,7 @@ class Stack:
     def top(self) -> Optional['T']:
         """
         Returns the top of the stack.
+
         :return: The top value of the stack of any type
         """
         return self.__ll.head
@@ -21,6 +22,7 @@ class Stack:
     def push(self, value: T = None) -> None:
         """
         Pushes a value on the top of the stack.
+
         :param value: Any object
         :return: None
         """
@@ -29,6 +31,7 @@ class Stack:
     def pop(self) -> Optional['T']:
         """
         Removes the top of the stack and returns it.
+
         :return: The top value of the stack of any type
         """
         if self.__ll.is_empty():
@@ -40,6 +43,7 @@ class Stack:
     def is_empty(self) -> bool:
         """
         Indicates whether the stack is empty.
+
         :return: A boolean
         """
         return self.__ll.is_empty()

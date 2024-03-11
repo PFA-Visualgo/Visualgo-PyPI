@@ -50,6 +50,7 @@ build_wheel: install
 freeze:
 	@echo "$(BOLD)$(GREEN)>>Freezing the dependencies <<$(RESET)"
 	pip freeze > requirements.txt
+	sed -i '/visualgo/d' requirements.txt
 
 tests: install
 	@echo "$(BOLD)$(GREEN)>>Running tests <<$(RESET)"
@@ -61,12 +62,15 @@ tests_outputs: install
 	python -m pytest -s --cov=src/visualgo --cov-report=html --cov-report=term-missing tests/
 	@echo "$(BOLD)$(GREEN)>> Coverage HTML report can be found in htmlcov/index.html <<$(RESET)"
 
+docs: install
+	sphinx-apidoc -o docs/ src/visualgo
+	sphinx-build -b html docs/ docs/_build
 
 # Clean up the project
 clean:
 	@echo "$(BOLD)$(GREEN)>>Cleaning up <<$(RESET)"
-	rm -rf build dist htmlcov .pytest_cache .coverage
+	rm -rf build dist htmlcov .pytest_cache .coverage docs/_build
 	@echo "$(BOLD)$(GREEN)Project Visualgo-PyPI cleaned correctly.$(RESET)"
 
 # Define phony targets
-.PHONY: all check-venv install run clean tests freeze
+.PHONY: all check-venv install run clean tests freeze docs

@@ -12,6 +12,7 @@ class Set:
     def is_empty(self) -> bool:
         """
         Checks if the set is empty.
+
         :return: bool
         """
         return len(self.__set) == 0
@@ -19,6 +20,7 @@ class Set:
     def is_in(self, e: T) -> bool:
         """
         Checks if the element `e` is in the set.
+
         :param e: Object
         :return: bool
         """
@@ -27,6 +29,7 @@ class Set:
     def add(self, e: T) -> None:
         """
         Adds an element to the set.
+
         :param e: Object
         :return: None
         """
@@ -35,6 +38,7 @@ class Set:
     def delete(self, e: T) -> None:
         """
         Removes an element from the set.
+
         :param e: Object
         :return: None
         """
