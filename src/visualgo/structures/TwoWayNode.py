@@ -7,6 +7,9 @@ T = TypeVar('T')
 
 
 class TwoWayNode(Node):
+    """
+    A node that can be linked to the preceding node.
+    """
     def __init__(self, value: T = None, previous_node: Optional['TwoWayNode'] = None,
                  next_node: Optional['TwoWayNode'] = None):
         super().__init__(value, next_node)
@@ -16,6 +19,7 @@ class TwoWayNode(Node):
     def previous(self) -> Optional['TwoWayNode']:
         """
         Returns the preceding TwoWayNode.
+
         :return: TwoWayNode
         """
         return self.__previous
@@ -24,6 +28,7 @@ class TwoWayNode(Node):
     def previous(self, two_way_node: Optional['TwoWayNode']) -> None:
         """
         Sets the preceding TwoWayNode.
+
         :param two_way_node: TwoWayNode
         :return: None
         """
@@ -32,6 +37,7 @@ class TwoWayNode(Node):
     def has_previous(self) -> bool:
         """
         Checks if this TwoWayNode has a preceding TwoWayNode.
+
         :return:
         """
         return self.previous is not None
@@ -40,6 +46,7 @@ class TwoWayNode(Node):
     def sentinel(cls) -> Optional['TwoWayNode']:
         """
         Creates a sentinel Node.
+
         :return: Node
         """
         return TwoWayNode()
@@ -47,6 +54,7 @@ class TwoWayNode(Node):
     def is_sentinel(self):
         """
         Checks if the node is a sentinel.
+
         :return: bool
         """
         return self.value is None and self.next is None

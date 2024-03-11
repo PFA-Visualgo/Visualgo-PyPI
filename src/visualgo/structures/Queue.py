@@ -17,6 +17,7 @@ class Queue:
     def is_empty(self) -> bool:
         """
         Checks if the queue is empty.
+
         :return: bool
         """
         return self.__dll.is_empty()
@@ -24,6 +25,7 @@ class Queue:
     def enqueue(self, e: T) -> None:
         """
         Adds an element to the end of the queue.
+
         :param e: Object
         :return: None
         """
@@ -32,6 +34,7 @@ class Queue:
     def dequeue(self) -> T:
         """
         Removes an element from the head of the queue and returns it.
+
         :return: Object
         """
         if self.is_empty():
@@ -44,6 +47,7 @@ class Queue:
     def __str__(self) -> str:
         """
         Returns a string representation of the queue.
+
         :return: str
         """
         return self.__dll.__str__()

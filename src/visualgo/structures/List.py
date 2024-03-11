@@ -6,6 +6,7 @@ T = TypeVar('T')
 
 
 class List:
+
     def __init__(self, items: list[T] = None) -> None:
         if items is None:
             self.__items: list[T] = []
@@ -16,6 +17,7 @@ class List:
     def length(self) -> int:
         """
         Returns the length of the list.
+
         :return: int
         """
         return len(self.__items)
@@ -23,6 +25,7 @@ class List:
     def get(self, index: int) -> T:
         """
         Returns the element at the `index` position.
+
         :param index: int
         :return: Object
         """
@@ -33,6 +36,7 @@ class List:
     def insert(self, index: int, e: T) -> None:
         """
         Inserts the element after the given `index`.
+
         :param index: int
         :param e: Object
         :return: None
@@ -44,6 +48,7 @@ class List:
     def delete(self, index: int) -> None:
         """
         Deletes the element at the given `index`.
+
         :param index: int
         :return: None
         """

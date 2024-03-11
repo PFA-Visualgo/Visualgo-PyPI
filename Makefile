@@ -69,7 +69,7 @@ docs: install
 # Clean up the project
 clean:
 	@echo "$(BOLD)$(GREEN)>>Cleaning up <<$(RESET)"
-	rm -rf build dist htmlcov .pytest_cache .coverage docs
+	rm -rf build dist htmlcov .pytest_cache .coverage docs/_build docs/
 	@echo "$(BOLD)$(GREEN)Project Visualgo-PyPI cleaned correctly.$(RESET)"
 
 # Define phony targets

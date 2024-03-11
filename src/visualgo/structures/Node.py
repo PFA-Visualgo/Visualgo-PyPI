@@ -14,6 +14,7 @@ class Node:
     def next(self) -> Optional['Node']:
         """
         Returns the node following the current node. Can be None.
+
         :return: Node object
         """
         return self.__next
@@ -22,6 +23,7 @@ class Node:
     def next(self, next_node: Optional['Node']) -> None:
         """
         Sets the node following the current node. Can be None.
+
         :param next_node: Node object
         :return: None
         """
@@ -31,6 +33,7 @@ class Node:
     def value(self) -> Optional[T]:
         """
         Returns the value of the node. Can be None.
+
         :return: Object
         """
         return self.__value
@@ -39,6 +42,7 @@ class Node:
     def value(self, value: T) -> None:
         """
         Sets the value of the node. Can be None.
+
         :param value: Any object
         :return: None
         """
@@ -47,6 +51,7 @@ class Node:
     def has_next(self) -> bool:
         """
         Indicates whether the node is followed by another node.
+
         :return: A boolean
         """
         return self.next is not None
@@ -55,6 +60,7 @@ class Node:
     def sentinel(cls) -> Optional['Node']:
         """
         Creates a sentinel Node.
+
         :return: Node
         """
         return Node()
@@ -62,6 +68,7 @@ class Node:
     def is_sentinel(self):
         """
         Checks if the node is a sentinel.
+
         :return: bool
         """
         return self.next is None and self.value is None
