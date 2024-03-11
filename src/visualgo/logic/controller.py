@@ -306,7 +306,30 @@ class Controller(ControllerCallbacksInterface, ControllerInterface):
         """
         pass
 
-    # ControllerInterface
+    ## ControllerCallbacksInterface
+    def backward_step_done(self, context: DebugContext, line_number: int) -> None:
+        # self.__ui_callbacks.update_variables(self.__ui_vars(context.variables, []))
+        raise NotImplementedError("Method not yet implemented")
+
+    def forward_step_done(self, context: DebugContext, line_number: int) -> None:
+        raise NotImplementedError("Method not yet implemented")
+
+    def step_into_done(self, context: DebugContext, line_number: int) -> None:
+        raise NotImplementedError("Method not yet implemented")
+
+    def backward_step_into_done(self, context: DebugContext, line_number: int) -> None:
+        raise NotImplementedError("Method not yet implemented")
+
+    def continue_done(self, context: DebugContext, line_number: int) -> None:
+        raise NotImplementedError("Method not yet implemented")
+
+    def end_of_code_reached(self, context: DebugContext, line_number: int) -> None:
+        raise NotImplementedError("Method not yet implemented")
+
+    def on_error(self, error: CodeError) -> None:
+        raise NotImplementedError("Method not yet implemented")
+
+    ## ControllerInterface
     def start(self) -> None:
         code = self.__ui_callbacks.get_code()
         self.__initialize_debugger(code)
@@ -336,33 +359,6 @@ class Controller(ControllerCallbacksInterface, ControllerInterface):
         raise NotImplementedError("Method not yet implemented")
 
     def backward_next(self) -> None:
-        raise NotImplementedError("Method not yet implemented")
-
-    # ControllerCallbacksInterface
-    def backward_step_done(
-            self, context: DebugContext, line_number: int) -> None:
-        raise NotImplementedError("Method not yet implemented")
-
-    def forward_step_done(
-            self, context: DebugContext, line_number: int) -> None:
-        raise NotImplementedError("Method not yet implemented")
-
-    def step_into_done(
-            self, context: DebugContext, line_number: int) -> None:
-        raise NotImplementedError("Method not yet implemented")
-
-    def backward_step_into_done(
-            self, context: DebugContext, line_number: int) -> None:
-        raise NotImplementedError("Method not yet implemented")
-
-    def continue_done(self, context: DebugContext, line_number: int) -> None:
-        raise NotImplementedError("Method not yet implemented")
-
-    def end_of_code_reached(
-            self, context: DebugContext, line_number: int) -> None:
-        raise NotImplementedError("Method not yet implemented")
-
-    def on_error(self, error: CodeError) -> None:
         raise NotImplementedError("Method not yet implemented")
 
     # Checkpoints
