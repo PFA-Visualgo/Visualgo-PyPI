@@ -19,6 +19,10 @@ class MockUICallbacks(UICallbacksInterface):
     def get_code(self) -> str:
         return "Hello, World!"
 
+    def show_message(self, message: str) -> None:
+        print(message)
+        pass
+
 
 class MockPyDebugger(DebuggerInterface):
     def __init__(self, controller_callbacks: ControllerCallbacksInterface):
@@ -35,7 +39,6 @@ class MockPyDebugger(DebuggerInterface):
         self.__controller_callbacks.step_into_done(None, 0)
         pass
 
-
     def forward_step(self) -> None:
         self.__controller_callbacks.forward_step_done(None, 0)
         pass
@@ -45,7 +48,7 @@ class MockPyDebugger(DebuggerInterface):
         pass
 
     def do_continue(self) -> None:
-        self.__controller_callbacks.continue_done(None, 0)
+        self.__controller_callbacks.do_continue_done(None, 0)
         pass
 
 

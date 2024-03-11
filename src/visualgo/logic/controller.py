@@ -171,7 +171,7 @@ class ControllerInterface(ABC):
     def new_tracked_function(self, function: SymbolDescription) -> None:
         """
         Add a new tracked function by the user with the given `function`.
-        
+
         :demand: F.2.8
         :param function: SymboleDescription
         :return: None
@@ -299,7 +299,7 @@ class Controller(ControllerCallbacksInterface, ControllerInterface):
         """
         Returns the variables of the execution given the debugger
         `variables` and the user parameters `tracked_vars`.
-        
+
         :param variables: Variables
         :param variables: typing.List[SymboleDescription]
         :return: Variables
@@ -308,7 +308,9 @@ class Controller(ControllerCallbacksInterface, ControllerInterface):
 
     ## ControllerCallbacksInterface
     def backward_step_done(self, context: DebugContext, line_number: int) -> None:
-        # self.__ui_callbacks.update_variables(self.__ui_vars(context.variables, []))
+
+        self.__ui_callbacks.set_current_line(line_number)
+        self.__ui_callbacks.update_variables(self.__ui_vars(context.variables, []))
 
         raise NotImplementedError("Method not yet implemented")
 
@@ -321,13 +323,16 @@ class Controller(ControllerCallbacksInterface, ControllerInterface):
     def backward_step_into_done(self, context: DebugContext, line_number: int) -> None:
         raise NotImplementedError("Method not yet implemented")
 
-    def continue_done(self, context: DebugContext, line_number: int) -> None:
+    def do_continue_done(self, context: DebugContext, line_number: int) -> None:
         raise NotImplementedError("Method not yet implemented")
 
     def end_of_code_reached(self, context: DebugContext, line_number: int) -> None:
         raise NotImplementedError("Method not yet implemented")
 
     def on_error(self, error: CodeError) -> None:
+        raise NotImplementedError("Method not yet implemented")
+
+    def on_message(self, message: str) -> None:
         raise NotImplementedError("Method not yet implemented")
 
     ## ControllerInterface

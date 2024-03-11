@@ -1,6 +1,8 @@
 from abc import ABC, abstractmethod
 from typing import TypeVar
 
+from .. import ControllerCallbacksInterface
+
 T = TypeVar("T")
 
 
@@ -8,6 +10,15 @@ class DebuggerInterface(ABC):
     """
     Interface for the Debugger class.
     """
+
+    @abstractmethod
+    def __init__(self, callbacks: ControllerCallbacksInterface) -> None:
+        """
+        Constructor of the Debugger class. It will receive the callbacks to call when the debugger has finished an action.
+
+        :param controller_callbacks: ControllerCallbacksInterface
+        """
+        pass
 
     @abstractmethod
     def set_code(self, code: str) -> None:
@@ -35,6 +46,7 @@ class DebuggerInterface(ABC):
         """
         Make a forward 'step into' the execution, it will enter in the function if it is a function call.
 
+        :call: callbacks.step_into_done(context, line_number)
         :return: None
         """
         pass
@@ -44,6 +56,7 @@ class DebuggerInterface(ABC):
         """
         Make a forward 'step' in the execution.
 
+        :call: callbacks.forward_step_done(context, line_number)
         :return: None
         """
         pass
@@ -53,6 +66,7 @@ class DebuggerInterface(ABC):
         """
         Make a backward 'step' in the execution.
 
+        :call: callbacks.backward_step_done(context, line_number)
         :return: None
         """
         pass
@@ -61,7 +75,8 @@ class DebuggerInterface(ABC):
     def do_continue(self) -> None:
         """
         Continue the execution until the next breakpoint.
-        
+
+        :call: callbacks.do_continue_done(context, line_number)
         :return: None
         """
         pass

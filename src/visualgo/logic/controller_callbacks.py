@@ -6,13 +6,13 @@ from .types import CodeError
 
 class ControllerCallbacksInterface(ABC):
     """
-    Interface so that the debugger can call the controller when it has finished an action.
+    Interface so that the debugger can call when it has finished an action asked by the controller.
     """
 
     @abstractmethod
     def backward_step_done(self, context: DebugContext, line_number: int) -> None:
         """
-        Return the debug context and the line number where the execution stopped to the Controller.
+        Update the visualisation once the backward_step() has been done in the debugger.
 
         :param context: DebugContext
         :param line_number: int
@@ -23,7 +23,7 @@ class ControllerCallbacksInterface(ABC):
     @abstractmethod
     def forward_step_done(self, context: DebugContext, line_number: int) -> None:
         """
-        Return the debug context and the line number where the execution stopped to the Controller.
+        Update the visualisation once the forward_step() has been done in the debugger.
 
         :param context: DebugContext
         :param line_number: int
@@ -34,7 +34,7 @@ class ControllerCallbacksInterface(ABC):
     @abstractmethod
     def step_into_done(self, context: DebugContext, line_number: int) -> None:
         """
-        Return the debug context and the line number where the execution stopped to the Controller.
+        Update the visualisation once the step_into() has been done in the debugger.
 
         :param context: DebugContext
         :param line_number: int
@@ -45,7 +45,7 @@ class ControllerCallbacksInterface(ABC):
     @abstractmethod
     def backward_step_into_done(self, context: DebugContext, line_number: int) -> None:
         """
-        Return the debug context and the line number where the execution stopped to the Controller.
+        Update the visualisation once the backward_step_into() has been done in the debugger.
 
         :param context: DebugContext
         :param line_number: int
@@ -54,9 +54,9 @@ class ControllerCallbacksInterface(ABC):
         pass
 
     @abstractmethod
-    def continue_done(self, context: DebugContext, line_number: int) -> None:
+    def do_continue_done(self, context: DebugContext, line_number: int) -> None:
         """
-        Return the debug context and the line number where the execution stopped to the Controller.
+        Update the visualisation once the do_continue() has been done in the debugger.
 
         :param context: DebugContext
         :param line_number: int
@@ -67,7 +67,7 @@ class ControllerCallbacksInterface(ABC):
     @abstractmethod
     def end_of_code_reached(self, context: DebugContext, line_number: int) -> None:
         """
-        Return the debug context and the line number where the execution stopped to the Controller.
+        Update the visualisation once the end of the code has been reached in the debugger.
 
         :param context: DebugContext
         :param line_number: int
@@ -78,9 +78,19 @@ class ControllerCallbacksInterface(ABC):
     @abstractmethod
     def on_error(self, error: CodeError) -> None:
         """
-        Return an error message to the Controller.
-        
+        Show an error in the visualisation when the debugger has found one in the client code.
+
         :param error: CodeError
+        :return: None
+        """
+        pass
+
+    @abstractmethod
+    def on_message(self, message: str) -> None:
+        """
+        Show a message in the visualisation when one is printed in the client code by the debugger.
+
+        :param message: str
         :return: None
         """
         pass

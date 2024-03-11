@@ -53,10 +53,20 @@ class UICallbacksInterface(ABC):
         pass
 
     @abstractmethod
+    def show_message(self, message: str) -> None:
+        """
+        Shows the message in the UI with the given `message`.
+
+        :param error: CodeError
+        :return: None
+        """
+        pass
+
+    @abstractmethod
     def get_code(self) -> str:
         """
         Returns the user code from the UI.
-        
+
         :return: str
         """
         pass
