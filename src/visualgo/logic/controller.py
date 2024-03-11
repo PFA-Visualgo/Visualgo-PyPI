@@ -17,6 +17,7 @@ from .ui.ui_callbacks import UICallbacksInterface
 class ExecutionState(Enum):
     """
     Enum for the different states of the execution for the Controller.
+
     :demand: F.2.4
     """
     NOT_INITIALIZED = 0
@@ -35,6 +36,7 @@ class ControllerInterface(ABC):
     def start(self) -> None:
         """
         Starts the execution of the code.
+
         :demand: F.1.6
         :return: None
         """
@@ -44,6 +46,7 @@ class ControllerInterface(ABC):
     def pause_continue(self) -> None:
         """
         Pauses or continues the execution of the code.
+
         :demand: F.2.4
         :return: None
         """
@@ -66,6 +69,7 @@ class ControllerInterface(ABC):
     def forward_step(self) -> None:
         """
         Executes the next line of the code.
+
         :return: None
         """
         pass
@@ -74,6 +78,7 @@ class ControllerInterface(ABC):
     def forward_next(self) -> None:
         """
         Executes the next line of the code without entering into the user function.
+
         :return: None
         """
         pass
@@ -82,6 +87,7 @@ class ControllerInterface(ABC):
     def backward_step(self) -> None:
         """
         Executes the previous line of the code.
+
         :return: None
         """
         pass
@@ -90,6 +96,7 @@ class ControllerInterface(ABC):
     def backward_next(self) -> None:
         """
         Executes the previous line of the code without entering into the user function.
+
         :return: None
         """
         pass
@@ -99,6 +106,7 @@ class ControllerInterface(ABC):
     def new_checkpoint(self, line_number: int) -> None:
         """
         Add a new checkpoint at the given `line_number`.
+
         :param line_number: int
         :return: None
         """
@@ -108,6 +116,7 @@ class ControllerInterface(ABC):
     def del_checkpoint(self, line_number: int) -> None:
         """
         Delete the checkpoint at the given `line_number`.
+
         :param line_number: int
         :return: None
         """
@@ -118,6 +127,7 @@ class ControllerInterface(ABC):
     def new_breakpoint(self, line_number: int) -> None:
         """
         Add a new breakpoint at the given `line_number`.
+
         :param line_number: int
         :return: None
         """
@@ -127,6 +137,7 @@ class ControllerInterface(ABC):
     def del_breakpoint(self, line_number: int) -> None:
         """
         Delete the breakpoint at the given `line_number`.
+
         :param line_number: int
         :return: None
         """
@@ -137,6 +148,7 @@ class ControllerInterface(ABC):
     def new_tracked_variable(self, variable: SymbolDescription) -> None:
         """
         Add a new tracked variable by the user with the given `variable`.
+
         :demand: F.2.7
         :param variable: SymboleDescription
         :return: None
@@ -147,6 +159,7 @@ class ControllerInterface(ABC):
     def del_tracked_variable(self, variable: SymbolDescription) -> None:
         """
         Delete the tracked variable with the given `variable`.
+
         :demand: F.2.7
         :param variable: SymboleDescription
         :return: None
@@ -158,6 +171,7 @@ class ControllerInterface(ABC):
     def new_tracked_function(self, function: SymbolDescription) -> None:
         """
         Add a new tracked function by the user with the given `function`.
+        
         :demand: F.2.8
         :param function: SymboleDescription
         :return: None
@@ -168,6 +182,7 @@ class ControllerInterface(ABC):
     def del_tracked_function(self, function: SymbolDescription) -> None:
         """
         Delete the tracked function with the given `function`.
+
         :demand: F.2.8
         :param function: SymboleDescription
         :return: None
@@ -178,6 +193,7 @@ class ControllerInterface(ABC):
     def new_tracked_type(self, type_name: str) -> None:
         """
         Add a new tracked type by the user with the given `type_name`.
+
         :demand: F.2.8
         :param type_name: str
         :return: None
@@ -188,6 +204,7 @@ class ControllerInterface(ABC):
     def del_tracked_type(self, type_name: str) -> None:
         """
         Delete the tracked type with the given `type_name`.
+
         :demand: F.2.8
         :param type_name: str
         :return: None
@@ -200,6 +217,7 @@ class ControllerInterface(ABC):
         """
         Returns the evolution of the statistics at the checkpoints/breakpoints in a CSV format.
         Format of the CSV to be determined...
+
         :return: str
         """
         pass
@@ -208,6 +226,7 @@ class ControllerInterface(ABC):
     def get_static_variables(self) -> StaticVariables:
         """
         Returns the variables defined in the code before the execution.
+
         :demand: F.2.7
         :return: Variables
         """
@@ -225,6 +244,7 @@ class Controller(ControllerCallbacksInterface, ControllerInterface):
         """
         Initializes the Controller with the given a `debugger_class` that will be instantiated and
         a `ui_callbacks` to communicate with the UI.
+
         :demand: F.1.5
         :demand: F.2.7
         :demand: F.2.8
@@ -244,6 +264,7 @@ class Controller(ControllerCallbacksInterface, ControllerInterface):
     def __initialize_debugger(self, code: str) -> None:
         """
         Initializes the debugger with the given `code`.
+
         :param code: str
         :return: None
         """
@@ -253,6 +274,7 @@ class Controller(ControllerCallbacksInterface, ControllerInterface):
     def __end_of_execution(self) -> None:
         """
         Ends the execution of the code.
+
         :return: None
         """
         self.__execution_state = ExecutionState.FINISHED
@@ -263,6 +285,7 @@ class Controller(ControllerCallbacksInterface, ControllerInterface):
         """
         Returns the statistics of the execution given the debugger `stats`
         and the user parameters `tracked_types` and `tracked_funs`.
+
         :demand: F.1.5
         :param stats: Statistics
         :param variables: typing.List[SymboleDescription]
@@ -276,6 +299,7 @@ class Controller(ControllerCallbacksInterface, ControllerInterface):
         """
         Returns the variables of the execution given the debugger
         `variables` and the user parameters `tracked_vars`.
+        
         :param variables: Variables
         :param variables: typing.List[SymboleDescription]
         :return: Variables

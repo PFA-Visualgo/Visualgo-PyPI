@@ -7,6 +7,7 @@ from ..types import Statistics, CodeError
 class UICallbacksInterface(ABC):
     """
     Interface for the UI Callbacks in order to communicate with the UI.
+
     :demand: F.1.7
     """
 
@@ -14,6 +15,7 @@ class UICallbacksInterface(ABC):
     def update_variables(self, variables: TransferVariables) -> None:
         """
         Updates the variables in the UI with the given `variables`.
+
         :param variables: TransferVariables
         :return: None
         """
@@ -23,6 +25,7 @@ class UICallbacksInterface(ABC):
     def update_statistics(self, statistics: Statistics) -> None:
         """
         Updates the statistics in the UI with the given `statistics`.
+
         :demand: F.1.5
         :param statistics: Statistics
         :return: None
@@ -33,6 +36,7 @@ class UICallbacksInterface(ABC):
     def show_error(self, error: CodeError) -> None:
         """
         Shows the error in the UI with the given `error`.
+
         :param error: CodeError
         :return: None
         """
@@ -42,6 +46,7 @@ class UICallbacksInterface(ABC):
     def get_code(self) -> str:
         """
         Returns the user code from the UI.
+        
         :return: str
         """
         pass
