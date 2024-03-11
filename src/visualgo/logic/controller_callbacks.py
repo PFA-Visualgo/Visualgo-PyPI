@@ -32,20 +32,9 @@ class ControllerCallbacksInterface(ABC):
         pass
 
     @abstractmethod
-    def step_into_done(self, context: DebugContext, line_number: int) -> None:
+    def next_done(self, context: DebugContext, line_number: int) -> None:
         """
-        Update the visualisation once the step_into() has been done in the debugger.
-
-        :param context: DebugContext
-        :param line_number: int
-        :return: None
-        """
-        pass
-
-    @abstractmethod
-    def backward_step_into_done(self, context: DebugContext, line_number: int) -> None:
-        """
-        Update the visualisation once the backward_step_into() has been done in the debugger.
+        Update the visualisation once the next() has been done in the debugger.
 
         :param context: DebugContext
         :param line_number: int

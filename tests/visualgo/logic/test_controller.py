@@ -2,6 +2,9 @@
 
 import unittest
 from visualgo.logic import Controller, DebuggerInterface, ControllerCallbacksInterface, UICallbacksInterface, TransferVariables, Statistics
+from visualgo.logic.controller import ExecutionState
+
+import trio.testing
 
 class MockUICallbacks(UICallbacksInterface):
     def set_current_line(self, line: int) -> None:
@@ -35,8 +38,11 @@ class MockPyDebugger(DebuggerInterface):
     def add_breakpoint(self, line_number: int, cond: str) -> None:
         pass
 
-    def step_into(self) -> None:
-        self.__controller_callbacks.step_into_done(None, 0)
+    def del_breakpoint(self, line_number: int) -> None:
+        pass
+
+    def next(self) -> None:
+        self.__controller_callbacks.next_done(None, 0)
         pass
 
     def forward_step(self) -> None:
@@ -55,13 +61,49 @@ class MockPyDebugger(DebuggerInterface):
 
 
 class TestController(unittest.TestCase):
+
     def test_creation(self):
-        print("Testing Controller creation")
         controller = Controller(MockPyDebugger, MockUICallbacks())
         self.assertIsInstance(controller, Controller)
-        controller.start()
-        print("Controller created successfully")
+
+    def test_set_step_time(self):
+        controller = Controller(MockPyDebugger, MockUICallbacks())
+        controller.set_step_time(0.5)
+        self.assertEqual(controller._Controller__step_time, 0.5)
+
+    def test_pause_continue(self):
+        async def trio_test_pause_continue():
+            # controller = Controller(MockPyDebugger, MockUICallbacks())
+            # controller._Controller__execution_state = ExecutionState.STOPPED
+            # controller.set_step_time(0.5)
+            # await controller.pause_continue()
+            # self.assertEqual(controller._Controller__execution_state, ExecutionState.RUNNING)
+            # await trio.sleep(1) # Wait for at least 1 call to forward_step()
+            # controller._Controller__execution_state = ExecutionState.STOPPED
+
+            controller = Controller(MockPyDebugger, MockUICallbacks())
+            controller._Controller__execution_state = ExecutionState.RUNNING
+            await controller.pause_continue()
+            self.assertEqual(controller._Controller__execution_state, ExecutionState.STOPPED)
+
+        trio.run(trio_test_pause_continue, clock=trio.testing.MockClock(autojump_threshold=0))
+
+    # def test_start(self):
+    #     async def trio_test_start():
+    #         controller = Controller(MockPyDebugger, MockUICallbacks())
+    #         await controller.start()
+    #         controller.set_step_time(0.5)
+    #         await trio.sleep(1) # Wait for at least 1 call to forward_step()
+    #         controller.pause_continue()
+    #         pass
+
+    #     trio.run(trio_test_start, clock=trio.testing.MockClock(autojump_threshold=0)) # Makes the time run faster
 
 
-if __name__ == '__main__':
-    unittest.main()
+
+if __name__ == "__main__":
+    import pytest
+    pytest.main([__file__])
+
+# if __name__ == '__main__':
+#     unittest.main()

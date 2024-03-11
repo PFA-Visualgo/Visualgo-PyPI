@@ -3,6 +3,7 @@ from .ui.ui_callbacks import UICallbacksInterface
 from .debugger.debugger import DebuggerInterface
 
 from .controller import Controller
+
 from .debugger.py_debugger import PyDebugger
 
 from .ui.ui_callbacks import TransferVariables

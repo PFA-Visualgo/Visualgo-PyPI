@@ -1,7 +1,8 @@
 # Makefile
 
 # Default target
-all: static-analysis tests
+default: static-analysis tests
+all: clean static-analysis docs build tests
 
 BOLD := $(shell tput bold)
 GREEN := $(shell tput setaf 2)
