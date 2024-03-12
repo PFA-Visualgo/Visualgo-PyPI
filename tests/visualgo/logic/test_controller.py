@@ -4,7 +4,6 @@ import unittest
 from visualgo.logic import Controller, DebuggerInterface, ControllerCallbacksInterface, UICallbacksInterface, TransferVariables, Statistics
 from visualgo.logic.controller import ExecutionState
 
-import trio.testing
 import asyncio
 
 class MockUICallbacks(UICallbacksInterface):
@@ -76,7 +75,7 @@ class TestController(unittest.TestCase):
         self.assertEqual(controller._Controller__step_time, 0.5)
 
     def test_pause_continue(self):
-        async def trio_test_pause_continue():
+        async def async_test_pause_continue():
             # controller = Controller(MockPyDebugger, MockUICallbacks())
             # controller._Controller__execution_state = ExecutionState.STOPPED
             # controller.set_step_time(0.5)
@@ -90,7 +89,7 @@ class TestController(unittest.TestCase):
             await controller.pause_continue()
             self.assertEqual(controller._Controller__execution_state, ExecutionState.STOPPED)
 
-        asyncio.run(trio_test_pause_continue())
+        asyncio.run(async_test_pause_continue())
 
     # def test_start(self):
     #     async def trio_test_start():
