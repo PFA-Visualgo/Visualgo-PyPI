@@ -55,11 +55,11 @@ class DebuggerInterface(ABC):
         pass
 
     @abstractmethod
-    def next(self) -> None:
+    def forward_next(self) -> None:
         """
-        Make a forward 'next' the execution, it will not enter in the function if it is a function call.
+        Make a forward 'forward_next' the execution, it will not enter in the function if it is a function call.
 
-        :call: callbacks.next_done(context, line_number)
+        :call: callbacks.forward_next_done(context, line_number)
         :return: None
         """
         pass

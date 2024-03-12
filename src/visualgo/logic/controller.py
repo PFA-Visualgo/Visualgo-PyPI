@@ -77,7 +77,7 @@ class ControllerInterface(ABC):
         pass
 
     @abstractmethod
-    def next(self) -> None:
+    def forward_next(self) -> None:
         """
         Executes the next line of the code without entering into the user function.
 
@@ -319,7 +319,7 @@ class Controller(ControllerCallbacksInterface, ControllerInterface):
     def forward_step_done(self, context: DebugContext, line_number: int) -> None:
         pass
 
-    def next_done(self, context: DebugContext, line_number: int) -> None:
+    def forward_next_done(self, context: DebugContext, line_number: int) -> None:
         raise NotImplementedError("Method not yet implemented")
 
     def do_continue_done(self, context: DebugContext, line_number: int) -> None:
@@ -383,7 +383,7 @@ class Controller(ControllerCallbacksInterface, ControllerInterface):
             self.__debugger.forward_step()
         pass
 
-    def next(self) -> None:
+    def forward_next(self) -> None:
         self.__check_if_initialized()
         if self.__execution_state == ExecutionState.RUNNING:
             self.__debugger.forward_step()

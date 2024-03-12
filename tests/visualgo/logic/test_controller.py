@@ -45,8 +45,8 @@ class MockPyDebugger(DebuggerInterface):
     def del_breakpoint(self, line_number: int) -> None:
         pass
 
-    def next(self) -> None:
-        self.__controller_callbacks.next_done(None, 0)
+    def forward_next(self) -> None:
+        self.__controller_callbacks.forward_next_done(None, 0)
         pass
 
     def forward_step(self) -> None:

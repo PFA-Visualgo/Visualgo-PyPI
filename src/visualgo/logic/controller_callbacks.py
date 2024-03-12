@@ -32,9 +32,9 @@ class ControllerCallbacksInterface(ABC):
         pass
 
     @abstractmethod
-    def next_done(self, context: DebugContext, line_number: int) -> None:
+    def forward_next_done(self, context: DebugContext, line_number: int) -> None:
         """
-        Update the visualisation once the next() has been done in the debugger.
+        Update the visualisation once the forward_next() has been done in the debugger.
 
         :param context: DebugContext
         :param line_number: int
