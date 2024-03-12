@@ -1,6 +1,6 @@
 from enum import Enum
 from abc import ABC, abstractmethod
-import trio
+import asyncio
 
 
 from .types import Statistics, SymbolDescription, CodeError
@@ -335,26 +335,29 @@ class Controller(ControllerCallbacksInterface, ControllerInterface):
 
     ## ControllerInterface
     async def __loop_forward_step(self) -> None:
+        print("in __loop_forward_step")
         self.forward_step()
-        async with trio.open_nursery() as nursery:
-            await trio.sleep(self.__step_time / 1000)
-            if self.__execution_state == ExecutionState.RUNNING:
-                nursery.start_soon(self.__loop_forward_step)
+        while self.__execution_state == ExecutionState.RUNNING:
+            await asyncio.sleep(self.__step_time / 1000)
+            self.__loop_forward_step()
         pass
 
     def __check_if_initialized(self) -> None:
         if self.__execution_state == ExecutionState.NOT_INITIALIZED:
-            # raise ValueError("Controller not initialized")
             self.__ui_callbacks.show_error("Controller not initialized")
+            raise ValueError("Controller not initialized")
         pass
 
+
     async def start(self) -> None:
+        print("in start")
         code = self.__ui_callbacks.get_code()
         self.__initialize_debugger(code)
         self.__execution_state = ExecutionState.RUNNING
+        print("before loop_forward_step")
         await self.__loop_forward_step()
+        print("after loop_forward_step")
         pass
-
 
     async def pause_continue(self) -> None:
         if self.__execution_state == ExecutionState.RUNNING:
@@ -362,6 +365,7 @@ class Controller(ControllerCallbacksInterface, ControllerInterface):
         else:
             self.__execution_state = ExecutionState.RUNNING
             await self.__loop_forward_step()
+        pass
 
     def set_step_time(self, time: int) -> None:
         try:
@@ -370,6 +374,7 @@ class Controller(ControllerCallbacksInterface, ControllerInterface):
             self.__step_time = time
         except ValueError as e:
             print(f"Error: {e}")
+        pass
 
     def forward_step(self) -> None:
         self.__check_if_initialized()
@@ -381,7 +386,6 @@ class Controller(ControllerCallbacksInterface, ControllerInterface):
         self.__check_if_initialized()
         if self.__execution_state == ExecutionState.RUNNING:
             self.__debugger.forward_step()
-        pass
 
     def backward_step(self) -> None:
         self.__check_if_initialized()

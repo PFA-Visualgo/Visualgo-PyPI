@@ -5,6 +5,7 @@ from visualgo.logic import Controller, DebuggerInterface, ControllerCallbacksInt
 from visualgo.logic.controller import ExecutionState
 
 import trio.testing
+import asyncio
 
 class MockUICallbacks(UICallbacksInterface):
     def set_current_line(self, line: int) -> None:
@@ -78,7 +79,7 @@ class TestController(unittest.TestCase):
             # controller.set_step_time(0.5)
             # await controller.pause_continue()
             # self.assertEqual(controller._Controller__execution_state, ExecutionState.RUNNING)
-            # await trio.sleep(1) # Wait for at least 1 call to forward_step()
+            # await asyncio.sleep(1) # Wait for at least 1 call to forward_step()
             # controller._Controller__execution_state = ExecutionState.STOPPED
 
             controller = Controller(MockPyDebugger, MockUICallbacks())
@@ -86,18 +87,18 @@ class TestController(unittest.TestCase):
             await controller.pause_continue()
             self.assertEqual(controller._Controller__execution_state, ExecutionState.STOPPED)
 
-        trio.run(trio_test_pause_continue, clock=trio.testing.MockClock(autojump_threshold=0))
+        asyncio.run(trio_test_pause_continue())
 
     # def test_start(self):
     #     async def trio_test_start():
     #         controller = Controller(MockPyDebugger, MockUICallbacks())
     #         await controller.start()
     #         controller.set_step_time(0.5)
-    #         await trio.sleep(1) # Wait for at least 1 call to forward_step()
+    #         await asyncio.sleep(1) # Wait for at least 1 call to forward_step()
     #         controller.pause_continue()
     #         pass
 
-    #     trio.run(trio_test_start, clock=trio.testing.MockClock(autojump_threshold=0)) # Makes the time run faster
+    #     asyncio.run(trio_test_start)
 
 
 
