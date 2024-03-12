@@ -29,8 +29,11 @@ class MockUICallbacks(UICallbacksInterface):
 
 
 class MockPyDebugger(DebuggerInterface):
-    def __init__(self, controller_callbacks: ControllerCallbacksInterface):
-        self.__controller_callbacks = controller_callbacks
+    def __init__(self,):
+        pass
+
+    def set_callbacks(self, callbacks: ControllerCallbacksInterface) -> None:
+        self.__controller_callbacks = callbacks
         pass
 
     def set_code(self, code: str) -> None:

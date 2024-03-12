@@ -12,11 +12,12 @@ class DebuggerInterface(ABC):
     """
 
     @abstractmethod
-    def __init__(self, callbacks: ControllerCallbacksInterface) -> None:
+    def set_callbacks(self, callbacks: ControllerCallbacksInterface) -> None:
         """
-        Constructor of the Debugger class. It will receive the callbacks to call when the debugger has finished an action.
+        Set the callbacks to call when the debugger has finished an action.
 
-        :param controller_callbacks: ControllerCallbacksInterface
+        :param callbacks: ControllerCallbacksInterface
+        :return: None
         """
         pass
 

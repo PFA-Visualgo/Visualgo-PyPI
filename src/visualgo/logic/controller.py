@@ -258,7 +258,8 @@ class Controller(ControllerCallbacksInterface, ControllerInterface):
         self.__checkpoints: list[int] = []
 
         self.__step_time: int = 500
-        self.__debugger: DebuggerInterface = debugger_class(self)
+        self.__debugger: DebuggerInterface = debugger_class()
+        self.__debugger.set_callbacks(self)
 
     # Private methods
     def __initialize_debugger(self, code: str) -> None:

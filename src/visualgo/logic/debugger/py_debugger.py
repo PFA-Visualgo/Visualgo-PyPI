@@ -11,8 +11,11 @@ class PyDebugger(DebuggerInterface):
     Python language support of the DebuggerInterface.
     """
 
-    def __init__(self, callbacks: ControllerCallbacksInterface) -> None:
+    def __init__(self) -> None:
         print("PyDebugger created")
+
+    def set_callbacks(self, callbacks: ControllerCallbacksInterface) -> None:
+        return
 
     def set_code(self, code: str) -> None:
         print("Setting code")
