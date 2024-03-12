@@ -259,7 +259,7 @@ class Controller(ControllerCallbacksInterface, ControllerInterface):
 
         self.__step_time: int = 500
         self.__debugger: DebuggerInterface = debugger_class()
-        self.__debugger.set_callbacks(self)
+        self.__debugger.initialize(self)
 
     # Private methods
     def __initialize_debugger(self, code: str) -> None:

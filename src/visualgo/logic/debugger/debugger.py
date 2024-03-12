@@ -12,7 +12,7 @@ class DebuggerInterface(ABC):
     """
 
     @abstractmethod
-    def set_callbacks(self, callbacks: ControllerCallbacksInterface) -> None:
+    def initialize(self, callbacks: ControllerCallbacksInterface) -> None:
         """
         Set the callbacks to call when the debugger has finished an action.
 
