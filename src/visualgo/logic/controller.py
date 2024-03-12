@@ -338,16 +338,14 @@ class Controller(ControllerCallbacksInterface, ControllerInterface):
     async def __loop_forward_step(self) -> None:
         print("in __loop_forward_step")
         self.forward_step()
-        while self.__execution_state == ExecutionState.RUNNING:
+        if self.__execution_state == ExecutionState.RUNNING:
             await asyncio.sleep(self.__step_time / 1000)
             self.__loop_forward_step()
-        pass
 
     def __check_if_initialized(self) -> None:
         if self.__execution_state == ExecutionState.NOT_INITIALIZED:
             self.__ui_callbacks.show_error("Controller not initialized")
             raise ValueError("Controller not initialized")
-        pass
 
 
     async def start(self) -> None:
@@ -358,7 +356,6 @@ class Controller(ControllerCallbacksInterface, ControllerInterface):
         print("before loop_forward_step")
         await self.__loop_forward_step()
         print("after loop_forward_step")
-        pass
 
     async def pause_continue(self) -> None:
         if self.__execution_state == ExecutionState.RUNNING:
@@ -366,7 +363,6 @@ class Controller(ControllerCallbacksInterface, ControllerInterface):
         else:
             self.__execution_state = ExecutionState.RUNNING
             await self.__loop_forward_step()
-        pass
 
     def set_step_time(self, time: int) -> None:
         try:
@@ -375,13 +371,11 @@ class Controller(ControllerCallbacksInterface, ControllerInterface):
             self.__step_time = time
         except ValueError as e:
             print(f"Error: {e}")
-        pass
 
     def forward_step(self) -> None:
         self.__check_if_initialized()
         if self.__execution_state == ExecutionState.RUNNING:
             self.__debugger.forward_step()
-        pass
 
     def forward_next(self) -> None:
         self.__check_if_initialized()
@@ -392,53 +386,42 @@ class Controller(ControllerCallbacksInterface, ControllerInterface):
         self.__check_if_initialized()
         if self.__execution_state == ExecutionState.RUNNING:
             self.__debugger.backward_step()
-        pass
 
     # Checkpoints
     def new_checkpoint(self, line_number: int, cond: str) -> None:
         self.__debugger.add_breakpoint(line_number, "") # maybe TODO change how the condition is passed
         self.__checkpoints.append(line_number)
-        pass
 
     def del_checkpoint(self, line_number: int) -> None:
         self.__debugger.del_breakpoint(line_number)
         self.__checkpoints.remove(line_number)
-        pass
 
     # Breakpoints
     def new_breakpoint(self, line_number: int, cond: str) -> None:
         self.__debugger.add_breakpoint(line_number, "") # maybe TODO change how the condition is passed
-        pass
 
     def del_breakpoint(self, line_number: int) -> None:
         self.__debugger.del_breakpoint(line_number)
-        pass
 
     # Tracking for drawings
     def new_tracked_variable(self, variable: SymbolDescription) -> None:
         self.__tracked_vars.append(variable)
-        pass
 
     def del_tracked_variable(self, variable: SymbolDescription) -> None:
         self.__tracked_vars.remove(variable)
-        pass
 
     # Tracking for statistics
     def new_tracked_function(self, function: SymbolDescription) -> None:
         self.__tracked_funs.append(function)
-        pass
 
     def del_tracked_function(self, function: SymbolDescription) -> None:
         self.__tracked_funs.remove(function)
-        pass
 
     def new_tracked_type(self, type_name: str) -> None:
         self.__tracked_types.append(type_name)
-        pass
 
     def del_tracked_type(self, type_name: str) -> None:
         self.__tracked_types.remove(type_name)
-        pass
 
     # Statistics
     def get_csv(self) -> str:
