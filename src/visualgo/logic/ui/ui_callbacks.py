@@ -12,6 +12,16 @@ class UICallbacksInterface(ABC):
     """
 
     @abstractmethod
+    def set_current_line(self, line: int) -> None:
+        """
+        Update the UI to show that the last executed line is `line`.
+
+        :param variables: TransferVariables
+        :return: None
+        """
+        pass
+
+    @abstractmethod
     def update_variables(self, variables: TransferVariables) -> None:
         """
         Updates the variables in the UI with the given `variables`.
@@ -43,14 +53,20 @@ class UICallbacksInterface(ABC):
         pass
 
     @abstractmethod
-    def get_code(self) -> str:
+    def show_message(self, message: str) -> None:
         """
-        Returns the user code from the UI.
-        
-        :return: str
+        Shows the message in the UI with the given `message`.
+
+        :param error: CodeError
+        :return: None
         """
         pass
 
-# Creates a class of UICallbacksInterface
-# class UICallbacks(UICallbacksInterface):
-#     ...
+    @abstractmethod
+    def get_code(self) -> str:
+        """
+        Returns the user code from the UI.
+
+        :return: str
+        """
+        pass

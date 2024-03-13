@@ -1,5 +1,7 @@
 from enum import Enum
 from abc import ABC, abstractmethod
+import asyncio
+
 
 from .types import Statistics, SymbolDescription, CodeError
 from .controller_callbacks import ControllerCallbacksInterface
@@ -92,15 +94,6 @@ class ControllerInterface(ABC):
         """
         pass
 
-    @abstractmethod
-    def backward_next(self) -> None:
-        """
-        Executes the previous line of the code without entering into the user function.
-
-        :return: None
-        """
-        pass
-
     # Checkpoints
     @abstractmethod
     def new_checkpoint(self, line_number: int) -> None:
@@ -171,7 +164,7 @@ class ControllerInterface(ABC):
     def new_tracked_function(self, function: SymbolDescription) -> None:
         """
         Add a new tracked function by the user with the given `function`.
-        
+
         :demand: F.2.8
         :param function: SymboleDescription
         :return: None
@@ -255,10 +248,18 @@ class Controller(ControllerCallbacksInterface, ControllerInterface):
         # private attributes
         self.__ui_callbacks: UICallbacksInterface = ui_callbacks
         self.__execution_state: ExecutionState = ExecutionState.NOT_INITIALIZED
-        self.__current_statistics: Statistics = None
-        self.__current_variables: DebugVariables = None
+
+        # self.__current_statistics: Statistics = None
+        # self.__current_variables: DebugVariables = None
+        self.__tracked_vars: list[SymbolDescription] = []
+        self.__tracked_funs: list[SymbolDescription] = []
+        self.__tracked_types: list[str] = []
+
+        self.__checkpoints: list[int] = []
+
         self.__step_time: int = 500
-        self.__debugger: DebuggerInterface = debugger_class(self)
+        self.__debugger: DebuggerInterface = debugger_class()
+        self.__debugger.initialize(self)
 
     # Private methods
     def __initialize_debugger(self, code: str) -> None:
@@ -293,30 +294,75 @@ class Controller(ControllerCallbacksInterface, ControllerInterface):
         """
         pass
 
-    def __ui_vars(
+    def __get_ui_vars(
             self, vars: DebugVariables,
             tracked_vars: list[SymbolDescription]) -> DebugVariables:
         """
         Returns the variables of the execution given the debugger
         `variables` and the user parameters `tracked_vars`.
-        
+
         :param variables: Variables
         :param variables: typing.List[SymboleDescription]
         :return: Variables
         """
         pass
 
-    # ControllerInterface
-    def start(self) -> None:
+
+    ## ControllerCallbacksInterface
+    def backward_step_done(self, context: DebugContext, line_number: int) -> None:
+
+        self.__ui_callbacks.set_current_line(line_number)
+        self.__ui_callbacks.update_variables(self.__get_ui_vars(context.variables, self.__tracked_vars))
+
+        raise NotImplementedError("Method not yet implemented")
+
+    def forward_step_done(self, context: DebugContext, line_number: int) -> None:
+        pass
+
+    def forward_next_done(self, context: DebugContext, line_number: int) -> None:
+        raise NotImplementedError("Method not yet implemented")
+
+    def do_continue_done(self, context: DebugContext, line_number: int) -> None:
+        raise NotImplementedError("Method not yet implemented")
+
+    def end_of_code_reached(self, context: DebugContext, line_number: int) -> None:
+        raise NotImplementedError("Method not yet implemented")
+
+    def on_error(self, error: CodeError) -> None:
+        raise NotImplementedError("Method not yet implemented")
+
+    def on_message(self, message: str) -> None:
+        raise NotImplementedError("Method not yet implemented")
+
+    ## ControllerInterface
+    async def __loop_forward_step(self) -> None:
+        print("in __loop_forward_step")
+        self.forward_step()
+        if self.__execution_state == ExecutionState.RUNNING:
+            await asyncio.sleep(self.__step_time / 1000)
+            self.__loop_forward_step()
+
+    def __check_if_initialized(self) -> None:
+        if self.__execution_state == ExecutionState.NOT_INITIALIZED:
+            self.__ui_callbacks.show_error("Controller not initialized")
+            raise ValueError("Controller not initialized")
+
+
+    async def start(self) -> None:
+        print("in start")
         code = self.__ui_callbacks.get_code()
         self.__initialize_debugger(code)
-        self.__ui_callbacks.update_variables(self.__current_variables) # Temporary for demonstration purposes
+        self.__execution_state = ExecutionState.RUNNING
+        print("before loop_forward_step")
+        await self.__loop_forward_step()
+        print("after loop_forward_step")
 
-    def pause_continue(self) -> None:
+    async def pause_continue(self) -> None:
         if self.__execution_state == ExecutionState.RUNNING:
             self.__execution_state = ExecutionState.STOPPED
         else:
             self.__execution_state = ExecutionState.RUNNING
+            await self.__loop_forward_step()
 
     def set_step_time(self, time: int) -> None:
         try:
@@ -327,77 +373,55 @@ class Controller(ControllerCallbacksInterface, ControllerInterface):
             print(f"Error: {e}")
 
     def forward_step(self) -> None:
-        raise NotImplementedError("Method not yet implemented")
+        self.__check_if_initialized()
+        if self.__execution_state == ExecutionState.RUNNING:
+            self.__debugger.forward_step()
 
     def forward_next(self) -> None:
-        raise NotImplementedError("Method not yet implemented")
+        self.__check_if_initialized()
+        if self.__execution_state == ExecutionState.RUNNING:
+            self.__debugger.forward_step()
 
     def backward_step(self) -> None:
-        raise NotImplementedError("Method not yet implemented")
-
-    def backward_next(self) -> None:
-        raise NotImplementedError("Method not yet implemented")
-
-    # ControllerCallbacksInterface
-    def backward_step_done(
-            self, context: DebugContext, line_number: int) -> None:
-        raise NotImplementedError("Method not yet implemented")
-
-    def forward_step_done(
-            self, context: DebugContext, line_number: int) -> None:
-        raise NotImplementedError("Method not yet implemented")
-
-    def step_into_done(
-            self, context: DebugContext, line_number: int) -> None:
-        raise NotImplementedError("Method not yet implemented")
-
-    def backward_step_into_done(
-            self, context: DebugContext, line_number: int) -> None:
-        raise NotImplementedError("Method not yet implemented")
-
-    def continue_done(self, context: DebugContext, line_number: int) -> None:
-        raise NotImplementedError("Method not yet implemented")
-
-    def end_of_code_reached(
-            self, context: DebugContext, line_number: int) -> None:
-        raise NotImplementedError("Method not yet implemented")
-
-    def on_error(self, error: CodeError) -> None:
-        raise NotImplementedError("Method not yet implemented")
+        self.__check_if_initialized()
+        if self.__execution_state == ExecutionState.RUNNING:
+            self.__debugger.backward_step()
 
     # Checkpoints
-    def new_checkpoint(self, line_number: int) -> None:
-        raise NotImplementedError("Method not yet implemented")
+    def new_checkpoint(self, line_number: int, cond: str) -> None:
+        self.__debugger.add_breakpoint(line_number, "") # maybe TODO change how the condition is passed
+        self.__checkpoints.append(line_number)
 
     def del_checkpoint(self, line_number: int) -> None:
-        raise NotImplementedError("Method not yet implemented")
+        self.__debugger.del_breakpoint(line_number)
+        self.__checkpoints.remove(line_number)
 
     # Breakpoints
-    def new_breakpoint(self, line_number: int) -> None:
-        raise NotImplementedError("Method not yet implemented")
+    def new_breakpoint(self, line_number: int, cond: str) -> None:
+        self.__debugger.add_breakpoint(line_number, "") # maybe TODO change how the condition is passed
 
     def del_breakpoint(self, line_number: int) -> None:
-        raise NotImplementedError("Method not yet implemented")
+        self.__debugger.del_breakpoint(line_number)
 
     # Tracking for drawings
     def new_tracked_variable(self, variable: SymbolDescription) -> None:
-        raise NotImplementedError("Method not yet implemented")
+        self.__tracked_vars.append(variable)
 
     def del_tracked_variable(self, variable: SymbolDescription) -> None:
-        raise NotImplementedError("Method not yet implemented")
+        self.__tracked_vars.remove(variable)
 
     # Tracking for statistics
     def new_tracked_function(self, function: SymbolDescription) -> None:
-        raise NotImplementedError("Method not yet implemented")
+        self.__tracked_funs.append(function)
 
     def del_tracked_function(self, function: SymbolDescription) -> None:
-        raise NotImplementedError("Method not yet implemented")
+        self.__tracked_funs.remove(function)
 
     def new_tracked_type(self, type_name: str) -> None:
-        raise NotImplementedError("Method not yet implemented")
+        self.__tracked_types.append(type_name)
 
     def del_tracked_type(self, type_name: str) -> None:
-        raise NotImplementedError("Method not yet implemented")
+        self.__tracked_types.remove(type_name)
 
     # Statistics
     def get_csv(self) -> str:

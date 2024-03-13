@@ -11,13 +11,19 @@ class PyDebugger(DebuggerInterface):
     Python language support of the DebuggerInterface.
     """
 
-    def __init__(self, callbacks: ControllerCallbacksInterface) -> None:
+    def __init__(self) -> None:
         print("PyDebugger created")
+
+    def initialize(self, callbacks: ControllerCallbacksInterface) -> None:
+        return
 
     def set_code(self, code: str) -> None:
         print("Setting code")
 
     def add_breakpoint(self, line_number: int, cond: str) -> None:
+        raise NotImplementedError("Method not implemented yet")
+
+    def del_breakpoint(self, line_number: int) -> None:
         raise NotImplementedError("Method not implemented yet")
 
     def backward_step(self) -> None:
@@ -26,7 +32,7 @@ class PyDebugger(DebuggerInterface):
     def forward_step(self) -> None:
         raise NotImplementedError("Method not implemented yet")
 
-    def step_into(self) -> None:
+    def forward_next(self) -> None:
         raise NotImplementedError("Method not implemented yet")
 
     def do_continue(self) -> None:
