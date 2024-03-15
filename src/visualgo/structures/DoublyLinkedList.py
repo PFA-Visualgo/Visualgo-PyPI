@@ -4,11 +4,12 @@ from typing import TypeVar
 
 from .Node import Node
 from .TwoWayNode import TwoWayNode
+from .List import List
 
 T = TypeVar('T')
 
 
-class DoublyLinkedList:
+class DoublyLinkedList(List):
     """
     A doubly linked list that consists of a set of sequentially linked TwoWayNode.
     """
@@ -138,7 +139,7 @@ class DoublyLinkedList:
         self.__tail = new_node
         self.__length += 1
 
-    def insert_before(self, index: int, e: T) -> None:
+    def insert(self, index: int, e: T) -> None:
         """
         Inserts the element before the given `index`.
 

@@ -1,12 +1,14 @@
 """:demand: F1.8"""
 from collections.abc import Iterable
 from typing import TypeVar
+
+from .List import List
 from .Node import Node
 
 T = TypeVar('T')
 
 
-class LinkedList:
+class LinkedList(List):
     """
     A linked list that consists of a set of sequentially linked Node.
     """
@@ -106,6 +108,9 @@ class LinkedList:
         new_node.next = current_node.next
         current_node.next = new_node
         self.__length += 1
+
+    def insert(self, index: int, e: T):
+        self.insert_after(index-1, e)
 
     def delete(self, index: int) -> None:
         """
