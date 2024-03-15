@@ -11,6 +11,7 @@ class BinaryTreeNode(Node):
     """
     A node that can be linked to two other nodes.
     """
+
     def __init__(self, value: Optional[T] = None, left_child: Optional[Node] = None,
                  right_child: Optional[Node] = None):
         super().__init__(value, right_child)

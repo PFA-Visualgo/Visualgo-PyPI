@@ -13,6 +13,7 @@ class DoublyLinkedList(List):
     """
     A doubly linked list that consists of a set of sequentially linked TwoWayNode.
     """
+
     # head <=> ... <=> ... <=> ... <=> sentinel()
     def __init__(self, it: Iterable[T] = None) -> None:
         """

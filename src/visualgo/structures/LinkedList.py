@@ -12,6 +12,7 @@ class LinkedList(List):
     """
     A linked list that consists of a set of sequentially linked Node.
     """
+
     # head -> ... -> ... -> ... -> sentinel()
     def __init__(self, it: Iterable[T] = None) -> None:
         self.__head: Node = Node.sentinel()
@@ -110,7 +111,7 @@ class LinkedList(List):
         self.__length += 1
 
     def insert(self, index: int, e: T):
-        self.insert_after(index-1, e)
+        self.insert_after(index - 1, e)
 
     def delete(self, index: int) -> None:
         """

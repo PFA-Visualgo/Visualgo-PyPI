@@ -10,6 +10,7 @@ class TwoWayNode(Node):
     """
     A node that can be linked to the preceding node.
     """
+
     def __init__(self, value: T = None, previous_node: Optional['TwoWayNode'] = None,
                  next_node: Optional['TwoWayNode'] = None):
         super().__init__(value, next_node)
