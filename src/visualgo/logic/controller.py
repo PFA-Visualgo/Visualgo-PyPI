@@ -45,6 +45,16 @@ class ControllerInterface(ABC):
         pass
 
     @abstractmethod
+    def stop(self) -> None:
+        """
+        Stops the execution of the code. Basically resets the debugger
+
+        :demand: ?
+        :return:
+        """
+        ...
+
+    @abstractmethod
     def pause_continue(self) -> None:
         """
         Pauses or continues the execution of the code.
@@ -325,7 +335,7 @@ class Controller(ControllerCallbacksInterface, ControllerInterface):
     def do_continue_done(self, context: DebugContext, line_number: int) -> None:
         raise NotImplementedError("Method not yet implemented")
 
-    def end_of_code_reached(self, context: DebugContext, line_number: int) -> None:
+    def execution_done(self, context: DebugContext, line_number: int) -> None:
         raise NotImplementedError("Method not yet implemented")
 
     def on_error(self, error: CodeError) -> None:

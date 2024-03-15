@@ -32,6 +32,15 @@ class DebuggerInterface(ABC):
         pass
 
     @abstractmethod
+    def stop(self) -> None:
+        """
+        Stops the debugger. This is basically a reset.
+
+        :return: None
+        """
+        ...
+
+    @abstractmethod
     def add_breakpoint(self, line_number: int, cond: str) -> None:
         """
         Add a new breakpoint at the given `line_number` with a condition `cond`.
@@ -42,7 +51,6 @@ class DebuggerInterface(ABC):
         :return: None
         """
         pass
-
 
     @abstractmethod
     def del_breakpoint(self, line_number: int) -> None:
