@@ -7,13 +7,14 @@ from .TwoWayNode import TwoWayNode
 T = TypeVar('T')
 
 
-class BinaryTreeNode(TwoWayNode):
+class BinaryTreeNode(Node):
     """
     A node that can be linked to two other nodes.
     """
     def __init__(self, value: Optional[T] = None, left_child: Optional[Node] = None,
                  right_child: Optional[Node] = None):
-        super().__init__(value, left_child, right_child)
+        super().__init__(value, right_child)
+        self.__left_child = left_child
 
     @property
     def left_child(self) -> Optional['Node']:
@@ -22,7 +23,7 @@ class BinaryTreeNode(TwoWayNode):
 
         :return: BinaryTreeNode
         """
-        return self._previous
+        return self.__left_child
 
     @left_child.setter
     def left_child(self, node: Optional['Node']) -> None:
@@ -32,7 +33,7 @@ class BinaryTreeNode(TwoWayNode):
         :param node: The new left child.
         :return: None
         """
-        self._previous = node
+        self.__left_child = node
 
     @property
     def right_child(self) -> Optional['Node']:
