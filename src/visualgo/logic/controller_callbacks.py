@@ -14,8 +14,6 @@ class ControllerCallbacksInterface(ABC):
         """
         Update the visualisation once the debugger has finished executing code and is awaiting
         further instructions. Occurs on steps, next and continues.
-
-
         :param context:
         :param line_number:
         :return:

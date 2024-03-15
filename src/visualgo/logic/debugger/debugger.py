@@ -52,6 +52,17 @@ class DebuggerInterface(ABC):
         """
         pass
 
+
+    @abstractmethod
+    def del_breakpoint(self, line_number: int) -> None:
+        """
+        Remove the breakpoint at the given `line_number`.
+
+        :param line_number: int
+        :return: None
+        """
+        pass
+
     @abstractmethod
     def del_breakpoint(self, line_number: int) -> None:
         """
