@@ -13,7 +13,7 @@ class TwoWayNode(Node):
     def __init__(self, value: T = None, previous_node: Optional['TwoWayNode'] = None,
                  next_node: Optional['TwoWayNode'] = None):
         super().__init__(value, next_node)
-        self.__previous = previous_node
+        self._previous = previous_node
 
     @property
     def previous(self) -> Optional['TwoWayNode']:
@@ -22,7 +22,7 @@ class TwoWayNode(Node):
 
         :return: TwoWayNode
         """
-        return self.__previous
+        return self._previous
 
     @previous.setter
     def previous(self, two_way_node: Optional['TwoWayNode']) -> None:
@@ -32,7 +32,7 @@ class TwoWayNode(Node):
         :param two_way_node: TwoWayNode
         :return: None
         """
-        self.__previous = two_way_node
+        self._previous = two_way_node
 
     def has_previous(self) -> bool:
         """

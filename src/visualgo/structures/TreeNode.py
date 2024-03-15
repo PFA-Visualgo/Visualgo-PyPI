@@ -8,10 +8,10 @@ from .Node import Node
 T = TypeVar('T')
 
 
-class TreeNode:
+class TreeNode(Node):
     def __init__(self, value: T = None, children: Iterable = None) -> None:
-        self.__value = value
-        self.__children = DoublyLinkedList(children)
+        super().__init__(value)
+        self._children = DoublyLinkedList(children)
 
     @property
     def children(self):
@@ -20,7 +20,7 @@ class TreeNode:
 
         :return: List[TreeNode]
         """
-        return self.__children
+        return self._children
 
     @property
     def value(self) -> T:  # TODO: Changer nom dans le diagramme et le cahier des charges.
@@ -29,7 +29,7 @@ class TreeNode:
 
         :return: Object
         """
-        return self.__value
+        return self._value
 
     @value.setter
     def value(self, e: T) -> None:  # TODO: Changer nom dans le diagramme et le cahier des charges.
@@ -39,7 +39,7 @@ class TreeNode:
         :param e: Object
         :return: None
         """
-        self.__value = e
+        self._value = e
 
     def has_child(self) -> bool:
         """
@@ -47,30 +47,30 @@ class TreeNode:
 
         :return: bool
         """
-        return not self.__children.is_empty()
+        return not self._children.is_empty()
 
-    def add_child(self, tree_node: Optional['TreeNode']) -> None:
+    def add_child(self, node: Optional['Node']) -> None:
         """
         Adds a child TreeNode to the TreeNode.
 
-        :param tree_node:
+        :param node:
         :return:
         """
-        self.__children.insert_last(tree_node)
+        self._children.insert_last(node)
 
-    def delete_child(self, tree_node: Optional['TreeNode']) -> None:
+    def delete_child(self, node: Optional['Node']) -> None:
         """
         Deletes a child TreeNode from this TreeNode.
 
-        :param tree_node:
+        :param node:
         :return:
         """
         if self.children.is_empty():
             raise ValueError("The node has no child.")
         index: int = 0
-        for node in self.__children:
-            if node is tree_node:
-                return self.__children.delete(index)
+        for current_node in self._children:
+            if current_node is node:
+                return self._children.delete(index)
             index += 1
         raise ValueError("No such child")
 

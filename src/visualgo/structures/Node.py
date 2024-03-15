@@ -7,8 +7,8 @@ T = TypeVar('T')
 
 class Node:
     def __init__(self, value: T = None, next_node: Optional['Node'] = None):
-        self.__value = value
-        self.__next = next_node
+        self._value = value
+        self._next = next_node
 
     @property
     def next(self) -> Optional['Node']:
@@ -17,7 +17,7 @@ class Node:
 
         :return: Node object
         """
-        return self.__next
+        return self._next
 
     @next.setter
     def next(self, next_node: Optional['Node']) -> None:
@@ -27,7 +27,7 @@ class Node:
         :param next_node: Node object
         :return: None
         """
-        self.__next = next_node
+        self._next = next_node
 
     @property
     def value(self) -> Optional[T]:
@@ -36,7 +36,7 @@ class Node:
 
         :return: Object
         """
-        return self.__value
+        return self._value
 
     @value.setter
     def value(self, value: T) -> None:
@@ -46,7 +46,7 @@ class Node:
         :param value: Any object
         :return: None
         """
-        self.__value = value
+        self._value = value
 
     def has_next(self) -> bool:
         """

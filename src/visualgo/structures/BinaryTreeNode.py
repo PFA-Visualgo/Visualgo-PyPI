@@ -2,57 +2,56 @@
 
 from typing import Optional, TypeVar
 from .Node import Node
+from .TwoWayNode import TwoWayNode
 
 T = TypeVar('T')
 
 
-class BinaryTreeNode:
+class BinaryTreeNode(TwoWayNode):
     """
     A node that can be linked to two other nodes.
     """
     def __init__(self, value: Optional[T] = None, left_child: Optional[Node] = None,
                  right_child: Optional[Node] = None):
-        self._value = value
-        self._left_child = left_child
-        self._right_child = right_child
+        super().__init__(value, left_child, right_child)
 
     @property
-    def left_child(self) -> Optional['BinaryTreeNode']:
+    def left_child(self) -> Optional['Node']:
         """
         Returns the left child of this node. Can be None.
 
         :return: BinaryTreeNode
         """
-        return self._left_child
+        return self._previous
 
     @left_child.setter
-    def left_child(self, binary_tree_node: Optional['BinaryTreeNode']) -> None:
+    def left_child(self, node: Optional['Node']) -> None:
         """
         Sets the left child of this node.
 
-        :param binary_tree_node: The new left child.
+        :param node: The new left child.
         :return: None
         """
-        self._left_child = binary_tree_node
+        self._previous = node
 
     @property
-    def right_child(self) -> Optional['BinaryTreeNode']:
+    def right_child(self) -> Optional['Node']:
         """
         Returns the right child of this node. Can be None.
 
         :return: BinaryTreeNode
         """
-        return self._right_child
+        return self._next
 
     @right_child.setter
-    def right_child(self, binary_tree_node: Optional['BinaryTreeNode']) -> None:
+    def right_child(self, node: Optional['Node']) -> None:
         """
         Sets the right child of this node.
 
-        :param binary_tree_node: The new right child.
+        :param node: The new right child.
         :return: None
         """
-        self._right_child = binary_tree_node
+        self._next = node
 
     @property
     def value(self) -> T:
@@ -79,4 +78,4 @@ class BinaryTreeNode:
 
         :return: bool
         """
-        return self._left_child is not None or self._right_child is not None
+        return self.left_child is not None or self.right_child is not None
