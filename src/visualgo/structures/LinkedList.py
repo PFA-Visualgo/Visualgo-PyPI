@@ -1,7 +1,7 @@
 """:demand: F1.8"""
+
 from collections.abc import Iterable
 from typing import TypeVar
-
 from .List import List
 from .Node import Node
 
@@ -111,6 +111,8 @@ class LinkedList(List):
         self.__length += 1
 
     def insert(self, index: int, e: T):
+        if index == 0:
+            return self.insert_head(e)
         self.insert_after(index - 1, e)
 
     def delete(self, index: int) -> None:

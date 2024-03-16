@@ -1,7 +1,6 @@
 """:demand: F1.8"""
 
 from typing import TypeVar
-
 from .DoublyLinkedList import DoublyLinkedList
 
 T = TypeVar('T')

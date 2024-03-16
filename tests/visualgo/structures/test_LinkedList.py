@@ -104,6 +104,19 @@ class TestLinkedList(unittest.TestCase):
         self.assertEqual(lis.get(2), 2)
         self.assertRaises(IndexError, lambda: lis.insert_after(3, 4))
 
+    def test_insert(self):
+        """
+        Tests the `insert` method.
+        """
+        lis = LinkedList()
+        lis.insert_head(1)
+        lis.insert(0, 2)
+        self.assertEqual(lis.get(0), 2)
+        lis.insert(1, 3)
+        self.assertEqual(lis.get(1), 3)
+        self.assertEqual(lis.get(0), 2)
+        self.assertRaises(IndexError, lambda: lis.insert(-1, 4))
+
     def test_delete(self):
         """
         Tests the `delete` method.

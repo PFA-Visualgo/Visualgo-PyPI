@@ -2,7 +2,6 @@
 
 from typing import Optional, TypeVar
 from .Node import Node
-from .TwoWayNode import TwoWayNode
 
 T = TypeVar('T')
 
