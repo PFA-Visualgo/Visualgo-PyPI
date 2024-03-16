@@ -44,20 +44,24 @@ class MockPyDebugger(DebuggerInterface):
     def del_breakpoint(self, line_number: int) -> None:
         pass
 
-    def forward_next(self) -> None:
-        self.__controller_callbacks.forward_next_done(None, 0)
+    def step_into(self) -> None:
+        self.__controller_callbacks.execution_paused(None, 0)
         pass
 
     def forward_step(self) -> None:
-        self.__controller_callbacks.forward_step_done(None, 0)
+        self.__controller_callbacks.execution_paused(None, 0)
         pass
 
     def backward_step(self) -> None:
-        self.__controller_callbacks.backward_step_done(None, 0)
+        self.__controller_callbacks.execution_paused(None, 0)
         pass
 
     def do_continue(self) -> None:
-        self.__controller_callbacks.do_continue_done(None, 0)
+        self.__controller_callbacks.execution_paused(None, 0)
+        pass
+    
+    def stop(self) -> None:
+        self.__controller_callbacks.execution_done(None, 0)
         pass
 
 
@@ -77,17 +81,17 @@ class TestController(unittest.TestCase):
     def test_pause_continue(self):
         async def async_test_pause_continue():
             # controller = Controller(MockPyDebugger, MockUICallbacks())
-            # controller._Controller__execution_state = ExecutionState.STOPPED
+            # controller._Controller__execution_state = ExecutionState.PAUSED
             # controller.set_step_time(0.5)
             # await controller.pause_continue()
             # self.assertEqual(controller._Controller__execution_state, ExecutionState.RUNNING)
             # await asyncio.sleep(1) # Wait for at least 1 call to forward_step()
-            # controller._Controller__execution_state = ExecutionState.STOPPED
+            # controller._Controller__execution_state = ExecutionState.PAUSED
 
             controller = Controller(MockPyDebugger, MockUICallbacks())
             controller._Controller__execution_state = ExecutionState.RUNNING
             await controller.pause_continue()
-            self.assertEqual(controller._Controller__execution_state, ExecutionState.STOPPED)
+            self.assertEqual(controller._Controller__execution_state, ExecutionState.PAUSED)
 
         asyncio.run(async_test_pause_continue())
 

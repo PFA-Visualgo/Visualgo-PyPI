@@ -32,6 +32,16 @@ class DebuggerInterface(ABC):
         pass
 
     @abstractmethod
+    def stop(self) -> None:
+        """
+        Stops the debugger. This is basically a reset.
+
+        :call: callbacks.execution_done(context, line_number)
+        :return: None
+        """
+        ...
+
+    @abstractmethod
     def add_breakpoint(self, line_number: int, cond: str) -> None:
         """
         Add a new breakpoint at the given `line_number` with a condition `cond`.
@@ -55,11 +65,11 @@ class DebuggerInterface(ABC):
         pass
 
     @abstractmethod
-    def forward_next(self) -> None:
+    def step_into(self) -> None:
         """
         Make a forward 'forward_next' the execution, it will not enter in the function if it is a function call.
 
-        :call: callbacks.forward_next_done(context, line_number)
+        :call: callbacks.execution_paused(context, line_number)
         :return: None
         """
         pass
@@ -69,7 +79,7 @@ class DebuggerInterface(ABC):
         """
         Make a forward 'step' in the execution, it will enter in the function if it is a function call.
 
-        :call: callbacks.forward_step_done(context, line_number)
+        :call: callbacks.execution_paused(context, line_number)
         :return: None
         """
         pass
@@ -79,7 +89,7 @@ class DebuggerInterface(ABC):
         """
         Make a backward 'step' in the execution, it will exit the function if it was a function call.
 
-        :call: callbacks.backward_step_done(context, line_number)
+        :call: callbacks.execution_paused(context, line_number)
         :return: None
         """
         pass
@@ -89,7 +99,7 @@ class DebuggerInterface(ABC):
         """
         Continue the execution until the next breakpoint.
 
-        :call: callbacks.do_continue_done(context, line_number)
+        :call: callbacks.execution_paused(context, line_number)
         :return: None
         """
         pass

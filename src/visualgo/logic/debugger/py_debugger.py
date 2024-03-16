@@ -18,9 +18,12 @@ class PyDebugger(DebuggerInterface):
         return
 
     def set_code(self, code: str) -> None:
-        print("Setting code")
+        raise NotImplementedError("Method not implemented yet")
 
     def add_breakpoint(self, line_number: int, cond: str) -> None:
+        raise NotImplementedError("Method not implemented yet")
+
+    def del_breakpoint(self, line_number: int) -> None:
         raise NotImplementedError("Method not implemented yet")
 
     def del_breakpoint(self, line_number: int) -> None:
@@ -29,7 +32,7 @@ class PyDebugger(DebuggerInterface):
     def backward_step(self) -> None:
         raise NotImplementedError("Method not implemented yet")
 
-    def forward_step(self) -> None:
+    def step_into(self) -> None:
         raise NotImplementedError("Method not implemented yet")
 
     def forward_next(self) -> None:

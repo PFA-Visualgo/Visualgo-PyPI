@@ -26,3 +26,6 @@ class PythonToWorker(to_worker.ToWorker):
     def send_message(self, mes_id: str, mes_data: Any):
         self.message_value = (mes_id, mes_data)
         self.ev.set()
+
+    def interrupt_worker(self):
+        raise NotImplementedError("Method not implemented")
