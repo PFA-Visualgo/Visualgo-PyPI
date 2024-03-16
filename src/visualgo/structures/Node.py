@@ -72,3 +72,31 @@ class Node:
         :return: bool
         """
         return self.next is None and self.value is None
+
+
+def Node_value(node: Node) -> T:
+    return node.value
+
+
+def Node_set_value(node: Node, value: T) -> None:
+    node.value = value
+
+
+def Node_next(node: Node) -> T:
+    return node.next
+
+
+def Node_set_next(node: Node, next: Optional['Node']) -> T:
+    node.next = next
+
+
+def Node_has_next(node: Node) -> bool:
+    return node.has_next()
+
+
+def Node_sentinel() -> Node:
+    return Node.sentinel()
+
+
+def Node_is_sentinel(node: Node) -> bool:
+    return node.is_sentinel()

@@ -1,7 +1,7 @@
 """:demand: F1.8"""
 
 import unittest
-from visualgo.structures import Node
+from visualgo.structures.Node import *
 
 
 class TestNode(unittest.TestCase):
@@ -28,6 +28,7 @@ class TestNode(unittest.TestCase):
         self.assertEqual(node3.next.next, node)
 
         self.assertEqual(node4.value, [13])
+        self.assertTrue(Node_is_sentinel(Node_sentinel()))
 
     def test_has_next(self):
         """
@@ -37,7 +38,7 @@ class TestNode(unittest.TestCase):
         self.assertFalse(node.has_next())
 
         node2 = Node("h", node)
-        self.assertTrue(node2.has_next())
+        self.assertTrue(Node_has_next(node2))
 
     def test_set(self):
         """
@@ -50,11 +51,11 @@ class TestNode(unittest.TestCase):
         node.value = 4
         self.assertEqual(node.value, 4)
         node2 = Node(9)
-        self.assertIsNone(node2.next)
-        node2.next = node
+        self.assertIsNone(Node_next(node2))
+        Node_set_next(node2, node)
         self.assertEqual(node2.next, node)
-        node.value = 90
-        self.assertEqual(node.value, 90)
+        Node_set_value(node, 90)
+        self.assertEqual(Node_value(node), 90)
 
 
 if __name__ == '__main__':
