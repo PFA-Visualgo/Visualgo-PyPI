@@ -12,6 +12,10 @@ class ToWorker(ABC):
     def send_message(self, mes_id: str, mes_data: Any):
         ...
 
+    @abstractmethod
+    def interrupt_worker(self):
+        ...
+
 
 to_worker_impl: ToWorker
 
