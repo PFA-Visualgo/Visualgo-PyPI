@@ -59,3 +59,43 @@ class TwoWayNode(Node):
         :return: bool
         """
         return self.value is None and self.next is None
+
+
+def TwoWayNode_value(node: TwoWayNode) -> T:
+    return node.value
+
+
+def TwoWayNode_set_value(node: TwoWayNode, value: T) -> None:
+    node.value = value
+
+
+def TwoWayNode_next(node: TwoWayNode) -> Optional[Node]:
+    return node.next
+
+
+def TwoWayNode_set_next(node: TwoWayNode, next: Node) -> Optional[Node]:
+    node.next = next
+
+
+def TwoWayNode_has_next(node: TwoWayNode) -> bool:
+    return node.has_next()
+
+
+def TwoWayNode_sentinel() -> TwoWayNode:
+    return TwoWayNode.sentinel()
+
+
+def TwoWayNode_is_sentinel(node: TwoWayNode) -> bool:
+    return node.is_sentinel()
+
+
+def TwoWayNode_previous(node: TwoWayNode) -> Optional[Node]:
+    return node.previous
+
+
+def TwoWayNode_set_previous(node: TwoWayNode, previous: Node) -> Optional[Node]:
+    node.previous = previous
+
+
+def TwoWayNode_has_previous(node: TwoWayNode) -> bool:
+    return node.has_previous()
