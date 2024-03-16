@@ -24,7 +24,7 @@ class ExecutionState(Enum):
     """
     NOT_INITIALIZED = 0
     RUNNING = 1
-    STOPPED = 2
+    PAUSED = 2
     FINISHED = 3
 
 
@@ -52,7 +52,7 @@ class ControllerInterface(ABC):
         :demand: ?
         :return:
         """
-        ...
+        pass
 
     @abstractmethod
     def pause_continue(self) -> None:
@@ -319,21 +319,17 @@ class Controller(ControllerCallbacksInterface, ControllerInterface):
 
 
     ## ControllerCallbacksInterface
-    def backward_step_done(self, context: DebugContext, line_number: int) -> None:
-
+    def execution_paused(self, context: DebugContext, line_number: int) -> None:
+        """
+        Update the visualisation once the debugger has finished executing code and is awaiting
+        further instructions. Occurs on steps, next and continues.
+        :param context:
+        :param line_number:
+        :return:
+        """
         self.__ui_callbacks.set_current_line(line_number)
         self.__ui_callbacks.update_variables(self.__get_ui_vars(context.variables, self.__tracked_vars))
 
-        raise NotImplementedError("Method not yet implemented")
-
-    def forward_step_done(self, context: DebugContext, line_number: int) -> None:
-        pass
-
-    def forward_next_done(self, context: DebugContext, line_number: int) -> None:
-        raise NotImplementedError("Method not yet implemented")
-
-    def do_continue_done(self, context: DebugContext, line_number: int) -> None:
-        raise NotImplementedError("Method not yet implemented")
 
     def execution_done(self, context: DebugContext, line_number: int) -> None:
         raise NotImplementedError("Method not yet implemented")
@@ -369,10 +365,19 @@ class Controller(ControllerCallbacksInterface, ControllerInterface):
 
     async def pause_continue(self) -> None:
         if self.__execution_state == ExecutionState.RUNNING:
-            self.__execution_state = ExecutionState.STOPPED
+            self.__execution_state = ExecutionState.PAUSED
         else:
             self.__execution_state = ExecutionState.RUNNING
             await self.__loop_forward_step()
+    
+    def stop(self) -> None:
+        """
+        Stops the execution of the code. Basically resets the debugger
+
+        :demand: ?
+        :return:
+        """
+        pass
 
     def set_step_time(self, time: int) -> None:
         try:
