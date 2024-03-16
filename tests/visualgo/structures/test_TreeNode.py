@@ -1,7 +1,7 @@
 """:demand: F1.8"""
 
 import unittest
-from visualgo.structures import TreeNode
+from visualgo.structures.TreeNode import *
 
 
 class TestTreeNode(unittest.TestCase):
@@ -27,9 +27,14 @@ class TestTreeNode(unittest.TestCase):
         self.assertEqual(node3.value, node)
         self.assertEqual(node3.children[0], node)
         self.assertEqual(node3.children[1], node2)
-        self.assertEqual(node3.children[1].children[0], node)
+        self.assertEqual(TreeNode_children(node3)[1].children[0], node)
 
         self.assertEqual(node4.value, [13])
+
+        TreeNode_next(node)
+        TreeNode_has_next(node)
+        TreeNode_set_next(node, node)
+        self.assertTrue(TreeNode_is_sentinel(TreeNode_sentinel()))
 
     def test_children(self):
         """
@@ -53,8 +58,8 @@ class TestTreeNode(unittest.TestCase):
         node.value = "123"
         self.assertEqual(node.value, "123")
         node2 = TreeNode(9, [node])
-        self.assertEqual(node2.value, 9)
-        node2.value = node2
+        self.assertEqual(TreeNode_value(node2), 9)
+        TreeNode_set_value(node2, node2)
         self.assertEqual(node2.value, node2)
         self.assertEqual(node2.children[0], node)
 
@@ -65,7 +70,7 @@ class TestTreeNode(unittest.TestCase):
         node = TreeNode()
         self.assertFalse(node.has_child())
         node2 = TreeNode(3, [node])
-        self.assertTrue(node2.has_child())
+        self.assertTrue(TreeNode_has_child(node2))
 
     def test_add_child(self):
         """
@@ -79,7 +84,7 @@ class TestTreeNode(unittest.TestCase):
         self.assertEqual(node.children[0], node2)
         self.assertRaises(IndexError, lambda: node.children[1])
         node3 = TreeNode("e", [node, node2])
-        node.add_child(node3)
+        TreeNode_add_child(node, node3)
         self.assertEqual(node.children[0], node2)
         self.assertEqual(node.children[1], node3)
         self.assertTrue(node.has_child())
@@ -98,7 +103,7 @@ class TestTreeNode(unittest.TestCase):
         node2.add_child(node)
         node2.add_child(node2)
         print(node2.children)
-        node2.delete_child(node2)
+        TreeNode_delete_child(node2, node2)
 
         self.assertTrue(node2.has_child)
         self.assertEqual(node2.children[0], node)

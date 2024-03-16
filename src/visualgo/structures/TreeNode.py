@@ -82,3 +82,47 @@ class TreeNode(Node):
         :return: bool
         """
         return self.children.is_empty() and self.value is None
+
+
+def TreeNode_value(node: TreeNode) -> T:
+    return node.value
+
+
+def TreeNode_set_value(node: TreeNode, value: T) -> None:
+    node.value = value
+
+
+def TreeNode_next(node: TreeNode) -> Optional[Node]:
+    return print("Don't use this function ! Use TreeNode_child instead.")
+
+
+def TreeNode_set_next(node: TreeNode, next: Node) -> Optional[Node]:
+    return print("Don't use this function ! Use TreeNode_add_child or TreeNode_delete_child instead.")
+
+
+def TreeNode_has_next(node: TreeNode) -> bool:
+    return print("Don't use this function ! Use TreeNode_has_child instead.") is not None
+
+
+def TreeNode_sentinel() -> TreeNode:
+    return TreeNode.sentinel()
+
+
+def TreeNode_is_sentinel(node: TreeNode) -> bool:
+    return node.is_sentinel()
+
+
+def TreeNode_children(node: TreeNode) -> DoublyLinkedList:
+    return node.children
+
+
+def TreeNode_has_child(node: TreeNode) -> bool:
+    return node.has_child()
+
+
+def TreeNode_add_child(node: TreeNode, child: Node) -> None:
+    return node.add_child(child)
+
+
+def TreeNode_delete_child(node: TreeNode, child: Node) -> None:
+    return node.delete_child(child)
