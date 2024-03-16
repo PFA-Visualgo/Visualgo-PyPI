@@ -1,7 +1,7 @@
 """:demand: F1.8"""
 
 import unittest
-from visualgo.structures import BinaryTreeNode
+from visualgo.structures.BinaryTreeNode import *
 
 
 class TestBinaryTreeNode(unittest.TestCase):
@@ -30,6 +30,10 @@ class TestBinaryTreeNode(unittest.TestCase):
         self.assertEqual(node3.right_child.left_child, node)
 
         self.assertEqual(node4.value, [13])
+        self.assertTrue(BinaryTreeNode_is_sentinel(BinaryTreeNode_sentinel()))
+        BinaryTreeNode_next(node)
+        BinaryTreeNode_has_next(node)
+        BinaryTreeNode_set_next(node, node)
 
     def test_set_left_child(self):
         """
@@ -41,8 +45,8 @@ class TestBinaryTreeNode(unittest.TestCase):
         self.assertEqual(node2.left_child, node)
         node.left_child = node2
         self.assertEqual(node.left_child, node2)
-        node2.left_child = node
-        self.assertEqual(node2.left_child, node)
+        BinaryTreeNode_set_left_child(node2, node)
+        self.assertEqual(BinaryTreeNode_left_child(node2), node)
 
     def test_set_right_child(self):
         """
@@ -54,8 +58,8 @@ class TestBinaryTreeNode(unittest.TestCase):
         self.assertEqual(node2.right_child, node)
         node.right_child = node2
         self.assertEqual(node.right_child, node2)
-        node2.right_child = node
-        self.assertEqual(node2.right_child, node)
+        BinaryTreeNode_set_right_child(node2, node)
+        self.assertEqual(BinaryTreeNode_right_child(node2), node)
 
     def test_set_value(self):
         """
@@ -68,8 +72,8 @@ class TestBinaryTreeNode(unittest.TestCase):
         node2 = BinaryTreeNode(9)
         node2.right_child = node
         self.assertEqual(node2.right_child, node)
-        node.value = 90
-        self.assertEqual(node.value, 90)
+        BinaryTreeNode_set_value(node, 90)
+        self.assertEqual(BinaryTreeNode_value(node), 90)
 
     def test_has_child(self):
         """
@@ -80,7 +84,7 @@ class TestBinaryTreeNode(unittest.TestCase):
         node2 = BinaryTreeNode(3, node)
         self.assertTrue(node2.has_child())
         node3 = BinaryTreeNode(67, node, node2)
-        self.assertTrue(node3.has_child())
+        self.assertTrue(BinaryTreeNode_has_child(node3))
 
 
 if __name__ == '__main__':

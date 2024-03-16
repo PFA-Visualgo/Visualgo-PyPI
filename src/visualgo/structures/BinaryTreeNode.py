@@ -81,3 +81,51 @@ class BinaryTreeNode(Node):
         :return: bool
         """
         return self.left_child is not None or self.right_child is not None
+
+
+def BinaryTreeNode_value(node: BinaryTreeNode) -> T:
+    return node.value
+
+
+def BinaryTreeNode_set_value(node: BinaryTreeNode, value: T) -> None:
+    node.value = value
+
+
+def BinaryTreeNode_next(node: BinaryTreeNode) -> Optional[Node]:
+    return print("Don't use this function ! Use BinaryTreeNode_right_child instead.")
+
+
+def BinaryTreeNode_set_next(node: BinaryTreeNode, next: Node) -> Optional[Node]:
+    return print("Don't use this function ! Use BinaryTreeNode_set_right_child instead.")
+
+
+def BinaryTreeNode_has_next(node: BinaryTreeNode) -> bool:
+    return print("Don't use this function ! Use BinaryTreeNode_has_child instead.") is not None
+
+
+def BinaryTreeNode_sentinel() -> BinaryTreeNode:
+    return BinaryTreeNode.sentinel()
+
+
+def BinaryTreeNode_is_sentinel(node: BinaryTreeNode) -> bool:
+    return node.is_sentinel()
+
+
+def BinaryTreeNode_left_child(node: BinaryTreeNode) -> Optional[Node]:
+    return node.left_child
+
+
+def BinaryTreeNode_set_left_child(node: BinaryTreeNode, left_child: Node) -> None:
+    node.left_child = left_child
+
+
+def BinaryTreeNode_right_child(node: BinaryTreeNode) -> Optional['Node']:
+    return node.right_child
+
+
+def BinaryTreeNode_set_right_child(node: BinaryTreeNode, right_child: Node) -> None:
+    node.right_child = right_child
+
+
+def BinaryTreeNode_has_child(node: BinaryTreeNode) -> bool:
+    return node.has_child()
