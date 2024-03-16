@@ -1,7 +1,7 @@
 """:demand: F1.8"""
 
 import unittest
-from visualgo.structures import Table
+from visualgo.structures.Table import *
 
 
 class TestTable(unittest.TestCase):
@@ -24,7 +24,7 @@ class TestTable(unittest.TestCase):
         table = Table(5)
         self.assertEqual(table.length, 5)
         table2 = Table(0)
-        self.assertEqual(table2.length, 0)
+        self.assertEqual(Table_length(table2), 0)
 
     def test_get(self):
         """
@@ -33,8 +33,9 @@ class TestTable(unittest.TestCase):
         table = Table(4)
         for i in range(4):
             table.set(i, 2 * i)
-        for i in range(4):
+        for i in range(3):
             self.assertEqual(table.get(i), 2 * i)
+        self.assertEqual(Table_get(table, 3), 6)
 
     def test_set(self):
         """
@@ -47,7 +48,7 @@ class TestTable(unittest.TestCase):
             table.set(i, 3 * i)
         for i in range(4):
             self.assertEqual(table.get(i), 3 * i)
-        self.assertRaises(IndexError, lambda: table.set(4, 89))
+        self.assertRaises(IndexError, lambda: Table_set(table, 4, 89))
 
 
 

@@ -37,3 +37,15 @@ class Table:
         :return: None
         """
         self.__table[index] = e
+
+
+def Table_length(table: Table) -> int:
+    return table.length
+
+
+def Table_get(table: Table, index: int) -> T:
+    return table.get(index)
+
+
+def Table_set(table: Table, index: int, e: T) -> None:
+    table.set(index, e)
