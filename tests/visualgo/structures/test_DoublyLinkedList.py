@@ -60,10 +60,12 @@ class TestDoublyLinkedList(unittest.TestCase):
         """
         Tests the `get_node` method.
         """
-        lis = DoublyLinkedList([1, 2, 89])
+        lis = DoublyLinkedList([1, 2, 89, 3, 357])
         self.assertEqual(lis._get_node(0).next, lis._get_node(1))
         self.assertEqual(lis._get_node(1).next, lis._get_node(2))
-        self.assertRaises(IndexError, lambda: lis._get_node(3))
+        self.assertEqual(lis._get_node(2).next, lis._get_node(3))
+        self.assertEqual(lis._get_node(3).next, lis._get_node(4))
+        self.assertRaises(IndexError, lambda: lis._get_node(5))
 
     def test_set(self):
         """

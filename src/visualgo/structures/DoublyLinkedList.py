@@ -69,6 +69,13 @@ class DoublyLinkedList(List):
         """
         if index < 0 or index >= self.length:
             raise IndexError('Index out of range')
+        if index > self.length / 2:
+            i: int = self.length-1
+            current_node = self.__tail
+            while i > index:
+                current_node = current_node.previous
+                i -= 1
+            return current_node
         i: int = 0
         current_node = self.__head
         while i < index:
