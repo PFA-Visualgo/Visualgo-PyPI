@@ -1,7 +1,7 @@
 """:demand: F1.8"""
 
 import unittest
-from visualgo.structures import DoublyLinkedList
+from visualgo.structures.DoublyLinkedList import *
 
 
 class TestDoublyLinkedList(unittest.TestCase):
@@ -30,7 +30,7 @@ class TestDoublyLinkedList(unittest.TestCase):
         lis2 = DoublyLinkedList([1, 2, 89])
         self.assertEqual(lis2.length, 3)
         lis3 = DoublyLinkedList([1, 2])
-        self.assertEqual(lis3.length, 2)
+        self.assertEqual(DoublyLinkedList_length(lis3), 2)
 
     def test_is_empty(self):
         """
@@ -42,7 +42,7 @@ class TestDoublyLinkedList(unittest.TestCase):
         lis.insert_head(1)
         self.assertFalse(lis.is_empty())
         lis2 = DoublyLinkedList([1, 2, 89])
-        self.assertFalse(lis2.is_empty())
+        self.assertFalse(DoublyLinkedList_is_empty(lis2))
 
     def test_get(self):
         """
@@ -52,7 +52,7 @@ class TestDoublyLinkedList(unittest.TestCase):
         lis = DoublyLinkedList([1, 2, 89])
         self.assertEqual(lis.get(0), 1)
         self.assertEqual(lis.get(1), 2)
-        self.assertEqual(lis.get(2), 89)
+        self.assertEqual(DoublyLinkedList_get(lis, 2), 89)
 
         self.assertRaises(IndexError, lambda: lis.get(4))
 
@@ -64,7 +64,7 @@ class TestDoublyLinkedList(unittest.TestCase):
         self.assertEqual(lis._get_node(0).next, lis._get_node(1))
         self.assertEqual(lis._get_node(1).next, lis._get_node(2))
         self.assertEqual(lis._get_node(2).next, lis._get_node(3))
-        self.assertEqual(lis._get_node(3).next, lis._get_node(4))
+        self.assertEqual(DoublyLinkedList__get_node(lis, 3).next, lis._get_node(4))
         self.assertRaises(IndexError, lambda: lis._get_node(5))
 
     def test_set(self):
@@ -74,7 +74,7 @@ class TestDoublyLinkedList(unittest.TestCase):
         lis = DoublyLinkedList([1, 2, 89])
         lis.set(0, "Interruption.")
         lis.set(1, [78])
-        lis.set(2, None)
+        DoublyLinkedList_set(lis, 2, None)
         self.assertEqual(lis.get(0), "Interruption.")
         self.assertEqual(lis.get(1), [78])
         self.assertIsNone(lis.get(2))
@@ -86,7 +86,7 @@ class TestDoublyLinkedList(unittest.TestCase):
         lis = DoublyLinkedList()
         lis.insert_head(90)
         self.assertEqual(lis.get(0), 90)
-        lis.insert_head(-3)
+        DoublyLinkedList_insert_head(lis, -3)
         self.assertEqual(lis.get(0), -3)
         self.assertEqual(lis.get(1), 90)
 
@@ -98,7 +98,7 @@ class TestDoublyLinkedList(unittest.TestCase):
         lis = DoublyLinkedList([1, 2, 89])
         lis.insert_after(0, 3)
         self.assertEqual(lis.get(1), 3)
-        lis.insert_after(3, 33)
+        DoublyLinkedList_insert_after(lis, 3, 33)
         self.assertEqual(lis.get(4), 33)
         self.assertRaises(IndexError, lambda: lis.insert_after(5, 0))
 
@@ -111,7 +111,7 @@ class TestDoublyLinkedList(unittest.TestCase):
         self.assertEqual(lis.get(0), 1)
 
         lis2 = DoublyLinkedList([1, 2, 89])
-        lis2.insert_last(-5)
+        DoublyLinkedList_insert_last(lis2, -5)
         self.assertEqual(lis2.get(3), -5)
 
     def test_insert(self):
@@ -121,7 +121,7 @@ class TestDoublyLinkedList(unittest.TestCase):
         lis = DoublyLinkedList([1, 2, 89])
         lis.insert(1, 3)
         self.assertEqual(lis.get(1), 3)
-        lis.insert(0, 33)
+        DoublyLinkedList_insert(lis, 0, 33)
         self.assertEqual(lis.get(0), 33)
         self.assertRaises(IndexError, lambda: lis.insert(-1, 0))
 
@@ -134,7 +134,7 @@ class TestDoublyLinkedList(unittest.TestCase):
         lis.delete(1)
         self.assertEqual(lis.get(1), 89)
         self.assertRaises(IndexError, lambda: lis.delete(2))
-        lis.delete(0)
+        DoublyLinkedList_delete(lis, 0)
         self.assertEqual(lis.get(0), 89)
 
 

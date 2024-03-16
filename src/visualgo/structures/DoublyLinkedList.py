@@ -70,7 +70,7 @@ class DoublyLinkedList(List):
         if index < 0 or index >= self.length:
             raise IndexError('Index out of range')
         if index > self.length / 2:
-            i: int = self.length-1
+            i: int = self.length - 1
             current_node = self.__tail
             while i > index:
                 current_node = current_node.previous
@@ -202,3 +202,43 @@ class DoublyLinkedList(List):
 
     def __getitem__(self, index: int) -> Node:
         return self.get(index)
+
+
+def DoublyLinkedList_length(list: DoublyLinkedList) -> int:
+    return list.length
+
+
+def DoublyLinkedList_get(list: DoublyLinkedList, index: int) -> T:
+    return list.get(index)
+
+
+def DoublyLinkedList_insert(list: DoublyLinkedList, index: int, e: T) -> None:
+    list.insert(index, e)
+
+
+def DoublyLinkedList_delete(list: DoublyLinkedList, index: int) -> None:
+    list.delete(index)
+
+
+def DoublyLinkedList_is_empty(list: DoublyLinkedList) -> bool:
+    return list.is_empty()
+
+
+def DoublyLinkedList_set(list: DoublyLinkedList, index: int, e: T) -> None:
+    list.set(index, e)
+
+
+def DoublyLinkedList_insert_head(list: DoublyLinkedList, e: T):
+    list.insert_head(e)
+
+
+def DoublyLinkedList_insert_last(list: DoublyLinkedList, e: T):
+    list.insert_last(e)
+
+
+def DoublyLinkedList_insert_after(list: DoublyLinkedList, index: int, e: T) -> None:
+    list.insert_after(index, e)
+
+
+def DoublyLinkedList__get_node(list: DoublyLinkedList, index: int):
+    return list._get_node(index)
