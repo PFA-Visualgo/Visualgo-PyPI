@@ -1,7 +1,7 @@
 """:demand: F1.8"""
 
 import unittest
-from visualgo.structures import Set
+from visualgo.structures.Set import *
 
 
 class TestSet(unittest.TestCase):
@@ -23,7 +23,7 @@ class TestSet(unittest.TestCase):
         set = Set()
         self.assertTrue(set.is_empty())
         set2 = Set(6)
-        self.assertFalse(set2.is_empty())
+        self.assertFalse(Set_is_empty(set2))
 
     def test_is_in(self):
         """
@@ -36,7 +36,7 @@ class TestSet(unittest.TestCase):
             self.assertTrue(set.is_in(i + 1))
         self.assertFalse(set.is_in(-1))
         self.assertFalse(set.is_in(4))
-        self.assertFalse(set.is_in(8))
+        self.assertFalse(is_in_Set(set, 8))
 
     def test_add(self):
         """
@@ -50,7 +50,7 @@ class TestSet(unittest.TestCase):
         set.delete(6)
         self.assertFalse(set.is_in(6))
         self.assertFalse(set.is_in(None))
-        set.add(None)
+        Set_add(set, None)
         self.assertTrue(set.is_in(None))
 
     def test_delete(self):
@@ -61,7 +61,7 @@ class TestSet(unittest.TestCase):
         set.add(57)
         set.delete(57)
         self.assertFalse(set.is_in(57))
-        self.assertRaises(KeyError, lambda: set.delete(57))
+        self.assertRaises(KeyError, lambda: Set_delete(set, 57))
 
 
 if __name__ == '__main__':

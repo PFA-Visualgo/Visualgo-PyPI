@@ -45,3 +45,19 @@ class Set:
         :return: None
         """
         self.__set.remove(e)
+
+
+def Set_is_empty(set: Set) -> bool:
+    return set.is_empty()
+
+
+def is_in_Set(set: Set, e: T) -> bool:
+    return set.is_in(e)
+
+
+def Set_add(set: Set, e: T) -> None:
+    set.add(e)
+
+
+def Set_delete(set: Set, e: T) -> None:
+    set.delete(e)
