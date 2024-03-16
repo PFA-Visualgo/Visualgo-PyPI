@@ -73,7 +73,7 @@ def TwoWayNode_next(node: TwoWayNode) -> Optional[Node]:
     return node.next
 
 
-def TwoWayNode_set_next(node: TwoWayNode, next: Node) -> Optional[Node]:
+def TwoWayNode_set_next(node: TwoWayNode, next: Node) -> None:
     node.next = next
 
 
@@ -93,7 +93,7 @@ def TwoWayNode_previous(node: TwoWayNode) -> Optional[Node]:
     return node.previous
 
 
-def TwoWayNode_set_previous(node: TwoWayNode, previous: Node) -> Optional[Node]:
+def TwoWayNode_set_previous(node: TwoWayNode, previous: Node) -> None:
     node.previous = previous
 
 
