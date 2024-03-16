@@ -1,7 +1,7 @@
 """:demand: F1.8"""
 
 import unittest
-from visualgo.structures import Stack
+from visualgo.structures.StackLL import *
 
 
 class AugmentedStack(Stack):
@@ -30,8 +30,9 @@ class TestStack(unittest.TestCase):
         stack = AugmentedStack()
         self.assertTrue(stack.is_empty())
         stack2 = AugmentedStack()
-        for i in range(5):
+        for i in range(4):
             stack2.push(i)
+        Stack_push(stack2, 4)
         print(stack, stack2)
 
     def test_push(self):
@@ -42,6 +43,8 @@ class TestStack(unittest.TestCase):
         stack.push(1)
         self.assertEqual(stack.top, 1)
         self.assertFalse(stack.is_empty())
+        Stack_push(stack, 2)
+        self.assertEqual(Stack_top(stack), 2)
 
     def test_pop(self):
         """
@@ -56,7 +59,7 @@ class TestStack(unittest.TestCase):
         self.assertFalse(stack.is_empty())
         self.assertIsNone(stack.pop())
         self.assertFalse(stack.is_empty())
-        self.assertEqual(stack.pop(), [90])
+        self.assertEqual(Stack_pop(stack), [90])
         self.assertTrue(stack.is_empty())
         self.assertRaises(IndexError, lambda: stack.pop())
 
@@ -67,7 +70,7 @@ class TestStack(unittest.TestCase):
         stack = Stack()
         self.assertTrue(stack.is_empty())
         stack.push("j")
-        self.assertFalse(stack.is_empty())
+        self.assertFalse(Stack_is_empty(stack))
 
 
 if __name__ == '__main__':

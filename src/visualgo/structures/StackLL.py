@@ -50,3 +50,19 @@ class Stack:
 
     def __str__(self) -> str:
         return str(self.__ll)
+
+
+def Stack_top(stack: Stack) -> T:
+    return stack.top
+
+
+def Stack_is_empty(stack: Stack) -> bool:
+    return stack.is_empty()
+
+
+def Stack_push(stack: Stack, e: T) -> None:
+    stack.push(e)
+
+
+def Stack_pop(stack: Stack) -> T:
+    return stack.pop()
