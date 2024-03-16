@@ -1,7 +1,7 @@
 """:demand: F1.8"""
 
 import unittest
-from visualgo.structures import Queue
+from visualgo.structures.Queue import *
 
 
 class TestQueue(unittest.TestCase):
@@ -24,7 +24,7 @@ class TestQueue(unittest.TestCase):
         queue = Queue()
         self.assertTrue(queue.is_empty())
         queue.enqueue(5)
-        self.assertFalse(queue.is_empty())
+        self.assertFalse(Queue_is_empty(queue))
 
     def test_enqueue_dequeue(self):
         """
@@ -35,9 +35,9 @@ class TestQueue(unittest.TestCase):
         self.assertEqual(queue.dequeue(), 5)
         self.assertTrue(queue.is_empty())
         queue.enqueue(9)
-        queue.enqueue(17)
+        Queue_enqueue(queue, 17)
         self.assertEqual(queue.dequeue(), 9)
-        self.assertEqual(queue.dequeue(), 17)
+        self.assertEqual(Queue_dequeue(queue), 17)
         self.assertTrue(queue.is_empty())
         self.assertRaises(IndexError, lambda: queue.dequeue())
 

@@ -50,3 +50,15 @@ class Queue:
         :return: str
         """
         return self.__dll.__str__()
+
+
+def Queue_is_empty(queue: Queue) -> bool:
+    return queue.is_empty()
+
+
+def Queue_enqueue(queue: Queue, e: T) -> None:
+    queue.enqueue(e)
+
+
+def Queue_dequeue(queue: Queue) -> T:
+    return queue.dequeue()
