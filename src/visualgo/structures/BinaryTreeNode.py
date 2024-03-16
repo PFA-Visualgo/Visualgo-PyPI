@@ -103,7 +103,7 @@ def BinaryTreeNode_has_next(node: BinaryTreeNode) -> bool:
     return print("Don't use this function ! Use BinaryTreeNode_has_child instead.") is not None
 
 
-def BinaryTreeNode_sentinel() -> BinaryTreeNode:
+def BinaryTreeNode_sentinel() -> Optional['BinaryTreeNode']:
     return BinaryTreeNode.sentinel()
 
 

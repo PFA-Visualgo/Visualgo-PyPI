@@ -228,11 +228,11 @@ def DoublyLinkedList_set(list: DoublyLinkedList, index: int, e: T) -> None:
     list.set(index, e)
 
 
-def DoublyLinkedList_insert_head(list: DoublyLinkedList, e: T):
+def DoublyLinkedList_insert_head(list: DoublyLinkedList, e: T) -> None:
     list.insert_head(e)
 
 
-def DoublyLinkedList_insert_last(list: DoublyLinkedList, e: T):
+def DoublyLinkedList_insert_last(list: DoublyLinkedList, e: T) -> None:
     list.insert_last(e)
 
 
@@ -240,5 +240,5 @@ def DoublyLinkedList_insert_after(list: DoublyLinkedList, index: int, e: T) -> N
     list.insert_after(index, e)
 
 
-def DoublyLinkedList__get_node(list: DoublyLinkedList, index: int):
+def DoublyLinkedList__get_node(list: DoublyLinkedList, index: int) -> TwoWayNode:
     return list._get_node(index)

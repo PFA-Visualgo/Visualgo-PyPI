@@ -170,7 +170,7 @@ def LinkedList_set(list: LinkedList, index: int, e: T) -> None:
     list.set(index, e)
 
 
-def LinkedList_insert_head(list: LinkedList, e: T):
+def LinkedList_insert_head(list: LinkedList, e: T) -> None:
     list.insert_head(e)
 
 
