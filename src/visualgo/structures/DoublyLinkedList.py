@@ -188,7 +188,7 @@ class DoublyLinkedList(List):
             current_node.next.previous = previous_node
         self.__length -= 1
 
-    def __str__(self):
+    def __str__(self) -> str:
         if self.is_empty():
             return '[]'
         else:

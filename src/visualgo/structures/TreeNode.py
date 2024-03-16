@@ -11,7 +11,7 @@ T = TypeVar('T')
 class TreeNode(Node):
     def __init__(self, value: T = None, children: Iterable = None) -> None:
         super().__init__(value)
-        self._children = DoublyLinkedList(children)
+        self.__children = DoublyLinkedList(children)
 
     @property
     def children(self):
@@ -20,26 +20,27 @@ class TreeNode(Node):
 
         :return: List[TreeNode]
         """
-        return self._children
+        return self.__children
 
+    """
     @property
-    def value(self) -> T:  # TODO: Changer nom dans le diagramme et le cahier des charges.
-        """
+    def value(self) -> T:
+        \"""
         Returns the value of the TreeNode.
 
         :return: Object
-        """
+        \"""
         return self._value
 
     @value.setter
-    def value(self, e: T) -> None:  # TODO: Changer nom dans le diagramme et le cahier des charges.
-        """
+    def value(self, e: T) -> None:
+        \"""
         Sets the value of this TreeNode.
 
         :param e: Object
         :return: None
-        """
-        self._value = e
+        \"""
+        self._value = e"""
 
     def has_child(self) -> bool:
         """
@@ -47,7 +48,7 @@ class TreeNode(Node):
 
         :return: bool
         """
-        return not self._children.is_empty()
+        return not self.__children.is_empty()
 
     def add_child(self, node: Optional['Node']) -> None:
         """
@@ -56,7 +57,7 @@ class TreeNode(Node):
         :param node:
         :return:
         """
-        self._children.insert_last(node)
+        self.__children.insert_last(node)
 
     def delete_child(self, node: Optional['Node']) -> None:
         """
@@ -68,9 +69,9 @@ class TreeNode(Node):
         if self.children.is_empty():
             raise ValueError("The node has no child.")
         index: int = 0
-        for current_node in self._children:
+        for current_node in self.children:
             if current_node is node:
-                return self._children.delete(index)
+                return self.children.delete(index)
             index += 1
         raise ValueError("No such child")
 

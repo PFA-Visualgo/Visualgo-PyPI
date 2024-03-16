@@ -13,7 +13,8 @@ class BinaryTreeNode(Node):
 
     def __init__(self, value: Optional[T] = None, left_child: Optional[Node] = None,
                  right_child: Optional[Node] = None):
-        super().__init__(value, right_child)
+        super().__init__(value)
+        self.__right_child = right_child
         self.__left_child = left_child
 
     @property
@@ -42,7 +43,7 @@ class BinaryTreeNode(Node):
 
         :return: BinaryTreeNode
         """
-        return self._next
+        return self.__right_child
 
     @right_child.setter
     def right_child(self, node: Optional['Node']) -> None:
@@ -52,7 +53,7 @@ class BinaryTreeNode(Node):
         :param node: The new right child.
         :return: None
         """
-        self._next = node
+        self.__right_child = node
 
     @property
     def value(self) -> T:

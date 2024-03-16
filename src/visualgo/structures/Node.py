@@ -8,7 +8,7 @@ T = TypeVar('T')
 class Node:
     def __init__(self, value: T = None, next_node: Optional['Node'] = None):
         self._value = value
-        self._next = next_node
+        self.__next = next_node
 
     @property
     def next(self) -> Optional['Node']:
@@ -17,7 +17,7 @@ class Node:
 
         :return: Node object
         """
-        return self._next
+        return self.__next
 
     @next.setter
     def next(self, next_node: Optional['Node']) -> None:
@@ -27,7 +27,7 @@ class Node:
         :param next_node: Node object
         :return: None
         """
-        self._next = next_node
+        self.__next = next_node
 
     @property
     def value(self) -> Optional[T]:
