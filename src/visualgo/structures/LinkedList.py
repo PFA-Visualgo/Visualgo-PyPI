@@ -145,3 +145,38 @@ class LinkedList(List):
 
     def __getitem__(self, item: int) -> Node:
         return self.get(item)
+
+def LinkedList_length(list: LinkedList) -> int:
+    return list.length
+
+
+def LinkedList_get(list: LinkedList, index: int) -> T:
+    return list.get(index)
+
+
+def LinkedList_insert(list: LinkedList, index: int, e: T) -> None:
+    list.insert(index, e)
+
+
+def LinkedList_delete(list: LinkedList, index: int) -> None:
+    list.delete(index)
+
+
+def LinkedList_is_empty(list: LinkedList) -> bool:
+    return list.is_empty()
+
+
+def LinkedList_set(list: LinkedList, index: int, e: T) -> None:
+    list.set(index, e)
+
+
+def LinkedList_insert_head(list: LinkedList, e: T):
+    list.insert_head(e)
+
+
+def LinkedList_insert_after(list: LinkedList, index: int, e: T) -> None:
+    list.insert_after(index, e)
+
+
+def LinkedList__get_node(list: LinkedList, index: int):
+    return list._get_node(index)

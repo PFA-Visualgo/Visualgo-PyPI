@@ -1,7 +1,7 @@
 """:demand: F1.8"""
 
 import unittest
-from visualgo.structures import LinkedList
+from visualgo.structures.LinkedList import *
 
 
 class TestLinkedList(unittest.TestCase):
@@ -35,7 +35,7 @@ class TestLinkedList(unittest.TestCase):
         lis.insert_head(2)
         self.assertEqual(lis.length, 2)
         lis.delete(1)
-        self.assertEqual(lis.length, 1)
+        self.assertEqual(LinkedList_length(lis), 1)
 
     def test_is_empty(self):
         """
@@ -44,7 +44,7 @@ class TestLinkedList(unittest.TestCase):
         lis = LinkedList()
         self.assertTrue(lis.is_empty())
         lis.insert_head(1)
-        self.assertFalse(lis.is_empty())
+        self.assertFalse(LinkedList_is_empty(lis))
 
     def test_get(self):
         """
@@ -55,7 +55,7 @@ class TestLinkedList(unittest.TestCase):
         self.assertEqual(lis.get(0), 1)
         lis.insert_head(2)
         self.assertEqual(lis.get(0), 2)
-        self.assertEqual(lis.get(1), 1)
+        self.assertEqual(LinkedList_get(lis, 1), 1)
         self.assertRaises(IndexError, lambda: lis.get(3))
 
     def test_get_node(self):
@@ -64,7 +64,7 @@ class TestLinkedList(unittest.TestCase):
         """
         lis = LinkedList([1, 2, 89])
         self.assertEqual(lis._get_node(0).next, lis._get_node(1))
-        self.assertEqual(lis._get_node(1).next, lis._get_node(2))
+        self.assertEqual(LinkedList__get_node(lis, 1).next, lis._get_node(2))
         self.assertRaises(IndexError, lambda: lis._get_node(3))
 
     def test_set(self):
@@ -74,7 +74,7 @@ class TestLinkedList(unittest.TestCase):
         lis = LinkedList([1, 2, 89])
         lis.set(0, "Et ouais.")
         lis.set(1, [78])
-        lis.set(2, None)
+        LinkedList_set(lis, 2, None)
         self.assertEqual(lis.get(0), "Et ouais.")
         self.assertEqual(lis.get(1), [78])
         self.assertIsNone(lis.get(2))
@@ -87,7 +87,7 @@ class TestLinkedList(unittest.TestCase):
         lis = LinkedList()
         lis.insert_head(1)
         self.assertEqual(lis.head, 1)
-        lis.insert_head(2)
+        LinkedList_insert_head(lis, 2)
         self.assertEqual(lis.head, 2)
         self.assertEqual(lis.get(1), 1)
 
@@ -99,7 +99,7 @@ class TestLinkedList(unittest.TestCase):
         lis.insert_head(1)
         lis.insert_after(0, 2)
         self.assertEqual(lis.get(1), 2)
-        lis.insert_after(0, 3)
+        LinkedList_insert_after(lis, 0, 3)
         self.assertEqual(lis.get(1), 3)
         self.assertEqual(lis.get(2), 2)
         self.assertRaises(IndexError, lambda: lis.insert_after(3, 4))
@@ -112,7 +112,7 @@ class TestLinkedList(unittest.TestCase):
         lis.insert_head(1)
         lis.insert(0, 2)
         self.assertEqual(lis.get(0), 2)
-        lis.insert(1, 3)
+        LinkedList_insert(lis, 1, 3)
         self.assertEqual(lis.get(1), 3)
         self.assertEqual(lis.get(0), 2)
         self.assertRaises(IndexError, lambda: lis.insert(-1, 4))
@@ -127,7 +127,7 @@ class TestLinkedList(unittest.TestCase):
         self.assertEqual(lis.length, 0)
         lis.insert_head(1)
         lis.insert_head(2)
-        lis.delete(0)
+        LinkedList_delete(lis, 0)
         self.assertEqual(lis.get(0), 1)
         self.assertRaises(IndexError, lambda: lis.delete(1))
 
