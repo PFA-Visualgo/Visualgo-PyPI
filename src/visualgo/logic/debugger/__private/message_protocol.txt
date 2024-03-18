@@ -1,0 +1,15 @@
+== MAIN SIDE ==
+EXEC_PAUSED DebugContext debugctx                   => Gives the debug context after pausing execution
+EXEC_STOPPED DebugContext debugctx                  => Gives the debug context after execution finished
+EXEC_THROWED CodeError error DebugContext debugctx  => Gives the exception and the debug context when an uncaught
+                                                       exception is thrown
+
+== WORKER SIDE ==
+SET_CODE str code_txt               => Sets the code of bdb. Implies a reset of the state
+ADD_BP int line, str condition      => Adds a breakpoint at the given line number with the specified condition to evaluate.
+                                       If the condition throws an exception, stop on it.
+DEL_BP int line                     => Deletes a breakpoint at the given line number.
+BW_S                                => Do a backwards step
+FW_S                                => Do a forwards step. Will enter functions.
+FW_N                                => Do a forwards next. Will not enter functions.
+CONT                                => Continue until next breakpoint.
