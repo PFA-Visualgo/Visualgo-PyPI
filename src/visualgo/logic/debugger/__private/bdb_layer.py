@@ -1,5 +1,5 @@
 import bdb
-from ..debug_context import DebugContext
+from ..types import DebugContext
 from .comm_api import from_worker
 
 
