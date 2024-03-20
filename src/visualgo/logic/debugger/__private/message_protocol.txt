@@ -1,10 +1,11 @@
-== MAIN SIDE ==
+== TO MAIN SIDE ==
 EXEC_PAUSED DebugContext debugctx                   => Gives the debug context after pausing execution
 EXEC_STOPPED DebugContext debugctx                  => Gives the debug context after execution finished
 EXEC_THROWED CodeError error DebugContext debugctx  => Gives the exception and the debug context when an uncaught
                                                        exception is thrown
+INTERRUPTED                                         => Whenever the worker is interrupted, it will send this message
 
-== WORKER SIDE ==
+== TO WORKER SIDE ==
 SET_CODE str code_txt               => Sets the code of bdb. Implies a reset of the state
 ADD_BP int line, str condition      => Adds a breakpoint at the given line number with the specified condition to evaluate.
                                        If the condition throws an exception, stop on it.
