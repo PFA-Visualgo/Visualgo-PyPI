@@ -1,18 +1,90 @@
 import bdb
+from sys import stderr
+from typing import Any
+
 from ..types import DebugContext
 from .comm_api import from_worker
 
+__FILE_NAME = "__visualgo_code.py"
 
-def init(code_str: str):
-    while True:
-        mes_id, mes_data = from_worker.wait_for_main_message()
-        print(mes_id, mes_data)
+
+def run_bdb_task():
+    mes_id: str = ""
+    mes_data: Any = ""
+    while mes_id != "SET_CODE":
+        mes_id, mes_data = from_worker.get_implementation().wait_for_main_message()
+    dbg = BdbLayer()
+
+    CANONIC_FILE_NAME = dbg.canonic(__FILE_NAME)
+    with open(CANONIC_FILE_NAME, "w") as f:
+        f.write(mes_data)
+        f.flush()
+        try:
+            cmd = compile(mes_data, CANONIC_FILE_NAME, "exec")
+            # dbg.set_break(CANONIC_FILE_NAME, 1)  # Initial breakpoint
+            dbg.run(cmd, {"__file__": CANONIC_FILE_NAME, "__name__": "__main__"})
+        except SyntaxError as e:
+            print("Invalid code.")
 
 
 class BdbLayer(bdb.Bdb):
+    def __init__(self, skip=None):
+        super().__init__(skip)
+        self.actions = {
+            "SET_CODE": self.do_set_code,
+            "CONT": self.do_continue,
+            "ADD_BP": self.do_add_breakpoint,
+            "DEL_BP": self.do_del_breakpoint,
+            "FW_S": self.do_forward_step,
+            "BW_S": self.do_backwards_step,
+            "FW_N": self.do_forward_next
+
+        }
+
+    def do_add_breakpoint(self, data):
+        global __FILE_NAME
+        lineno = data[0]
+        cond = data[1]
+        self.set_break(self.canonic(__FILE_NAME), lineno, cond=cond)
+        return False
+
+    def do_del_breakpoint(self, data):
+        global __FILE_NAME
+        lineno: int = data
+        self.clear_break(self.canonic(__FILE_NAME), lineno)
+        return False
+
+    def do_forward_step(self, data):
+        self.set_step()
+        return True
+
+    def do_backwards_step(self, data):
+        print("Call to backwards step. It is NOT implemented!", file=stderr)
+        return True
+
+    def do_forward_next(self, data):
+        print("Call to forward next. It is NOT implemented!", file=stderr)
+        # self.set_next()
+        return True
+
+    def do_set_code(self, data):
+        print("Call to set_code. It is NOT implemented!", file=stderr)
+        return True
+
+    def do_continue(self, data):
+        self.set_continue()
+        return True
+
+    def _cmdloop(self):
+        while True:
+            mes_id, mes_data = from_worker.get_implementation().wait_for_main_message()
+            should_exit = self.actions[mes_id](mes_data)
+            if should_exit:
+                break
+
     def user_line(self, frame):
-        print("User line")
-        pass
+        from_worker.get_implementation().send_message("EXEC_PAUSED", frame)
+        self._cmdloop()
 
     def user_return(self, frame, return_value):
         pass
