@@ -2,7 +2,7 @@ import os
 from typing import Any
 
 from ..comm_api import from_worker
-from .python_shared_worker_data import set_worker_message_value, get_event, get_main_message_value
+from .python_thread_shared_worker_data import set_worker_message_value, get_event, get_main_message_value
 import signal
 
 
