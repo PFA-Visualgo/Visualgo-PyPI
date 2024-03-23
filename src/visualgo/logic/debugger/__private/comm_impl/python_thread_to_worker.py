@@ -4,13 +4,15 @@ import os
 import time
 
 from ..comm_api import to_worker
-from .python_from_worker import PythonFromWorker
+from .python_thread_from_worker import PythonFromWorker
 import threading
 from typing import Callable, Any
-from .python_shared_worker_data import set_impl
+from .python_thread_shared_worker_data import set_impl
+
 
 class InterruptedThreadException(Exception):
     pass
+
 
 def _async_raise(tid, exctype):
     """Raises an exception in the threads with id tid"""
@@ -81,6 +83,9 @@ class ThreadWithExc(threading.Thread):
 
 
 class PythonToWorker(to_worker.ToWorker):
+    def start_worker(self):
+        self.worker_thread.start()
+
     def __init__(self, task: Callable[[], None], message_handler: Callable[[str, Any], None]):
         self.ev: threading.Event = threading.Event()
         self.message_value: [str, Any] = None
@@ -88,17 +93,18 @@ class PythonToWorker(to_worker.ToWorker):
         self.worker_thread = ThreadWithExc(target=self.wrapper_task)
         self.message_handler: Callable[[str, Any], None] = message_handler
         set_impl(self)
-        self.worker_thread.start()
 
     def wrapper_task(self):
-        from ..comm_api.from_worker import set_implementation
-        impl = PythonFromWorker()
-        set_implementation(impl)
         try:
+            from ..comm_api.from_worker import set_implementation
+            impl = PythonFromWorker()
+            set_implementation(impl)
+            time.sleep(0)
+            impl.send_message("INITIALIZED", None)
             self.task()
         except InterruptedThreadException:
-            impl.send_message("INTERRUPTED", None)
-            print("\nThread has been interrupted")
+            from ..comm_api.from_worker import get_implementation
+            get_implementation().send_message("INTERRUPTED", None)
             time.sleep(0)
 
     def set_message_handler(self, message_handler: Callable[[str, Any], None]):

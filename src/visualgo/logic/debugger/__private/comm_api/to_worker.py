@@ -13,17 +13,21 @@ class ToWorker(ABC):
         ...
 
     @abstractmethod
+    def start_worker(self):
+        ...
+
+    @abstractmethod
     def interrupt_worker(self):
         ...
 
 
-to_worker_impl: ToWorker
+__to_worker_impl: ToWorker
 
 
 def set_implementation(impl: ToWorker):
-    global to_worker_impl
-    to_worker_impl = impl
+    global __to_worker_impl
+    __to_worker_impl = impl
 
 
 def get_implementation():
-    return to_worker_impl
+    return __to_worker_impl

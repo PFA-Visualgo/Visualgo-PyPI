@@ -5,7 +5,7 @@ from typing import Callable, Any
 import signal
 
 if typing.TYPE_CHECKING:
-    from .python_to_worker import PythonToWorker
+    from .python_thread_to_worker import PythonToWorker
 my_impl: "PythonToWorker"
 worker_mess_val: [str, Any]
 
