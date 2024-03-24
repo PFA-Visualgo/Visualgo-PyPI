@@ -14,13 +14,16 @@ def _run_bdb_task():
     while mes_id != "SET_CODE":
         mes_id, mes_data = from_worker.get_implementation().wait_for_main_message()
     dbg = BdbLayer()
-
+    code = mes_data + "\npass"
+    lines = code.split("\n")
     CANONIC_FILE_NAME = dbg.canonic(_FILE_NAME)
     with open(CANONIC_FILE_NAME, "w") as f:
-        f.write(mes_data)
+        f.write(code)
         f.flush()
         try:
-            cmd = compile(mes_data, CANONIC_FILE_NAME, "exec")
+            cmd = compile(code, CANONIC_FILE_NAME, "exec")
+            dbg.set_source(code)
+            dbg.set_break(CANONIC_FILE_NAME, len(lines))
             dbg.run(cmd, {"__file__": CANONIC_FILE_NAME, "__name__": "__main__"})
         except SyntaxError as e:
             print("Invalid code.")
@@ -29,6 +32,7 @@ def _run_bdb_task():
 class BdbLayer(bdb.Bdb):
     def __init__(self, skip=None):
         super().__init__(skip)
+        self.lines = None
         self.actions = {
             "SET_CODE": self.do_set_code,
             "CONT": self.do_continue,
@@ -37,7 +41,6 @@ class BdbLayer(bdb.Bdb):
             "FW_S": self.do_forward_step,
             "BW_S": self.do_backwards_step,
             "FW_N": self.do_forward_next
-
         }
 
     def do_add_breakpoint(self, data):
@@ -81,9 +84,11 @@ class BdbLayer(bdb.Bdb):
             should_exit = self.actions[mes_id](mes_data)
 
     def user_line(self, frame):
-        # from_worker.get_implementation().send_message("EXEC_PAUSED", frame)
-        from_worker.get_implementation().send_message("EXEC_PAUSED", DebugContext(frame))
-        self._cmdloop()
+        if frame.f_lineno == len(self.lines):
+            from_worker.get_implementation().send_message("EXEC_DONE", DebugContext(frame))
+        else:
+            from_worker.get_implementation().send_message("EXEC_PAUSED", DebugContext(frame))
+            self._cmdloop()
 
     def user_return(self, frame, return_value):
         pass
@@ -93,3 +98,6 @@ class BdbLayer(bdb.Bdb):
 
     def user_exception(self, frame, exc_info):
         pass
+
+    def set_source(self, code: str):
+        self.lines = code.split("\n")
