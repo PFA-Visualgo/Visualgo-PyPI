@@ -1,4 +1,4 @@
-from inspect import isfunction, ismodule, isframe, iscode
+from inspect import isfunction
 from types import FrameType
 import re
 
@@ -10,8 +10,7 @@ def _remove_builtins(d):
 
 
 def _remove_unpickable(d):
-    return dict(filter(lambda v: not isfunction(v[1]) and not ismodule(v[1]) and not isframe(v[1]) and not iscode(v[1]),
-                       d.items()))
+    return dict(filter(lambda v: not isfunction(v[1]), d.items()))
 
 
 _DEFAULT_GLOBALS = {"__file__", "__name__", "__builtins__"}
