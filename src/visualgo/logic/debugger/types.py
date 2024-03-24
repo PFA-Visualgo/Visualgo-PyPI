@@ -26,17 +26,21 @@ class DebugVariables:
 
 
 class DebugContext:
+    @classmethod
+    def list_from_frame(cls, frame: FrameType) -> list["DebugContext"]:
+        lst = []
+        cur_frame = frame
+        while "bdb.py" not in cur_frame.f_globals["__file__"]:  # Dirty hack to remove all the nasty bdb clutter
+            lst.append(cls(cur_frame))
+            cur_frame = cur_frame.f_back
+        return lst
+
     def __init__(self, frame: FrameType):
         self.filepath = frame.f_globals["__file__"]
         self.lineno = frame.f_lineno
-        self.stack = []
-        cur_frame = frame
-        while "bdb.py" not in cur_frame.f_globals["__file__"]:  # Dirty hack to remove all the nasty bdb clutter
-            self.stack.append(DebugVariables(_remove_unpickable(_remove_builtins(cur_frame.f_globals)),
-                                             _remove_unpickable(_remove_builtins(cur_frame.f_locals)))
-                              )
-            cur_frame = cur_frame.f_back
+        self.variables = DebugVariables(_remove_unpickable(_remove_builtins(frame.f_globals)),
+                                        _remove_unpickable(_remove_builtins(frame.f_locals)))
 
     def __str__(self):
         return str({"filepath": self.filepath, "lineno": self.lineno,
-                    "stack": "[" + ",".join(str(x) for x in self.stack) + "]"})
+                    "variables": self.variables})

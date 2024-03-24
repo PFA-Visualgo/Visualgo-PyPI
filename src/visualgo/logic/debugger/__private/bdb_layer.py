@@ -1,4 +1,5 @@
 import bdb
+import sys
 from sys import stderr
 from typing import Any
 
@@ -85,9 +86,9 @@ class BdbLayer(bdb.Bdb):
 
     def user_line(self, frame):
         if frame.f_lineno == len(self.lines):
-            from_worker.get_implementation().send_message("EXEC_DONE", DebugContext(frame))
+            from_worker.get_implementation().send_message("EXEC_DONE", DebugContext.list_from_frame(frame))
         else:
-            from_worker.get_implementation().send_message("EXEC_PAUSED", DebugContext(frame))
+            from_worker.get_implementation().send_message("EXEC_PAUSED", DebugContext.list_from_frame(frame))
             self._cmdloop()
 
     def user_return(self, frame, return_value):
@@ -97,7 +98,21 @@ class BdbLayer(bdb.Bdb):
         pass
 
     def user_exception(self, frame, exc_info):
-        pass
+        from_worker.get_implementation().send_message("EXEC_THROWED",
+                                                      (exc_info[0], DebugContext.list_from_frame(frame)))
 
     def set_source(self, code: str):
         self.lines = code.split("\n")
+
+    def run(self, cmd, _globals=None, _locals=None):
+        try:
+            super().run(cmd, _globals, _locals)
+        except SystemExit as e:
+            pass
+        except:
+            ex_type, ex, t = sys.exc_info()
+            while t.tb_next:
+                t = t.tb_next
+            frame = t.tb_frame
+            from_worker.get_implementation().send_message("EXEC_THROWED",
+                                                          (ex_type, DebugContext.list_from_frame(frame)))
