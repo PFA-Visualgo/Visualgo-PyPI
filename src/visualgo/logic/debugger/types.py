@@ -26,10 +26,16 @@ class DebugVariables:
 
 class DebugContext:
     @classmethod
-    def list_from_frame(cls, frame: FrameType) -> list["DebugContext"]:
+    def list_from_frame(cls, frame: FrameType, botframe: FrameType) -> list["DebugContext"]:
+        """
+        Creates a stack of DebugContext, going from `frame` to `botframe` (the debugger's frame)
+        :param frame: The top-level frame
+        :param botframe: The debugger's frame
+        :return: A stack of DebugContext
+        """
         lst = []
         cur_frame = frame
-        while "bdb.py" not in cur_frame.f_globals["__file__"]:  # Dirty hack to remove all the nasty bdb clutter
+        while cur_frame is not None and cur_frame is not botframe:  # Dirty hack to remove all the nasty bdb clutter
             lst.append(cls(cur_frame))
             cur_frame = cur_frame.f_back
         return lst
