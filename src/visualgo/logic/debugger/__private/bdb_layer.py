@@ -87,6 +87,7 @@ class BdbLayer(bdb.Bdb):
             should_exit = self.actions[mes_id](mes_data)
 
     def user_line(self, frame):
+        print("--line--")
         self.curframe = frame
         print(frame.f_code.co_name)
         if frame.f_lineno == len(self.lines):
@@ -106,6 +107,7 @@ class BdbLayer(bdb.Bdb):
         pass
 
     def user_exception(self, frame, exc_info):
+        print("--exception--")
         from_worker.get_implementation().send_message("EXEC_THROWED",
                                                       (exc_info[0], DebugContext.list_from_frame(frame)))
 
@@ -129,4 +131,4 @@ class BdbLayer(bdb.Bdb):
                 t = t.tb_next
             frame = t.tb_frame
             from_worker.get_implementation().send_message("EXEC_THROWED",
-                                                          (ex_type, DebugContext.list_from_frame(frame, self.botframe)))
+                                                          (ex, DebugContext.list_from_frame(frame, self.botframe)))
