@@ -355,6 +355,8 @@ class Controller(ControllerCallbacksInterface, ControllerInterface):
         :param line_number:
         :return:
         """
+        self.__ui_callbacks.set_current_line(line_number)
+
         if line_number in self.__checkpoints:  # Update UI and continue
             variables = context.variables[0]
             ui_vars = self.__get_ui_vars(variables, self.__tracked_vars)
@@ -363,14 +365,14 @@ class Controller(ControllerCallbacksInterface, ControllerInterface):
             await asyncio.sleep(self.__step_time / 1000)
             self._add_recursion_depth()
             self.forward_step()
+            return
 
         if line_number in self.__breakpoints:  # Update UI and pause
             variables = context.variables[0]
             ui_vars = self.__get_ui_vars(variables, self.__tracked_vars)
             self.__ui_callbacks.update_variables(ui_vars)
             self.__execution_state = ExecutionState.PAUSED
-
-        self.__ui_callbacks.set_current_line(line_number)
+            return
 
         # Assume we are in automatic mode
         await asyncio.sleep(self.__step_time / 1000)
