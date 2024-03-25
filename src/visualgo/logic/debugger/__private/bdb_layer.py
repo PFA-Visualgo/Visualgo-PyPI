@@ -1,6 +1,7 @@
 import bdb
 import sys
 from sys import stderr
+from types import FrameType
 from typing import Any
 
 from ..types import DebugContext
@@ -33,6 +34,7 @@ def _run_bdb_task():
 class BdbLayer(bdb.Bdb):
     def __init__(self, skip=None):
         super().__init__(skip)
+        self.curframe = None
         self.lines = None
         self.actions = {
             "SET_CODE": self.do_set_code,
@@ -66,8 +68,8 @@ class BdbLayer(bdb.Bdb):
         return True
 
     def do_forward_next(self, data):
-        print("Call to forward next. It is NOT implemented!", file=stderr)
-        # self.set_next()
+        # print("Call to forward next. It is NOT implemented!", file=stderr)
+        self.set_next(self.curframe)
         return True
 
     def do_set_code(self, data):
@@ -85,6 +87,8 @@ class BdbLayer(bdb.Bdb):
             should_exit = self.actions[mes_id](mes_data)
 
     def user_line(self, frame):
+        self.curframe = frame
+        print(frame.f_code.co_name)
         if frame.f_lineno == len(self.lines):
             from_worker.get_implementation().send_message("EXEC_DONE", DebugContext.list_from_frame(frame))
         else:
@@ -92,9 +96,11 @@ class BdbLayer(bdb.Bdb):
             self._cmdloop()
 
     def user_return(self, frame, return_value):
+        print("--return--")
         pass
 
     def user_call(self, frame, argument_list):
+        print("--call--")
         pass
 
     def user_exception(self, frame, exc_info):
