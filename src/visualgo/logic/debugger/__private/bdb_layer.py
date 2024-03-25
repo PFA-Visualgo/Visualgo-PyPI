@@ -26,7 +26,7 @@ def _run_bdb_task():
             cmd = compile(code, CANONIC_FILE_NAME, "exec")
             dbg.set_source(code)
             dbg.set_break(CANONIC_FILE_NAME, len(lines))
-            dbg.run(cmd, {"__file__": CANONIC_FILE_NAME, "__name__": "__main__"})
+            dbg.run(cmd)
         except SyntaxError as e:
             print("Invalid code.")
 
@@ -90,9 +90,11 @@ class BdbLayer(bdb.Bdb):
         self.curframe = frame
         print(frame.f_code.co_name)
         if frame.f_lineno == len(self.lines):
-            from_worker.get_implementation().send_message("EXEC_DONE", DebugContext.list_from_frame(frame))
+            from_worker.get_implementation().send_message("EXEC_DONE",
+                                                          DebugContext.list_from_frame(frame, self.botframe))
         else:
-            from_worker.get_implementation().send_message("EXEC_PAUSED", DebugContext.list_from_frame(frame))
+            from_worker.get_implementation().send_message("EXEC_PAUSED",
+                                                          DebugContext.list_from_frame(frame, self.botframe))
             self._cmdloop()
 
     def user_return(self, frame, return_value):
@@ -111,6 +113,12 @@ class BdbLayer(bdb.Bdb):
         self.lines = code.split("\n")
 
     def run(self, cmd, _globals=None, _locals=None):
+        import __main__
+        __main__.__dict__.clear()
+        __main__.__dict__.update({"__name__": "__main__",
+                                  "__file__": _FILE_NAME,
+                                  "__builtins__": __builtins__,
+                                  })
         try:
             super().run(cmd, _globals, _locals)
         except SystemExit as e:
@@ -121,4 +129,4 @@ class BdbLayer(bdb.Bdb):
                 t = t.tb_next
             frame = t.tb_frame
             from_worker.get_implementation().send_message("EXEC_THROWED",
-                                                          (ex_type, DebugContext.list_from_frame(frame)))
+                                                          (ex_type, DebugContext.list_from_frame(frame, self.botframe)))
