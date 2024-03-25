@@ -2,7 +2,7 @@
 
 import unittest
 from visualgo.logic import Controller, DebuggerInterface, ControllerCallbacksInterface, UICallbacksInterface, TransferVariables, Statistics 
-from visualgo.logic.debugger import DebugContext
+from visualgo.logic.debugger.types import DebugContext
 from visualgo.logic.controller import ExecutionState
 
 import asyncio
@@ -35,49 +35,39 @@ class MockPyDebugger(DebuggerInterface):
         self.vars = DebugContext("filepath", 0, None)
         global mock_py_debugger_logs
         mock_py_debugger_logs = [] 
-        pass
 
     def initialize(self, callbacks: ControllerCallbacksInterface) -> None:
         self.__controller_callbacks = callbacks
         mock_py_debugger_logs.append("initialize")
-        pass
 
     def set_code(self, code: str) -> None:
         mock_py_debugger_logs.append("set_code")
-        pass
 
     def add_breakpoint(self, line_number: int, cond: str) -> None:
         mock_py_debugger_logs.append(f"add_breakpoint {line_number} {cond}")
-        pass
 
     def del_breakpoint(self, line_number: int) -> None:
         mock_py_debugger_logs.append(f"del_breakpoint {line_number}")
-        pass
 
-    def step_into(self) -> None:
+    async def step_into(self) -> None:
         mock_py_debugger_logs.append("step_into")
-        self.__controller_callbacks.execution_paused(self.vars, 0)
-        pass
+        await self.__controller_callbacks.execution_paused(self.vars, 0)
 
-    def forward_step(self) -> None:
+    async def forward_step(self) -> None:
         mock_py_debugger_logs.append("forward_step")
-        self.__controller_callbacks.execution_paused(self.vars, 0)
-        pass
+        await self.__controller_callbacks.execution_paused(self.vars, 0)
 
-    def backward_step(self) -> None:
+    async def backward_step(self) -> None:
         mock_py_debugger_logs.append("backward_step")
-        self.__controller_callbacks.execution_paused(self.vars, 0)
-        pass
+        await self.__controller_callbacks.execution_paused(self.vars, 0)
 
-    def do_continue(self) -> None:
+    async def do_continue(self) -> None:
         mock_py_debugger_logs.append("do_continue")
-        self.__controller_callbacks.execution_paused(self.vars, 0)
-        pass
+        await self.__controller_callbacks.execution_paused(self.vars, 0)
     
     def stop(self) -> None:
         mock_py_debugger_logs.append("stop")
         self.__controller_callbacks.execution_done(self.vars, 0)
-        pass
 
 
 step_time = 0.001 # stupidly low value to speed up tests
