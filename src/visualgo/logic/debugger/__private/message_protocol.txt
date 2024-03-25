@@ -1,7 +1,7 @@
 == TO MAIN SIDE ==
 EXEC_PAUSED list[DebugContext] stack                                => Gives the stack of debug context after pausing execution
 EXEC_DONE list[DebugContext] stack                                  => Gives the stack of debug context after execution finished
-EXEC_THROWED type[BaseException] exc_type list[DebugContext] stack  => Gives the type of the exception and the stack of
+EXEC_THROWED BaseException exception list[DebugContext] stack       => Gives the type of the exception and the stack of
                                                                        debug context when an uncaught exception is thrown
 INTERRUPTED                                                         => Whenever the worker is interrupted, it will send this message
 INITIALIZED                                                         => Whenever the worker starts.
