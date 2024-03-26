@@ -7,7 +7,6 @@ from ..types import Statistics, SymbolDescription, CodeError
 @dataclass
 class TransferVariable:
     description: SymbolDescription
-    type: str
     value: typing.Any
 
 

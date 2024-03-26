@@ -14,6 +14,7 @@ class Statistics:
 @dataclass
 class SymbolDescription:
     name: str
+    function_name: str
     depth: int
 
 

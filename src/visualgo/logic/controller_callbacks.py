@@ -10,7 +10,7 @@ class ControllerCallbacksInterface(ABC):
     """
 
     @abstractmethod
-    def execution_paused(self, context: DebugContext, line_number: int) -> None:
+    def execution_paused(self, frames: DebugContext, line_number: int) -> None:
         """
         Update the visualisation once the debugger has finished executing code and is awaiting
         further instructions. Occurs on steps, next and continues.
@@ -21,7 +21,7 @@ class ControllerCallbacksInterface(ABC):
         ...
 
     @abstractmethod
-    def execution_done(self, context: DebugContext, line_number: int) -> None:
+    def execution_done(self, frames: DebugContext, line_number: int) -> None:
         """
         Update the visualisation once the end of the code has been reached in the debugger.
 

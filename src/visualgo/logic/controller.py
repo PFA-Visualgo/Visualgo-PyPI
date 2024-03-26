@@ -6,7 +6,7 @@ import asyncio
 from .types import Statistics, SymbolDescription, CodeError
 from .controller_callbacks import ControllerCallbacksInterface
 
-from .debugger.types import DebugVariables, DebugContext
+from .debugger.types import DebugContext, DebugVariables
 from .debugger.debugger import DebuggerInterface
 from .debugger.py_debugger import PyDebugger
 
@@ -307,28 +307,49 @@ class Controller(ControllerCallbacksInterface, ControllerInterface):
 
         :demand: F.1.5
         :param stats: Statistics
-        :param variables: typing.List[SymbolDescription]
+        :param tracked_types: list[SymbolDescription]
+        :param tracked_funs: list[SymbolDescription]
         :return: Statistics
         """
         pass
 
+    def __get_transfer_vars(
+            self, vars: DebugVariables, function_name: str, depth: int) -> TransferVariables:
+        """
+        Returns the variables of the execution given the `frame`.
+
+        :param vars: DebugVariables
+        :param function_name: str
+        :param depth: int
+        :return: TransferVariables
+        """
+        res = []
+        for name, value in vars.locals.items():
+            desc = SymbolDescription(name, function_name, depth)
+            ui_var = TransferVariable(desc, value)
+            res.append(ui_var)
+        return TransferVariables(res)
+
     def __get_ui_vars(
-            self, vars: DebugVariables,
+            self, context: DebugContext,
             tracked_vars: list[SymbolDescription]) -> TransferVariables:
         """
         Returns the variables of the execution given the debugger
         `variables` and the user parameters `tracked_vars`.
         TODO: Remove tracked_vars ? Accessible from self.
 
-        :param variables: Variables
-        :param variables: typing.List[SymbolDescription]
-        :return: Variables
+        :param context: DebugContext
+        :param tracked_vars: typing.List[SymbolDescription]
+        :return: TransferVariables
         """
         res = []
-        for name, value in vars.locals.items():
-            desc = SymbolDescription(name, 0)  # TODO: depth
-            ui_var = TransferVariable(desc, type(value).__str__(), value)
-            res.append(ui_var)
+        depth = 0
+        for debug_vars in context.variables[::-1]:
+            # TODO: Once merged, function_name will probably be in DebugVariables
+            # (and thus accessible from debug_vars)
+            function_name = debug_vars.function_name
+            res += self.__get_transfer_vars(debug_vars, function_name, depth)
+            depth += 1
 
         if len(tracked_vars) == 0:
             return TransferVariables(res)
@@ -339,7 +360,15 @@ class Controller(ControllerCallbacksInterface, ControllerInterface):
             if var.description.name not in allowed:
                 res.remove(var)
 
-        return TransferVariables(res)
+    def __update_ui(self, context: DebugContext) -> None:
+        """
+        Updates the UI with the given `context`.
+
+        :param context: DebugContext
+        :return: None
+        """
+        vars = self.__get_ui_vars(context, self.__tracked_vars)
+        self.__ui_callbacks.update_variables(vars)
 
     # ControllerCallbacksInterface
 
@@ -349,18 +378,17 @@ class Controller(ControllerCallbacksInterface, ControllerInterface):
         and is awaiting further instructions.
         Occurs on steps, next and continues.
         TODO: Update statistics here.
-        TODO: Modify TransferVariable(s) to handle multiple variable lists.
+        TODO: Using "continue", we only update the UI when we reach a checkpoint / stop
+        (here the ui is updated every time, as we consider only automatic mode for now)
 
-        :param context:
-        :param line_number:
-        :return:
+        :param context: DebugContext
+        :param line_number: int
+        :return: None
         """
         self.__ui_callbacks.set_current_line(line_number)
 
         if line_number in self.__checkpoints:  # Update UI and continue
-            variables = context.variables[-1]  # Select the global frame
-            ui_vars = self.__get_ui_vars(variables, self.__tracked_vars)
-            self.__ui_callbacks.update_variables(ui_vars)
+            self.__update_ui(context)
 
             await asyncio.sleep(self.__step_time / 1000)
             self._add_recursion_depth()
@@ -368,21 +396,18 @@ class Controller(ControllerCallbacksInterface, ControllerInterface):
             return
 
         if line_number in self.__breakpoints:  # Update UI and pause
-            variables = context.variables[-1]  # Select the global frame
-            ui_vars = self.__get_ui_vars(variables, self.__tracked_vars)
-            self.__ui_callbacks.update_variables(ui_vars)
+            self.__update_ui(context)
             self.__execution_state = ExecutionState.PAUSED
             return
 
         # Assume we are in automatic mode
+        self.__update_ui(context)  # In automatic mode, we update the UI
         await asyncio.sleep(self.__step_time / 1000)
         self._add_recursion_depth()
         await self.forward_step()
 
     def execution_done(self, context: DebugContext, line_number: int) -> None:
-        variables = context.variables[-1] # Select the global frame
-        ui_vars = self.__get_ui_vars(variables, self.__tracked_vars)
-        self.__ui_callbacks.update_variables(ui_vars)
+        self.__update_ui(context)
         self.__ui_callbacks.set_current_line(line_number)  # Could be 0 too
         self.__end_of_execution()
 
