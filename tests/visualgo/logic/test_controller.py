@@ -74,13 +74,13 @@ class TestController(unittest.TestCase):
 
 
     def test_creation(self):
-        controller = Controller(MockPyDebugger, MockUICallbacks())
+        controller = Controller(MockPyAbstractDebugger, MockUICallbacks())
         self.assertIsInstance(controller, Controller)
         assert controller._Controller__debugger is not None
         assert mock_py_debugger_logs[0] == "initialize"
 
     def test_set_step_time(self):
-        controller = Controller(MockPyDebugger, MockUICallbacks())
+        controller = Controller(MockPyAbstractDebugger, MockUICallbacks())
         controller.set_step_time(0.5)
         self.assertEqual(controller._Controller__step_time, 0.5)
 

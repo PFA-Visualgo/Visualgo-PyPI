@@ -14,10 +14,11 @@ class AbstractDebugger(ABC):
     def __init__(self, callbacks: ControllerCallbacksInterface) -> None:
         """
         Constructor of the debugger.
+        Initializes debugger with the corresponding callbacks
 
         :param callbacks: ControllerCallbacksInterface
         """
-        pass
+        self.callbacks = callbacks
 
     @abstractmethod
     def set_code(self, code: str) -> None:
