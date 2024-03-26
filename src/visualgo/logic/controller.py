@@ -325,7 +325,7 @@ class Controller(ControllerCallbacksInterface, ControllerInterface):
         :return: Variables
         """
         res = []
-        for name, value in vars.globals.items():
+        for name, value in vars.locals.items():
             desc = SymbolDescription(name, 0)  # TODO: depth
             ui_var = TransferVariable(desc, type(value).__str__(), value)
             res.append(ui_var)
@@ -358,7 +358,7 @@ class Controller(ControllerCallbacksInterface, ControllerInterface):
         self.__ui_callbacks.set_current_line(line_number)
 
         if line_number in self.__checkpoints:  # Update UI and continue
-            variables = context.variables[0]
+            variables = context.variables[-1]  # Select the global frame
             ui_vars = self.__get_ui_vars(variables, self.__tracked_vars)
             self.__ui_callbacks.update_variables(ui_vars)
 
@@ -368,7 +368,7 @@ class Controller(ControllerCallbacksInterface, ControllerInterface):
             return
 
         if line_number in self.__breakpoints:  # Update UI and pause
-            variables = context.variables[0]
+            variables = context.variables[-1]  # Select the global frame
             ui_vars = self.__get_ui_vars(variables, self.__tracked_vars)
             self.__ui_callbacks.update_variables(ui_vars)
             self.__execution_state = ExecutionState.PAUSED
@@ -380,7 +380,7 @@ class Controller(ControllerCallbacksInterface, ControllerInterface):
         await self.forward_step()
 
     def execution_done(self, context: DebugContext, line_number: int) -> None:
-        variables = context.variables[0]
+        variables = context.variables[-1] # Select the global frame
         ui_vars = self.__get_ui_vars(variables, self.__tracked_vars)
         self.__ui_callbacks.update_variables(ui_vars)
         self.__ui_callbacks.set_current_line(line_number)  # Could be 0 too
