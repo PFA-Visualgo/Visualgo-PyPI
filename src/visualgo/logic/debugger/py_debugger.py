@@ -1,21 +1,18 @@
 from typing import TypeVar
 
 from ..controller_callbacks import ControllerCallbacksInterface
-from .debugger import DebuggerInterface
+from .debugger import AbstractDebugger
 
 T = TypeVar("T")
 
 
-class PyDebugger(DebuggerInterface):
+class PyAbstractDebugger(AbstractDebugger):
     """
     Python language support of the DebuggerInterface.
     """
 
-    def __init__(self) -> None:
-        print("PyDebugger created")
-
-    def initialize(self, callbacks: ControllerCallbacksInterface) -> None:
-        raise NotImplementedError("Method not implemented yet")
+    def __init__(self, callbacks: ControllerCallbacksInterface) -> None:
+        super().__init__(callbacks)
 
     def stop(self) -> None:
         raise NotImplementedError("Method not implemented yet")

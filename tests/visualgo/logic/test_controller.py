@@ -1,7 +1,7 @@
 """:demand: F1.8"""
 
 import unittest
-from visualgo.logic import Controller, DebuggerInterface, ControllerCallbacksInterface, UICallbacksInterface, TransferVariables, Statistics
+from visualgo.logic import Controller, AbstractDebugger, ControllerCallbacksInterface, UICallbacksInterface, TransferVariables, Statistics
 from visualgo.logic.controller import ExecutionState
 
 import asyncio
@@ -27,7 +27,7 @@ class MockUICallbacks(UICallbacksInterface):
         pass
 
 
-class MockPyDebugger(DebuggerInterface):
+class MockPyAbstractDebugger(AbstractDebugger):
     def __init__(self,):
         pass
 
@@ -70,11 +70,11 @@ class MockPyDebugger(DebuggerInterface):
 class TestController(unittest.TestCase):
 
     def test_creation(self):
-        controller = Controller(MockPyDebugger, MockUICallbacks())
+        controller = Controller(MockPyAbstractDebugger, MockUICallbacks())
         self.assertIsInstance(controller, Controller)
 
     def test_set_step_time(self):
-        controller = Controller(MockPyDebugger, MockUICallbacks())
+        controller = Controller(MockPyAbstractDebugger, MockUICallbacks())
         controller.set_step_time(0.5)
         self.assertEqual(controller._Controller__step_time, 0.5)
 
@@ -88,7 +88,7 @@ class TestController(unittest.TestCase):
             # await asyncio.sleep(1) # Wait for at least 1 call to forward_step()
             # controller._Controller__execution_state = ExecutionState.PAUSED
 
-            controller = Controller(MockPyDebugger, MockUICallbacks())
+            controller = Controller(MockPyAbstractDebugger, MockUICallbacks())
             controller._Controller__execution_state = ExecutionState.RUNNING
             await controller.pause_continue()
             self.assertEqual(controller._Controller__execution_state, ExecutionState.PAUSED)

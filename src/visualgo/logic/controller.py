@@ -7,8 +7,8 @@ from .types import Statistics, SymbolDescription, CodeError
 from .controller_callbacks import ControllerCallbacksInterface
 
 from .debugger.types import DebugVariables, DebugContext
-from .debugger.debugger import DebuggerInterface
-from .debugger.py_debugger import PyDebugger
+from .debugger.debugger import AbstractDebugger
+from .debugger.py_debugger import PyAbstractDebugger
 
 from .static.types import StaticVariables
 
@@ -268,7 +268,7 @@ class Controller(ControllerCallbacksInterface, ControllerInterface):
         self.__checkpoints: list[int] = []
 
         self.__step_time: int = 500
-        self.__debugger: DebuggerInterface = debugger_class()
+        self.__debugger: AbstractDebugger = debugger_class()
         self.__debugger.initialize(self)
 
     # Private methods
