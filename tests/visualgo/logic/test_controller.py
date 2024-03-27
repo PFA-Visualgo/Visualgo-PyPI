@@ -33,7 +33,7 @@ class MockUICallbacks(UICallbacksInterface):
 
 class MockDebugContext:
     @classmethod
-    def list_from_frame(self, frames: list[dict[str, dict[str, any]]]) -> list["MockDebugContext"]:
+    def list_from_frame(cls, frames: list[dict[str, dict[str, any]]]) -> list["MockDebugContext"]:
         """
         Creates a stack of DebugContext
 
@@ -44,7 +44,7 @@ class MockDebugContext:
         lst = []
         n = len(frames)
         for i in range(n):
-            lst.append(self(frames[i], "filepath", 0, "function_name"))
+            lst.append(cls(frames[i], "filepath", 0, "function_name"))
         return lst
 
     def __init__(self, frame: dict[str, dict[str, any]], filepath: str, lineno: int, function_name: str):
