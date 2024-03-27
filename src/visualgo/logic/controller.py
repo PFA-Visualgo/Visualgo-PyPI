@@ -1,7 +1,7 @@
 from enum import Enum
 from abc import ABC, abstractmethod
+from functools import wraps
 import asyncio
-
 
 from .types import Statistics, SymbolDescription, CodeError
 from .controller_callbacks import ControllerCallbacksInterface
@@ -235,6 +235,17 @@ class ControllerInterface(ABC):
         """
         pass
 
+def needs_initialization(func):
+    """
+    Decorator to check if the Controller was initialized before calling a method.
+    """
+    @wraps(func)
+    async def wrapper(self, *args, **kwargs):
+        if self._Controller__execution_state == ExecutionState.NOT_INITIALIZED:
+            self._Controller__ui_callbacks.show_error("Controller not initialized")
+            raise ValueError("Controller not initialized")
+        return await func(self, *args, **kwargs)
+    return wrapper
 
 class Controller(ControllerCallbacksInterface, ControllerInterface):
     """
@@ -278,7 +289,8 @@ class Controller(ControllerCallbacksInterface, ControllerInterface):
         self.__recursion_depth: int = 0
         self.__max_recursion_depth: int = max_recursion_depth
 
-    # Private methods
+    # -- Private methods -- #
+        
     def __initialize_debugger(self, code: str) -> None:
         """
         Initializes the debugger with the given `code`.
@@ -370,11 +382,26 @@ class Controller(ControllerCallbacksInterface, ControllerInterface):
         vars = self.__get_ui_vars(context, self.__tracked_vars)
         self.__ui_callbacks.update_variables(vars)
 
-    # ControllerCallbacksInterface
+    def __pause_if_max_recursion_reached(self) -> None:
+        if self.__max_recursion_depth is not None:
+            if self.__recursion_depth >= self.__max_recursion_depth:
+                self.__execution_state = ExecutionState.PAUSED
+
+
+    def __add_recursion_depth(self) -> None:
+        self.__recursion_depth += 1
+        self.__pause_if_max_recursion_reached()
+
+    def __check_if_initialized(self) -> None:
+        if self.__execution_state == ExecutionState.NOT_INITIALIZED:
+            self.__ui_callbacks.show_error("Controller not initialized")
+            raise ValueError("Controller not initialized")
+
+    # -- ControllerCallbacksInterface -- #
 
     async def execution_paused(self, context: DebugContext, line_number: int) -> None:
         """
-        Update the visualisation once the debugger has finished executing code
+        Update the visualisation once the debugger has finished executing some part of a code
         and is awaiting further instructions.
         Occurs on steps, next and continues.
         TODO: Update statistics here.
@@ -391,7 +418,7 @@ class Controller(ControllerCallbacksInterface, ControllerInterface):
             self.__update_ui(context)
 
             await asyncio.sleep(self.__step_time / 1000)
-            self._add_recursion_depth()
+            self.__add_recursion_depth()
             self.forward_step()
             return
 
@@ -403,7 +430,7 @@ class Controller(ControllerCallbacksInterface, ControllerInterface):
         # Assume we are in automatic mode
         self.__update_ui(context)  # In automatic mode, we update the UI
         await asyncio.sleep(self.__step_time / 1000)
-        self._add_recursion_depth()
+        self.__add_recursion_depth()
         await self.forward_step()
 
     def execution_done(self, context: DebugContext, line_number: int) -> None:
@@ -417,24 +444,7 @@ class Controller(ControllerCallbacksInterface, ControllerInterface):
     def on_message(self, message: str) -> None:
         self.__ui_callbacks.show_message(message)
 
-    # ControllerInterface
-    def __pause_if_max_recursion_reached(self) -> None:
-        if self.__max_recursion_depth is not None:
-            if self.__recursion_depth >= self.__max_recursion_depth:
-                self.__execution_state = ExecutionState.PAUSED
-
-    @property
-    def recursion_depth(self) -> int:
-        return self.__recursion_depth
-
-    def _add_recursion_depth(self) -> None:
-        self.__recursion_depth += 1
-        self.__pause_if_max_recursion_reached()
-
-    def __check_if_initialized(self) -> None:
-        if self.__execution_state == ExecutionState.NOT_INITIALIZED:
-            self.__ui_callbacks.show_error("Controller not initialized")
-            raise ValueError("Controller not initialized")
+    # -- ControllerInterface -- #
 
     async def start(self) -> None:
         print("in start")
@@ -446,6 +456,7 @@ class Controller(ControllerCallbacksInterface, ControllerInterface):
         await self.forward_step()
         print("after loop_forward_step")
 
+    @needs_initialization
     async def pause_continue(self) -> None:
         self.__recursion_depth = 0
         if self.__execution_state == ExecutionState.RUNNING:
@@ -454,6 +465,7 @@ class Controller(ControllerCallbacksInterface, ControllerInterface):
             self.__execution_state = ExecutionState.RUNNING
             await self.forward_step()
 
+    @needs_initialization
     def stop(self) -> None:
         """
         Stops the execution of the code. Basically resets the debugger
@@ -470,18 +482,19 @@ class Controller(ControllerCallbacksInterface, ControllerInterface):
         else:
             self.__step_time = time
 
+    @needs_initialization
     async def forward_step(self) -> None:
-        # TODO: forward_step and forward_next are the same
-        # One should call debugger.step_into, the other forward_step ?
         self.__check_if_initialized()
         if self.__execution_state == ExecutionState.RUNNING:
             await self.__debugger.forward_step()
 
+    @needs_initialization
     async def forward_next(self) -> None:
         self.__check_if_initialized()
         if self.__execution_state == ExecutionState.RUNNING:
-            await self.__debugger.forward_step()
+            await self.__debugger.step_into()
 
+    @needs_initialization
     def backward_step(self) -> None:
         self.__check_if_initialized()
         if self.__execution_state == ExecutionState.RUNNING:
@@ -533,3 +546,9 @@ class Controller(ControllerCallbacksInterface, ControllerInterface):
 
     def get_static_variables(self) -> StaticVariables:
         raise NotImplementedError("Method not yet implemented")
+    
+    # -- Other public methods -- #
+
+    @property
+    def recursion_depth(self) -> int:
+        return self.__recursion_depth
