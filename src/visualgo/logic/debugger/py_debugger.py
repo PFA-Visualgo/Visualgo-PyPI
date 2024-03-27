@@ -32,11 +32,14 @@ class PyDebugger(DebuggerInterface):
     def backward_step(self) -> None:
         raise NotImplementedError("Method not implemented yet")
 
+    def forward_step(self) -> None:
+        raise NotImplementedError("Method not implemented yet")
+    
     def step_into(self) -> None:
         raise NotImplementedError("Method not implemented yet")
 
-    def forward_next(self) -> None:
-        raise NotImplementedError("Method not implemented yet")
-
     def do_continue(self) -> None:
+        raise NotImplementedError("Method not implemented yet")
+    
+    def stop(self) -> None:
         raise NotImplementedError("Method not implemented yet")
