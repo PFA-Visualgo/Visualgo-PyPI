@@ -7,7 +7,7 @@ from .types import Statistics, SymbolDescription, CodeError
 from .controller_callbacks import ControllerCallbacksInterface
 
 from .debugger.types import DebugContext, DebugVariables
-from .debugger.debugger import DebuggerInterface
+from .debugger.debugger import AbstractDebugger
 from .debugger.py_debugger import PyDebugger
 
 from .static.types import StaticVariables
@@ -283,8 +283,7 @@ class Controller(ControllerCallbacksInterface, ControllerInterface):
         self.__breakpoints: list[int] = []
 
         self.__step_time: int = 500
-        self.__debugger: DebuggerInterface = debugger_class()
-        self.__debugger.initialize(self)
+        self.__debugger: AbstractDebugger = debugger_class(self)
 
         self.__recursion_depth: int = 0
         self.__max_recursion_depth: int = max_recursion_depth
@@ -309,13 +308,10 @@ class Controller(ControllerCallbacksInterface, ControllerInterface):
         """
         self.__execution_state = ExecutionState.FINISHED
 
-    def __get_ui_stats(self, stats: Statistics,
-                       tracked_types: list[SymbolDescription],
-                       tracked_funs: list[SymbolDescription]) -> Statistics:
+    def __get_ui_stats(self, stats: Statistics) -> Statistics:
         """
         Returns the statistics of the execution given the debugger `stats`
         and the user parameters `tracked_types` and `tracked_funs`.
-        TODO: Remove tracked_types and tracked_funs ? Accessible from self.
 
         :demand: F.1.5
         :param stats: Statistics
@@ -323,9 +319,11 @@ class Controller(ControllerCallbacksInterface, ControllerInterface):
         :param tracked_funs: list[SymbolDescription]
         :return: Statistics
         """
+        tracked_types = self.__tracked_types
+        tracked_funs = self.__tracked_funs
         pass
 
-    def __get_transfer_vars(
+    def __transform_in_transfer_vars(
             self, vars: DebugVariables, function_name: str, depth: int) -> TransferVariables:
         """
         Returns the variables of the execution given the `frame`.
@@ -336,6 +334,7 @@ class Controller(ControllerCallbacksInterface, ControllerInterface):
         :return: TransferVariables
         """
         res = []
+        # iterate variable by variable
         for name, value in vars.locals.items():
             desc = SymbolDescription(name, function_name, depth)
             ui_var = TransferVariable(desc, value)
@@ -343,24 +342,24 @@ class Controller(ControllerCallbacksInterface, ControllerInterface):
         return TransferVariables(res)
 
     def __get_ui_vars(
-            self, context: DebugContext,
-            tracked_vars: list[SymbolDescription]) -> TransferVariables:
+            self, context: DebugContext) -> TransferVariables:
         """
         Returns the variables of the execution given the debugger
         `variables` and the user parameters `tracked_vars`.
-        TODO: Remove tracked_vars ? Accessible from self.
 
         :param context: DebugContext
         :param tracked_vars: typing.List[SymbolDescription]
         :return: TransferVariables
         """
+        tracked_vars = self.__tracked_vars
         res = []
         depth = 0
-        for debug_vars in context.variables[::-1]:
+        # iterate frame by frame
+        for debug_vars in context.variables[::-1]: # iterate in reverse order to get the "lowest" frames first
             # TODO: Once merged, function_name will probably be in DebugVariables
             # (and thus accessible from debug_vars)
             function_name = debug_vars.function_name
-            res += self.__get_transfer_vars(debug_vars, function_name, depth)
+            res += self.__transform_in_transfer_vars(debug_vars, function_name, depth)
             depth += 1
 
         if len(tracked_vars) == 0:
@@ -372,6 +371,8 @@ class Controller(ControllerCallbacksInterface, ControllerInterface):
             if var.description.name not in allowed:
                 res.remove(var)
 
+        return TransferVariables(res)
+
     def __update_ui(self, context: DebugContext) -> None:
         """
         Updates the UI with the given `context`.
@@ -379,7 +380,7 @@ class Controller(ControllerCallbacksInterface, ControllerInterface):
         :param context: DebugContext
         :return: None
         """
-        vars = self.__get_ui_vars(context, self.__tracked_vars)
+        vars = self.__get_ui_vars(context)
         self.__ui_callbacks.update_variables(vars)
 
     def __pause_if_max_recursion_reached(self) -> None:
@@ -387,15 +388,9 @@ class Controller(ControllerCallbacksInterface, ControllerInterface):
             if self.__recursion_depth >= self.__max_recursion_depth:
                 self.__execution_state = ExecutionState.PAUSED
 
-
     def __add_recursion_depth(self) -> None:
         self.__recursion_depth += 1
         self.__pause_if_max_recursion_reached()
-
-    def __check_if_initialized(self) -> None:
-        if self.__execution_state == ExecutionState.NOT_INITIALIZED:
-            self.__ui_callbacks.show_error("Controller not initialized")
-            raise ValueError("Controller not initialized")
 
     # -- ControllerCallbacksInterface -- #
 
@@ -484,19 +479,16 @@ class Controller(ControllerCallbacksInterface, ControllerInterface):
 
     @needs_initialization
     async def forward_step(self) -> None:
-        self.__check_if_initialized()
         if self.__execution_state == ExecutionState.RUNNING:
             await self.__debugger.forward_step()
 
     @needs_initialization
     async def forward_next(self) -> None:
-        self.__check_if_initialized()
         if self.__execution_state == ExecutionState.RUNNING:
             await self.__debugger.step_into()
 
     @needs_initialization
     def backward_step(self) -> None:
-        self.__check_if_initialized()
         if self.__execution_state == ExecutionState.RUNNING:
             self.__debugger.backward_step()
 

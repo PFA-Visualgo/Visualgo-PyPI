@@ -6,18 +6,16 @@ from .. import ControllerCallbacksInterface
 T = TypeVar("T")
 
 
-class DebuggerInterface(ABC):
+class AbstractDebugger(ABC):
     """
     Interface for the Debugger class.
     """
-
     @abstractmethod
-    def initialize(self, callbacks: ControllerCallbacksInterface) -> None:
+    def __init__(self, callbacks: ControllerCallbacksInterface) -> None:
         """
-        Set the callbacks to call when the debugger has finished an action.
+        Constructor of the debugger.
 
         :param callbacks: ControllerCallbacksInterface
-        :return: None
         """
         pass
 

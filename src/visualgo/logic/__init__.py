@@ -1,6 +1,6 @@
 from .controller_callbacks import ControllerCallbacksInterface
 from .ui.ui_callbacks import UICallbacksInterface
-from .debugger.debugger import DebuggerInterface
+from .debugger.debugger import AbstractDebugger
 
 from .controller import Controller
 

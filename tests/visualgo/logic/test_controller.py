@@ -1,7 +1,7 @@
 """:demand: F1.8"""
 
 import unittest
-from visualgo.logic import Controller, DebuggerInterface, ControllerCallbacksInterface, UICallbacksInterface, TransferVariables, Statistics 
+from visualgo.logic import Controller, AbstractDebugger, ControllerCallbacksInterface, UICallbacksInterface, TransferVariables, Statistics 
 from visualgo.logic.debugger.types import DebugContext
 from visualgo.logic.controller import ExecutionState
 
@@ -29,14 +29,12 @@ class MockUICallbacks(UICallbacksInterface):
         print(message)
         pass
 
-class MockPyDebugger(DebuggerInterface):
+class MockPyDebugger(AbstractDebugger):
     
-    def __init__(self):
+    def __init__(self, callbacks: ControllerCallbacksInterface):
         self.vars = DebugContext("filepath", 0, None)
         global mock_py_debugger_logs
         mock_py_debugger_logs = [] 
-
-    def initialize(self, callbacks: ControllerCallbacksInterface) -> None:
         self.__controller_callbacks = callbacks
         mock_py_debugger_logs.append("initialize")
 
