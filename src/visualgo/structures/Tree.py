@@ -23,11 +23,11 @@ class Tree:
             parent.delete_child(child)
 
     def is_empty(self) -> bool:
-        return self.__root is None
+        return self.root is None
 
     def depth_first_preorder(self) -> List[TreeNode]:
         result = []
-        self.__depth_first_preorder_recursive(self.__root, result)
+        self.__depth_first_preorder_recursive(self.root, result)
         return result
 
     def __depth_first_preorder_recursive(self, node: TreeNode, result: List[TreeNode]) -> None:
@@ -39,8 +39,8 @@ class Tree:
 
     def depth_first_inorder(self) -> List[TreeNode]:
         result = []
-        if self.__root is not None:
-            self.__depth_first_inorder_recursive(self.__root, result)
+        if self.root is not None:
+            self.__depth_first_inorder_recursive(self.root, result)
         return result
 
     def __depth_first_inorder_recursive(self, node: TreeNode, result: List[TreeNode]) -> None:
@@ -52,7 +52,7 @@ class Tree:
 
     def depth_first_postorder(self) -> List[TreeNode]:
         result = []
-        self.__depth_first_postorder_recursive(self.__root, result)
+        self.__depth_first_postorder_recursive(self.root, result)
         return result
 
     def __depth_first_postorder_recursive(self, node: TreeNode, result: List[TreeNode]) -> None:

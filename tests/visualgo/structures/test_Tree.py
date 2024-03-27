@@ -1,6 +1,7 @@
 import unittest
 from visualgo.structures.Tree import Tree, TreeNode
 
+
 class TestTree(unittest.TestCase):
     def test_depth_first_preorder(self):
         tree = Tree(1)
@@ -40,6 +41,7 @@ class TestTree(unittest.TestCase):
 
         expected_postorder = [child1, child3, child2, root]
         self.assertEqual(tree.depth_first_postorder(), expected_postorder)
+
 
 if __name__ == '__main__':
     unittest.main()
