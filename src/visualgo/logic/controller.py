@@ -339,7 +339,7 @@ class Controller(ControllerCallbacksInterface, ControllerInterface):
             desc = SymbolDescription(name, function_name, depth)
             ui_var = TransferVariable(desc, value)
             res.append(ui_var)
-        return TransferVariables(res)
+        return res 
 
     def __get_ui_vars(
             self, context: DebugContext) -> TransferVariables:
@@ -355,11 +355,10 @@ class Controller(ControllerCallbacksInterface, ControllerInterface):
         res = []
         depth = 0
         # iterate frame by frame
-        for debug_vars in context.variables[::-1]: # iterate in reverse order to get the "lowest" frames first
+        for frame in context[::-1]: # iterate in reverse order to get the "lowest" frames first
             # TODO: Once merged, function_name will probably be in DebugVariables
             # (and thus accessible from debug_vars)
-            function_name = debug_vars.function_name
-            res += self.__transform_in_transfer_vars(debug_vars, function_name, depth)
+            res += self.__transform_in_transfer_vars(frame.variables, frame.function_name, depth)
             depth += 1
 
         if len(tracked_vars) == 0:

@@ -7,4 +7,4 @@ from .controller import Controller
 from .debugger.py_debugger import PyAbstractDebugger
 
 from .ui.ui_callbacks import TransferVariables
-from .types import Statistics, CodeError
+from .types import Statistics, CodeError, SymbolDescription
