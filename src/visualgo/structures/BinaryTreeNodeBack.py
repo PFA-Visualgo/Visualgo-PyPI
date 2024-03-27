@@ -1,57 +1,59 @@
 """:demand: F1.8"""
 
 from typing import Optional, TypeVar
-from .TreeNode import TreeNode
+from .Node import Node
 
 T = TypeVar('T')
 
 
-class BinaryTreeNode(TreeNode):
+class BinaryTreeNode(Node):
     """
     A node that can be linked to two other nodes.
     """
 
-    def __init__(self, value: Optional[T] = None, left_child: Optional[TreeNode] = None,
-                 right_child: Optional[TreeNode] = None):
-        super().__init__(value, [left_child, right_child])
+    def __init__(self, value: Optional[T] = None, left_child: Optional[Node] = None,
+                 right_child: Optional[Node] = None):
+        super().__init__(value)
+        self.__right_child = right_child
+        self.__left_child = left_child
 
     @property
-    def left_child(self) -> Optional[TreeNode]:
+    def left_child(self) -> Optional['Node']:
         """
         Returns the left child of this node. Can be None.
 
         :return: BinaryTreeNode
         """
-        return self.children[0]
+        return self.__left_child
 
     @left_child.setter
-    def left_child(self, node: Optional[TreeNode]) -> None:
+    def left_child(self, node: Optional['Node']) -> None:
         """
         Sets the left child of this node.
 
         :param node: The new left child.
         :return: None
         """
-        self.children.set(0, node)
+        self.__left_child = node
 
     @property
-    def right_child(self) -> Optional[TreeNode]:
+    def right_child(self) -> Optional['Node']:
         """
         Returns the right child of this node. Can be None.
 
         :return: BinaryTreeNode
         """
-        return self.children[1]
+        return self.__right_child
 
     @right_child.setter
-    def right_child(self, node: Optional[TreeNode]) -> None:
+    def right_child(self, node: Optional['Node']) -> None:
         """
         Sets the right child of this node.
 
         :param node: The new right child.
         :return: None
         """
-        self.children.set(1, node)
+        self.__right_child = node
 
     @property
     def value(self) -> T:
@@ -89,11 +91,11 @@ def BinaryTreeNode_set_value(node: BinaryTreeNode, value: T) -> None:
     node.value = value
 
 
-def BinaryTreeNode_next(node: BinaryTreeNode) -> Optional[TreeNode]:
+def BinaryTreeNode_next(node: BinaryTreeNode) -> Optional[Node]:
     return print("Don't use this function ! Use BinaryTreeNode_right_child instead.")
 
 
-def BinaryTreeNode_set_next(node: BinaryTreeNode, next: TreeNode) -> Optional[TreeNode]:
+def BinaryTreeNode_set_next(node: BinaryTreeNode, next: Node) -> Optional[Node]:
     return print("Don't use this function ! Use BinaryTreeNode_set_right_child instead.")
 
 
@@ -109,19 +111,19 @@ def BinaryTreeNode_is_sentinel(node: BinaryTreeNode) -> bool:
     return node.is_sentinel()
 
 
-def BinaryTreeNode_left_child(node: BinaryTreeNode) -> Optional[TreeNode]:
+def BinaryTreeNode_left_child(node: BinaryTreeNode) -> Optional[Node]:
     return node.left_child
 
 
-def BinaryTreeNode_set_left_child(node: BinaryTreeNode, left_child: TreeNode) -> None:
+def BinaryTreeNode_set_left_child(node: BinaryTreeNode, left_child: Node) -> None:
     node.left_child = left_child
 
 
-def BinaryTreeNode_right_child(node: BinaryTreeNode) -> Optional[TreeNode]:
+def BinaryTreeNode_right_child(node: BinaryTreeNode) -> Optional['Node']:
     return node.right_child
 
 
-def BinaryTreeNode_set_right_child(node: BinaryTreeNode, right_child: TreeNode) -> None:
+def BinaryTreeNode_set_right_child(node: BinaryTreeNode, right_child: Node) -> None:
     node.right_child = right_child
 
 
