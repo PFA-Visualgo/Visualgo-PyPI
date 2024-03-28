@@ -2,7 +2,7 @@ from typing import TypeVar
 import sys
 
 from ..controller_callbacks import ControllerCallbacksInterface
-from __private.comm_api import to_worker
+from .__private.comm_api import to_worker
 from .debugger import AbstractDebugger
 
 T = TypeVar("T")
@@ -16,6 +16,7 @@ class PyAbstractDebugger(AbstractDebugger):
     def __init__(self, callbacks: ControllerCallbacksInterface) -> None:
         super().__init__(callbacks)
         to_worker.get_implementation().set_message_handler(self.dispatch_calls)
+        print("PyAbstractDebugger initialized")
 
     def dispatch_calls(self, mes_id: str, mes_data):
         if mes_id == "EXEC_PAUSED":
