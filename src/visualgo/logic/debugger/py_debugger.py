@@ -20,9 +20,10 @@ class PyDebugger(AbstractDebugger):
 
     def dispatch_calls(self, mes_id: str, mes_data):
         if mes_id == "EXEC_PAUSED":
-            self.callbacks.execution_paused(mes_data[0], mes_data[1])
+            # TODO Temporary solution to make it work
+            self.callbacks.execution_paused(mes_data, mes_data[0].lineno)
         elif mes_id == "EXEC_DONE":
-            self.callbacks.execution_done(mes_data[0], mes_data[1])
+            self.callbacks.execution_done(mes_data, mes_data[0].lineno)
         elif mes_id == "EXEC_THROWED":
             self.callbacks.on_error(mes_data[0])
         else:
@@ -33,17 +34,14 @@ class PyDebugger(AbstractDebugger):
         to_worker.get_implementation().interrupt_worker()  # TODO: A voir
 
     def set_code(self, code: str) -> None:
-        print("Received code from PyDebugger" + code);
-        to_worker.get_implementation().send_message("SET_CODE", (code,))
+        print("Received code from PyDebugger" + code)
+        to_worker.get_implementation().send_message("SET_CODE", code)
 
     def add_breakpoint(self, line_number: int, cond: str) -> None:
         to_worker.get_implementation().send_message("ADD_BP", (line_number, cond))
 
     def del_breakpoint(self, line_number: int) -> None:
-        to_worker.get_implementation().send_message("DEL_BP", (line_number,))
-
-    def del_breakpoint(self, line_number: int) -> None:
-        raise NotImplementedError("Method not implemented yet")
+        to_worker.get_implementation().send_message("DEL_BP", line_number)
 
     def backward_step(self) -> None:
         to_worker.get_implementation().send_message("BW_S", None)
