@@ -425,6 +425,7 @@ class Controller(ControllerCallbacksInterface, ControllerInterface):
         :param line_number: int
         :return: None
         """
+        print("CONTEXT:", context)
         self.__ui_callbacks.set_current_line(line_number)
 
         if line_number in self.__checkpoints:  # Update UI and continue
