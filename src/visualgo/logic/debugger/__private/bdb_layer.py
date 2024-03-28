@@ -1,5 +1,6 @@
 import bdb
 import sys
+from pkgutil import iter_modules
 from sys import stderr
 from types import FrameType
 from typing import Any
@@ -34,8 +35,11 @@ def _run_bdb_task():
 
 class BdbLayer(bdb.Bdb):
     def __init__(self, skip=None):
-        # TODO Skip ALL python builtin modules
-        super().__init__(["visualgo.*", "importlib", "importlib.*", "zipimport", "typing"])
+        # super().__init__(["visualgo.*", "importlib", "importlib.*", "zipimport", "typing"])
+        modules_to_skip = {x.name for x in iter_modules()}
+        modules_to_skip.update({x.name + ".*" for x in iter_modules()})
+        print("SKIP:", modules_to_skip)
+        super().__init__(modules_to_skip)
         self.curframe = None
         self.lines = None
         self.actions = {
@@ -93,6 +97,9 @@ class BdbLayer(bdb.Bdb):
         self.curframe = frame
         print(frame.f_code.co_name)
         ctx = DebugContext.list_from_frame(frame, self.botframe)
+        print("FRAME MODULE", ctx[0].variables.globals["__name__"])
+        print("DBG CONTEXT GLOBALS:", ctx[0].variables.globals.keys())
+        print("DBG CONTEXT LOCALS:", ctx[0].variables.locals.keys())
         print("LENGTH DBG CONTEXT:", len(ctx))
         if frame.f_lineno == len(self.lines):
             from_worker.get_implementation().send_message("EXEC_DONE",

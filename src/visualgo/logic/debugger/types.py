@@ -9,7 +9,7 @@ _builtin_pattern = re.compile('__.*__')
 
 
 def _remove_builtins(d):
-    return dict(filter(lambda k: not _builtin_pattern.match(k[0]), d.items()))
+    return dict(filter(lambda k: k[0] == "__name__" or not _builtin_pattern.match(k[0]), d.items()))
 
 
 def _remove_unpickable(d):
@@ -20,7 +20,7 @@ def _remove_unpickable(d):
     #     except:
     #         return False
 
-    return dict(filter(lambda v: not isfunction(v[1]) or not ismodule(v[1]), d.items()))
+    return dict(filter(lambda v: not isfunction(v[1]) and not ismodule(v[1]), d.items()))
 
 
 _DEFAULT_GLOBALS = {"__file__", "__name__", "__builtins__"}
