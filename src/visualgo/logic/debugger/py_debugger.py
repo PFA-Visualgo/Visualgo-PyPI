@@ -33,6 +33,7 @@ class PyDebugger(AbstractDebugger):
         to_worker.get_implementation().interrupt_worker()  # TODO: A voir
 
     def set_code(self, code: str) -> None:
+        print("Received code from PyDebugger" + code);
         to_worker.get_implementation().send_message("SET_CODE", (code,))
 
     def add_breakpoint(self, line_number: int, cond: str) -> None:

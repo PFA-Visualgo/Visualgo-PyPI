@@ -234,7 +234,7 @@ class ControllerInterface(ABC):
         """
         pass
 
-def needs_initialization(func):
+def needs_initialization_async(func):
     """
     Decorator to check if the Controller was initialized before calling a method.
     """
@@ -244,6 +244,18 @@ def needs_initialization(func):
             self._Controller__ui_callbacks.show_error("Controller not initialized")
             raise ValueError("Controller not initialized")
         return await func(self, *args, **kwargs)
+    return wrapper
+
+def needs_initialization(func):
+    """
+    Decorator to check if the Controller was initialized before calling a method.
+    """
+    @wraps(func)
+    def wrapper(self, *args, **kwargs):
+        if self._Controller__execution_state == ExecutionState.NOT_INITIALIZED:
+            self._Controller__ui_callbacks.show_error("Controller not initialized")
+            raise ValueError("Controller not initialized")
+        return func(self, *args, **kwargs)
     return wrapper
 
 class Controller(ControllerCallbacksInterface, ControllerInterface):
@@ -390,9 +402,17 @@ class Controller(ControllerCallbacksInterface, ControllerInterface):
         self.__recursion_depth += 1
         self.__pause_if_max_recursion_reached()
 
+    async def __loop_forward_step(self) -> None:
+        print("in __loop_forward_step")
+        self.forward_step()
+        if self.__execution_state == ExecutionState.RUNNING:
+            await asyncio.sleep(self.__step_time / 1000)
+            self.__add_recursion_depth()
+            await self.__loop_forward_step()
+
     # -- ControllerCallbacksInterface -- #
 
-    async def execution_paused(self, context: DebugContext, line_number: int) -> None:
+    def execution_paused(self, context: DebugContext, line_number: int) -> None:
         """
         Update the visualisation once the debugger has finished executing some part of a code
         and is awaiting further instructions.
@@ -410,7 +430,6 @@ class Controller(ControllerCallbacksInterface, ControllerInterface):
         if line_number in self.__checkpoints:  # Update UI and continue
             self.__update_ui(context)
 
-            await asyncio.sleep(self.__step_time / 1000)
             self.__add_recursion_depth()
             self.forward_step()
             return
@@ -422,9 +441,8 @@ class Controller(ControllerCallbacksInterface, ControllerInterface):
 
         # Assume we are in automatic mode
         self.__update_ui(context)  # In automatic mode, we update the UI
-        await asyncio.sleep(self.__step_time / 1000)
         self.__add_recursion_depth()
-        await self.forward_step()
+        self.forward_step()
 
     def execution_done(self, context: DebugContext, line_number: int) -> None:
         self.__update_ui(context)
@@ -446,17 +464,17 @@ class Controller(ControllerCallbacksInterface, ControllerInterface):
         self.__execution_state = ExecutionState.RUNNING
         self.__recursion_depth = 0
         print("before loop_forward_step")
-        await self.forward_step()
+        await self.__loop_forward_step()
         print("after loop_forward_step")
 
-    @needs_initialization
+    @needs_initialization_async
     async def pause_continue(self) -> None:
         self.__recursion_depth = 0
         if self.__execution_state == ExecutionState.RUNNING:
             self.__execution_state = ExecutionState.PAUSED
         else:
             self.__execution_state = ExecutionState.RUNNING
-            await self.forward_step()
+            self.forward_step()
 
     @needs_initialization
     def stop(self) -> None:
@@ -476,14 +494,14 @@ class Controller(ControllerCallbacksInterface, ControllerInterface):
             self.__step_time = time
 
     @needs_initialization
-    async def forward_step(self) -> None:
+    def forward_step(self) -> None:
         if self.__execution_state == ExecutionState.RUNNING:
-            await self.__debugger.forward_step()
+            self.__debugger.forward_step()
 
     @needs_initialization
-    async def forward_next(self) -> None:
+    def forward_next(self) -> None:
         if self.__execution_state == ExecutionState.RUNNING:
-            await self.__debugger.step_into()
+            self.__debugger.step_into()
 
     @needs_initialization
     def backward_step(self) -> None:
