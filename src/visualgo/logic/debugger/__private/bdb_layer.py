@@ -13,6 +13,7 @@ _FILE_NAME = "__visualgo_code.py"
 def _run_bdb_task():
     mes_id: str = ""
     mes_data: Any = ""
+    print("BDB initialized, waiting for SET_CODE message")
     while mes_id != "SET_CODE":
         mes_id, mes_data = from_worker.get_implementation().wait_for_main_message()
     dbg = BdbLayer()

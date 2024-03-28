@@ -8,7 +8,6 @@ from .controller_callbacks import ControllerCallbacksInterface
 
 from .debugger.types import DebugContext, DebugVariables
 from .debugger.debugger import AbstractDebugger
-from .debugger.py_debugger import PyDebugger
 
 from .static.types import StaticVariables
 
