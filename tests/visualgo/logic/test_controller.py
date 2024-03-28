@@ -84,21 +84,21 @@ class MockPyDebugger(AbstractDebugger):
     def del_breakpoint(self, line_number: int) -> None:
         mock_py_debugger_logs.append(f"del_breakpoint {line_number}")
 
-    async def step_into(self) -> None:
+    def step_into(self) -> None:
         mock_py_debugger_logs.append("step_into")
-        await self.__controller_callbacks.execution_paused(self.vars, 0)
+        self.__controller_callbacks.execution_paused(self.vars, 0)
 
-    async def forward_step(self) -> None:
+    def forward_step(self) -> None:
         mock_py_debugger_logs.append("forward_step")
-        await self.__controller_callbacks.execution_paused(self.vars, 0)
+        self.__controller_callbacks.execution_paused(self.vars, 0)
 
-    async def backward_step(self) -> None:
+    def backward_step(self) -> None:
         mock_py_debugger_logs.append("backward_step")
-        await self.__controller_callbacks.execution_paused(self.vars, 0)
+        self.__controller_callbacks.execution_paused(self.vars, 0)
 
-    async def do_continue(self) -> None:
+    def do_continue(self) -> None:
         mock_py_debugger_logs.append("do_continue")
-        await self.__controller_callbacks.execution_paused(self.vars, 0)
+        self.__controller_callbacks.execution_paused(self.vars, 0)
     
     def stop(self) -> None:
         mock_py_debugger_logs.append("stop")
