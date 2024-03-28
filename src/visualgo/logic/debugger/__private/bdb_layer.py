@@ -34,7 +34,7 @@ def _run_bdb_task():
 
 class BdbLayer(bdb.Bdb):
     def __init__(self, skip=None):
-        super().__init__(skip)
+        super().__init__(["visualgo.*", "importlib.*"])
         self.curframe = None
         self.lines = None
         self.actions = {
@@ -92,6 +92,7 @@ class BdbLayer(bdb.Bdb):
         self.curframe = frame
         print(frame.f_code.co_name)
         if frame.f_lineno == len(self.lines):
+            print(DebugContext.list_from_frame(frame, self.botframe))
             from_worker.get_implementation().send_message("EXEC_DONE",
                                                           DebugContext.list_from_frame(frame, self.botframe))
         else:
@@ -110,7 +111,7 @@ class BdbLayer(bdb.Bdb):
     def user_exception(self, frame, exc_info):
         print("--exception--")
         from_worker.get_implementation().send_message("EXEC_THROWED",
-                                                      (exc_info[0], DebugContext.list_from_frame(frame)))
+                                                      (exc_info[0], DebugContext.list_from_frame(frame, self.botframe)))
 
     def set_source(self, code: str):
         self.lines = code.split("\n")
