@@ -34,7 +34,8 @@ def _run_bdb_task():
 
 class BdbLayer(bdb.Bdb):
     def __init__(self, skip=None):
-        super().__init__(["visualgo.*", "importlib.*"])
+        # TODO Skip ALL python builtin modules
+        super().__init__(["visualgo.*", "importlib", "importlib.*", "zipimport", "typing"])
         self.curframe = None
         self.lines = None
         self.actions = {
@@ -91,8 +92,9 @@ class BdbLayer(bdb.Bdb):
         print("--line--")
         self.curframe = frame
         print(frame.f_code.co_name)
+        ctx = DebugContext.list_from_frame(frame, self.botframe)
+        print("LENGTH DBG CONTEXT:", len(ctx))
         if frame.f_lineno == len(self.lines):
-            print(DebugContext.list_from_frame(frame, self.botframe))
             from_worker.get_implementation().send_message("EXEC_DONE",
                                                           DebugContext.list_from_frame(frame, self.botframe))
         else:

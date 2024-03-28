@@ -1,3 +1,4 @@
+import pickle
 from dataclasses import dataclass
 from inspect import isfunction, ismodule
 from types import FrameType
@@ -12,7 +13,14 @@ def _remove_builtins(d):
 
 
 def _remove_unpickable(d):
-    return dict(filter(lambda v: not isfunction(v[1]) and not ismodule(v[1]), d.items()))
+    # def is_pickable(v):
+    #     try:
+    #         pickle.dumps(v)
+    #         return True
+    #     except:
+    #         return False
+
+    return dict(filter(lambda v: not isfunction(v[1]) or not ismodule(v[1]), d.items()))
 
 
 _DEFAULT_GLOBALS = {"__file__", "__name__", "__builtins__"}
